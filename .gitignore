@@ -1,0 +1,12 @@
+# Security / Secrets
+.env
+
+# Python
+__pycache__/
+venv/
+
+# Node.js
+node_modules/
+
+# Build output
+frontend/dist/
