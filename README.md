@@ -2,7 +2,7 @@
 
 ## Overview
 
-Cay Tung Restaurant is a full-stack web application featuring an interactive menu, event booking, and a responsive UI. It consists of a **React/Vite** frontend and a **FastAPI** backend powered by **Supabase**.
+Cay Tung Restaurant is a full-stack web application featuring an interactive menu, event booking, and a responsive UI. It consists of a **Next.js 14 (App Router)** frontend and a **FastAPI** backend powered by **Supabase**.
 
 **Key Features:**
 - **Menu:** Browse & filter dishes by category.
@@ -13,9 +13,9 @@ Cay Tung Restaurant is a full-stack web application featuring an interactive men
 
 ## Tech Stack
 
-- **Frontend**: React 18, Vite, React Router, Axios
+- **Frontend**: Next.js 14 (App Router), React 18, Axios
 - **Backend**: FastAPI, Uvicorn, Pydantic
-- **Database**: Supabase (PostgreSQL with RLS)
+- **Database**: Supabase
 
 ---
 
@@ -24,9 +24,9 @@ Cay Tung Restaurant is a full-stack web application featuring an interactive men
 | Tool        | Minimum Version |
 | ----------- | --------------- |
 | **Node.js** | 18.x            |
-| **npm/pnpm**| 9.x / 8.x       |
+| **pnpm**    | 8.x+            |
 | **Python**  | 3.10+           |
-| **pip**     | 22.x            |
+| **uv**      | Latest (or pip) |
 | **Git**     | 2.x             |
 
 You will also need a **[Supabase](https://supabase.com/)** account with a project set up. See [Database Setup](#-database-setup) below.
@@ -37,22 +37,15 @@ You will also need a **[Supabase](https://supabase.com/)** account with a projec
 
 ### Backend Setup
 
+Using `uv` (recommended):
+
 ```bash
-# Create a virtual environment
 cd backend
-python -m venv venv
-source venv/bin/activate        # Linux/macOS
-venv\Scripts\activate           # Windows
+uv venv
+source .venv/bin/activate        # Linux/macOS
+# .venv\Scripts\activate         # Windows
 
-# Install dependencies
-pip install -r requirements.txt
-```
-
-Create a `.env` file inside the `backend/` directory:
-
-```env
-SUPABASE_URL=your-supabase-project-url
-SUPABASE_KEY=your-supabase-anon-key
+uv pip install -r requirements.txt
 ```
 
 Start the backend server:
@@ -66,21 +59,16 @@ The API will be available at **http://localhost:8000**. Interactive docs at **ht
 ### Frontend Setup
 
 ```bash
-# From the project root
 cd frontend
 
-# Install dependencies
-npm install
-# or
+# Install dependencies with pnpm
 pnpm install
 
 # Start the dev server
-npm run dev
-# or
 pnpm dev
 ```
 
-The frontend will be available at **http://localhost:5173**.
+The frontend will be available at **http://localhost:3000**.
 
 ### Database Setup
 

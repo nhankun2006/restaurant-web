@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 function Hero() {
     return (
@@ -24,10 +24,10 @@ function Hero() {
                     finest seasonal ingredients from around the globe.
                 </p>
                 <div className="hero__buttons">
-                    <Link to="/menu" className="btn btn-gold">
+                    <Link href="/menu" className="btn btn-gold">
                         Explore Our Menu
                     </Link>
-                    <Link to="/booking" className="btn btn-outline">
+                    <Link href="/booking" className="btn btn-outline">
                         Reserve a Table
                     </Link>
                 </div>

@@ -1,11 +1,14 @@
+'use client';
+
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
-    const location = useLocation();
-    const isHome = location.pathname === '/';
+    const pathname = usePathname();
+    const isHome = pathname === '/';
 
     useEffect(() => {
         const handleScroll = () => {
@@ -17,39 +20,38 @@ function Navbar() {
 
     useEffect(() => {
         setMobileOpen(false);
-    }, [location]);
+    }, [pathname]);
 
     const navClass = scrolled || !isHome
         ? 'navbar navbar--solid'
         : 'navbar navbar--transparent';
 
     const links = [
-        { to: '/', label: 'Home' },
-        { to: '/menu', label: 'Menu' },
-        { to: '/events', label: 'Events' },
-        { to: '/about', label: 'About' },
+        { href: '/', label: 'Home' },
+        { href: '/menu', label: 'Menu' },
+        { href: '/events', label: 'Events' },
+        { href: '/about', label: 'About' },
     ];
 
     return (
         <>
             <nav className={navClass}>
                 <div className="navbar__inner">
-                    <Link to="/" className="navbar__logo">
+                    <Link href="/" className="navbar__logo">
                         Cay <span>Tung</span>
                     </Link>
 
                     <div className="navbar__links">
                         {links.map((link) => (
                             <Link
-                                key={link.to}
-                                to={link.to}
-                                className={`navbar__link ${location.pathname === link.to ? 'navbar__link--active' : ''
-                                    }`}
+                                key={link.href}
+                                href={link.href}
+                                className={`navbar__link ${pathname === link.href ? 'navbar__link--active' : ''}`}
                             >
                                 {link.label}
                             </Link>
                         ))}
-                        <Link to="/booking" className="btn btn-gold navbar__cta">
+                        <Link href="/booking" className="btn btn-gold navbar__cta">
                             Reserve a Table
                         </Link>
                     </div>
@@ -68,11 +70,11 @@ function Navbar() {
 
             <div className={`navbar__mobile-menu ${mobileOpen ? 'navbar__mobile-menu--open' : ''}`}>
                 {links.map((link) => (
-                    <Link key={link.to} to={link.to} className="navbar__mobile-link">
+                    <Link key={link.href} href={link.href} className="navbar__mobile-link">
                         {link.label}
                     </Link>
                 ))}
-                <Link to="/booking" className="btn btn-gold">
+                <Link href="/booking" className="btn btn-gold">
                     Reserve a Table
                 </Link>
             </div>

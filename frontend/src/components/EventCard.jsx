@@ -1,5 +1,5 @@
 import { FiCheck } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 function EventCard({ event }) {
     const placeholderImage = `https://placehold.co/600x400/1A1A2E/D4A843?text=${encodeURIComponent(event.title)}`;
@@ -38,7 +38,7 @@ function EventCard({ event }) {
                     </div>
                 )}
 
-                <Link to="/booking" className="btn btn-primary" style={{ alignSelf: 'flex-start' }}>
+                <Link href="/booking" className="btn btn-primary" style={{ alignSelf: 'flex-start' }}>
                     Book This Event
                 </Link>
             </div>

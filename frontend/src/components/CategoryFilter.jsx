@@ -1,3 +1,5 @@
+'use client';
+
 function CategoryFilter({ categories, activeSlug, onSelect }) {
     return (
         <div className="category-filter">

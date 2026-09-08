@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { FiMapPin, FiPhone, FiMail, FiClock } from 'react-icons/fi';
 import { FaFacebookF, FaInstagram, FaTwitter, FaYelp } from 'react-icons/fa';
 
@@ -19,11 +19,11 @@ function Footer() {
                     {/* Quick Links */}
                     <div>
                         <h4 className="footer__heading">Quick Links</h4>
-                        <Link to="/" className="footer__link">Home</Link>
-                        <Link to="/menu" className="footer__link">Our Menu</Link>
-                        <Link to="/events" className="footer__link">Events</Link>
-                        <Link to="/booking" className="footer__link">Reservations</Link>
-                        <Link to="/about" className="footer__link">About Us</Link>
+                        <Link href="/" className="footer__link">Home</Link>
+                        <Link href="/menu" className="footer__link">Our Menu</Link>
+                        <Link href="/events" className="footer__link">Events</Link>
+                        <Link href="/booking" className="footer__link">Reservations</Link>
+                        <Link href="/about" className="footer__link">About Us</Link>
                     </div>
 
                     {/* Hours */}

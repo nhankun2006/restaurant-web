@@ -1,12 +1,14 @@
+'use client';
+
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import Hero from '../components/Hero';
 import SectionTitle from '../components/SectionTitle';
 import MenuCard from '../components/MenuCard';
 import { getFeaturedItems } from '../api/client';
 import { FiStar, FiAward, FiHeart } from 'react-icons/fi';
 
-function Home() {
+export default function HomePage() {
     const [featured, setFeatured] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -17,7 +19,7 @@ function Home() {
                 setFeatured(res.data.data || []);
             } catch (err) {
                 console.error('Failed to fetch featured items:', err);
-                // Show fallback data when API is not available
+                // Fallback data when API is not available
                 setFeatured([
                     { id: 1, name: 'Truffle Bruschetta', description: 'Toasted sourdough topped with black truffle cream, roasted tomatoes, and fresh basil drizzle.', price: 16.50, is_featured: true, categories: { name: 'Appetizers' } },
                     { id: 2, name: 'Wagyu Beef Tenderloin', description: 'A5 Wagyu tenderloin grilled to perfection, served with truffle mashed potatoes and red wine jus.', price: 58.00, is_featured: true, categories: { name: 'Main Course' } },
@@ -61,7 +63,7 @@ function Home() {
                         </div>
                     )}
                     <div style={{ textAlign: 'center', marginTop: 'var(--space-2xl)' }}>
-                        <Link to="/menu" className="btn btn-primary">
+                        <Link href="/menu" className="btn btn-primary">
                             View Full Menu
                         </Link>
                     </div>
@@ -114,10 +116,10 @@ function Home() {
                         description="From intimate dinners to grand celebrations, let us create an unforgettable experience for you and your guests."
                     />
                     <div style={{ display: 'flex', gap: 'var(--space-md)', justifyContent: 'center', flexWrap: 'wrap' }}>
-                        <Link to="/events" className="btn btn-primary">
+                        <Link href="/events" className="btn btn-primary">
                             Explore Events
                         </Link>
-                        <Link to="/booking" className="btn btn-outline" style={{ borderColor: 'var(--color-primary)', color: 'var(--color-primary)' }}>
+                        <Link href="/booking" className="btn btn-outline" style={{ borderColor: 'var(--color-primary)', color: 'var(--color-primary)' }}>
                             Make a Reservation
                         </Link>
                     </div>
@@ -126,5 +128,3 @@ function Home() {
         </>
     );
 }
-
-export default Home;

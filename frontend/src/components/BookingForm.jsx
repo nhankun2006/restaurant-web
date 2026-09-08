@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { createBooking } from '../api/client';
 import { FiCheck } from 'react-icons/fi';

@@ -1,7 +1,12 @@
-import SectionTitle from '../components/SectionTitle';
-import BookingForm from '../components/BookingForm';
+import SectionTitle from '../../components/SectionTitle';
+import BookingForm from '../../components/BookingForm';
 
-function Booking() {
+export const metadata = {
+    title: 'Reservations — Cay Tung Restaurant',
+    description: 'Book your table or private event at Cay Tung Restaurant.',
+};
+
+export default function BookingPage() {
     return (
         <>
             <div className="page-header">
@@ -25,5 +30,3 @@ function Booking() {
         </>
     );
 }
-
-export default Booking;

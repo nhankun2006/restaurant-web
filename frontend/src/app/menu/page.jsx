@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
-import SectionTitle from '../components/SectionTitle';
-import MenuCard from '../components/MenuCard';
-import CategoryFilter from '../components/CategoryFilter';
-import { getCategories, getMenuItems } from '../api/client';
+'use client';
 
-function Menu() {
+import { useState, useEffect } from 'react';
+import SectionTitle from '../../components/SectionTitle';
+import MenuCard from '../../components/MenuCard';
+import CategoryFilter from '../../components/CategoryFilter';
+import { getCategories, getMenuItems } from '../../api/client';
+
+export default function MenuPage() {
     const [categories, setCategories] = useState([]);
     const [items, setItems] = useState([]);
     const [activeCategory, setActiveCategory] = useState(null);
@@ -122,5 +124,3 @@ function Menu() {
         </>
     );
 }
-
-export default Menu;

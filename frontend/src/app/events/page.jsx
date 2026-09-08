@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
-import SectionTitle from '../components/SectionTitle';
-import EventCard from '../components/EventCard';
-import { getEvents } from '../api/client';
+'use client';
 
-function Events() {
+import { useState, useEffect } from 'react';
+import SectionTitle from '../../components/SectionTitle';
+import EventCard from '../../components/EventCard';
+import { getEvents } from '../../api/client';
+
+export default function EventsPage() {
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -113,5 +115,3 @@ function Events() {
         </>
     );
 }
-
-export default Events;

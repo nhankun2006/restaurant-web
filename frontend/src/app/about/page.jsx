@@ -1,8 +1,13 @@
-import { Link } from 'react-router-dom';
-import SectionTitle from '../components/SectionTitle';
+import Link from 'next/link';
+import SectionTitle from '../../components/SectionTitle';
 import { FiAward, FiUsers, FiHeart, FiStar } from 'react-icons/fi';
 
-function About() {
+export const metadata = {
+    title: 'About Us — Cay Tung Restaurant',
+    description: 'Learn about the story, history, and culinary philosophy of Cay Tung Restaurant.',
+};
+
+export default function AboutPage() {
     return (
         <>
             <div className="page-header">
@@ -130,10 +135,10 @@ function About() {
                         description="We invite you to discover why Cay Tung has been Beverly Hills' most beloved dining destination for over three decades."
                     />
                     <div style={{ display: 'flex', gap: 'var(--space-md)', justifyContent: 'center', flexWrap: 'wrap' }}>
-                        <Link to="/booking" className="btn btn-gold">
+                        <Link href="/booking" className="btn btn-gold">
                             Reserve Your Table
                         </Link>
-                        <Link to="/menu" className="btn btn-outline">
+                        <Link href="/menu" className="btn btn-outline">
                             Browse Our Menu
                         </Link>
                     </div>
@@ -142,5 +147,3 @@ function About() {
         </>
     );
 }
-
-export default About;
