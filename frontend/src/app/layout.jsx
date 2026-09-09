@@ -3,13 +3,13 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 export const metadata = {
-    title: 'Cay Tung Restaurant — Fine Dining & Private Events',
-    description: 'An exquisite fine dining experience with an interactive menu, event booking, and luxury atmosphere.',
+    title: 'Nhà Hàng Cay Tung — Ẩm Thực Cao Cấp & Tiệc Riêng',
+    description: 'Trải nghiệm ẩm thực cao cấp với thực đơn phong phú, đặt bàn trực tuyến và không gian sang trọng.',
 };
 
 export default function RootLayout({ children }) {
     return (
-        <html lang="en">
+        <html lang="vi">
             <head>
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

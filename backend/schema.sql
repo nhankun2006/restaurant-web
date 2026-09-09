@@ -84,11 +84,11 @@ CREATE POLICY "Allow public read bookings" ON bookings
 -- ============================================
 
 INSERT INTO categories (name, slug, description, image_url) VALUES
-    ('Appetizers', 'appetizers', 'Start your culinary journey with our exquisite selection of appetizers crafted from the finest ingredients.', '/images/appetizers.jpg'),
-    ('Main Course', 'main-course', 'Indulge in our masterfully prepared main courses featuring premium cuts and fresh seasonal produce.', '/images/main-course.jpg'),
-    ('Seafood', 'seafood', 'Fresh catches from the ocean, prepared with Mediterranean flair and served with elegance.', '/images/seafood.jpg'),
-    ('Drinks & Cocktails', 'drinks', 'Handcrafted cocktails, fine wines, and refreshing beverages to complement your dining experience.', '/images/drinks.jpg'),
-    ('Desserts', 'desserts', 'End your meal on a sweet note with our decadent desserts and pastries.', '/images/desserts.jpg');
+    ('Món Khai Vị', 'appetizers', 'Khởi đầu hành trình ẩm thực với bộ sưu tập các món khai vị tinh tế được chế biến từ những nguyên liệu tươi ngon nhất.', '/images/appetizers.jpg'),
+    ('Món Chính', 'main-course', 'Thưởng thức các món chính được chế biến công phu từ thịt cao cấp và nông sản tươi ngon theo mùa.', '/images/main-course.jpg'),
+    ('Hải Sản', 'seafood', 'Hải sản tươi sống từ đại dương, chế biến theo phong cách Địa Trung Hải đầy tinh tế.', '/images/seafood.jpg'),
+    ('Đồ Uống & Cocktail', 'drinks', 'Cocktail pha chế thủ công, rượu vang hảo hạng và các thức uống thanh mát đồng hành cùng bữa ăn của bạn.', '/images/drinks.jpg'),
+    ('Món Tráng Miệng', 'desserts', 'Kết thúc bữa ăn thật ngọt ngào với các món tráng miệng và bánh ngọt hấp dẫn.', '/images/desserts.jpg');
 
 -- ============================================
 -- SEED DATA — Menu Items
@@ -96,38 +96,38 @@ INSERT INTO categories (name, slug, description, image_url) VALUES
 
 -- Appetizers (category_id = 1)
 INSERT INTO menu_items (category_id, name, description, price, image_url, is_featured) VALUES
-    (1, 'Truffle Bruschetta', 'Toasted sourdough topped with black truffle cream, roasted tomatoes, and fresh basil drizzle.', 16.50, '/images/food/bruschetta.jpg', true),
-    (1, 'Seared Foie Gras', 'Pan-seared duck foie gras with fig compote, toasted brioche, and balsamic reduction.', 24.00, '/images/food/foie-gras.jpg', false),
-    (1, 'Caesar Salad', 'Crisp romaine hearts, aged parmesan shavings, house-made croutons, and classic Caesar dressing.', 14.00, '/images/food/caesar-salad.jpg', false),
-    (1, 'Tuna Tartare', 'Fresh ahi tuna with avocado mousse, sesame crisps, and ponzu dressing.', 19.00, '/images/food/tuna-tartare.jpg', true);
+    (1, 'Truffle Bruschetta', 'Bánh mì sourdough nướng giòn phủ kem nấm truffle đen, cà chua nướng và sốt húng tây tươi.', 16.50, '/images/food/bruschetta.jpg', true),
+    (1, 'Seared Foie Gras', 'Gan ngỗng Pháp áp chảo ăn kèm mứt quả vả, bánh brioche nướng và sốt cô đặc balsamic.', 24.00, '/images/food/foie-gras.jpg', false),
+    (1, 'Caesar Salad', 'Rau xà lách romaine giòn tươi, phô mai parmesan bào, bánh mì nướng bơ gỏi và sốt Caesar đặc trưng.', 14.00, '/images/food/caesar-salad.jpg', false),
+    (1, 'Tuna Tartare', 'Cá ngừ tươi băm nhỏ kèm bơ xay mịn, bánh giòn vung đen và sốt ponzu thanh mát.', 19.00, '/images/food/tuna-tartare.jpg', true);
 
 -- Main Course (category_id = 2)
 INSERT INTO menu_items (category_id, name, description, price, image_url, is_featured) VALUES
-    (2, 'Wagyu Beef Tenderloin', 'A5 Wagyu tenderloin grilled to perfection, served with truffle mashed potatoes and red wine jus.', 58.00, '/images/food/wagyu.jpg', true),
-    (2, 'Herb-Crusted Rack of Lamb', 'New Zealand rack of lamb with rosemary crust, roasted vegetables, and mint chimichurri.', 45.00, '/images/food/lamb.jpg', true),
-    (2, 'Wild Mushroom Risotto', 'Creamy arborio rice with porcini, chanterelle, and shiitake mushrooms finished with aged parmesan.', 28.00, '/images/food/risotto.jpg', false),
-    (2, 'Duck Confit', 'Slow-cooked duck leg confit with crispy skin, served with lentils du Puy and orange gastrique.', 36.00, '/images/food/duck-confit.jpg', false);
+    (2, 'Wagyu Beef Tenderloin', 'Thăn nội bò Wagyu A5 nướng hoàn hảo, dùng kèm khoai tây nghiền truffle và sốt rượu vang đỏ.', 58.00, '/images/food/wagyu.jpg', true),
+    (2, 'Herb-Crusted Rack of Lamb', 'Sườn cừu New Zealand phủ lớp thảo mộc hương thảo, rau củ nướng và sốt chimichurri bạc hà.', 45.00, '/images/food/lamb.jpg', true),
+    (2, 'Wild Mushroom Risotto', 'Cơm Ý arborio dẻo quánh với nấm porcini, chanterelle và nấm đông cô, hoàn thiện với phô mai parmesan.', 28.00, '/images/food/risotto.jpg', false),
+    (2, 'Duck Confit', 'Đùi vịt nấu chậm da giòn rụm, ăn kèm đậu lentils du Puy và sốt cam thanh ngọt.', 36.00, '/images/food/duck-confit.jpg', false);
 
 -- Seafood (category_id = 3)
 INSERT INTO menu_items (category_id, name, description, price, image_url, is_featured) VALUES
-    (3, 'Pan-Seared Sea Bass', 'Chilean sea bass with saffron beurre blanc, asparagus tips, and crushed fingerling potatoes.', 42.00, '/images/food/sea-bass.jpg', true),
-    (3, 'Lobster Thermidor', 'Whole Atlantic lobster baked with creamy Gruyère sauce, fresh herbs, and served with drawn butter.', 65.00, '/images/food/lobster.jpg', true),
-    (3, 'Grilled Octopus', 'Tender chargrilled octopus with smoked paprika, chickpea purée, and chorizo vinaigrette.', 32.00, '/images/food/octopus.jpg', false),
-    (3, 'Shrimp Scampi', 'Jumbo tiger prawns sautéed in garlic butter, white wine, and fresh herbs over angel hair pasta.', 34.00, '/images/food/shrimp.jpg', false);
+    (3, 'Pan-Seared Sea Bass', 'Cá vược Chile áp chảo với sốt bơ nghệ tây, đọt măng tây và khoai tây nghiền.', 42.00, '/images/food/sea-bass.jpg', true),
+    (3, 'Lobster Thermidor', 'Tôm hùm Atlantic đút lò với sốt kem phô mai Gruyère, thảo mộc tươi và bơ đun chảy.', 65.00, '/images/food/lobster.jpg', true),
+    (3, 'Grilled Octopus', 'Bạch tuộc nướng than hoa mềm thơm với ớt bột smoked paprika, sốt đậu gà purée và sốt mỡ chorizo.', 32.00, '/images/food/octopus.jpg', false),
+    (3, 'Shrimp Scampi', 'Tôm sú cỡ lớn xào bơ tỏi, rượu vang trắng và thảo mộc tươi trên nền mì pasta angel hair.', 34.00, '/images/food/shrimp.jpg', false);
 
 -- Drinks (category_id = 4)
 INSERT INTO menu_items (category_id, name, description, price, image_url, is_featured) VALUES
-    (4, 'Cay Tung Signature Martini', 'Our house martini with premium vodka, elderflower liqueur, fresh cucumber, and a hint of lime.', 18.00, '/images/food/martini.jpg', true),
-    (4, 'Smoked Old Fashioned', 'Bourbon whiskey with demerara sugar, Angostura bitters, and applewood smoke.', 20.00, '/images/food/old-fashioned.jpg', false),
-    (4, 'French 75', 'Classic champagne cocktail with London dry gin, fresh lemon juice, and simple syrup.', 16.00, '/images/food/french-75.jpg', false),
-    (4, 'Virgin Passion Mojito', 'Fresh passionfruit, mint leaves, lime, and soda water — a tropical refreshment without alcohol.', 12.00, '/images/food/mojito.jpg', false);
+    (4, 'Cay Tung Signature Martini', 'Martini đặc sản của nhà hàng với vodka thượng hạng, rượu hoa cơm cháy, dưa chuột tươi và chút chanh.', 18.00, '/images/food/martini.jpg', true),
+    (4, 'Smoked Old Fashioned', 'Rượu Bourbon whiskey kết hợp đường demerara, đắng Angostura và khói gỗ táo bồng bềnh.', 20.00, '/images/food/old-fashioned.jpg', false),
+    (4, 'French 75', 'Cocktail champagne cổ điển kết hợp gin London dry, nước cốt chanh tươi và siro ngọt nhẹ.', 16.00, '/images/food/french-75.jpg', false),
+    (4, 'Virgin Passion Mojito', 'Chanh dây tươi, lá húng lủi, chanh và nước soda — thức uống nhiệt đới sảng khoái không cồn.', 12.00, '/images/food/mojito.jpg', false);
 
 -- Desserts (category_id = 5)
 INSERT INTO menu_items (category_id, name, description, price, image_url, is_featured) VALUES
-    (5, 'Crème Brûlée', 'Classic Madagascar vanilla bean custard with a perfectly caramelized sugar crust.', 14.00, '/images/food/creme-brulee.jpg', true),
-    (5, 'Chocolate Lava Cake', 'Rich dark Valrhona chocolate fondant with a molten center, served with vanilla bean ice cream.', 16.00, '/images/food/lava-cake.jpg', true),
-    (5, 'Tiramisu', 'Traditional Italian layers of espresso-soaked ladyfingers, mascarpone cream, and cocoa dusting.', 14.00, '/images/food/tiramisu.jpg', false),
-    (5, 'Seasonal Fruit Tart', 'Buttery pâte sucrée filled with pastry cream and topped with glazed fresh seasonal fruits.', 13.00, '/images/food/fruit-tart.jpg', false);
+    (5, 'Crème Brûlée', 'Kem trứng vani Madagascar truyền thống với lớp đường đốt giòn tan quyến rũ.', 14.00, '/images/food/creme-brulee.jpg', true),
+    (5, 'Chocolate Lava Cake', 'Bánh chocolate đắng Valrhona với nhân chocolate tan chảy, dùng kèm kem vani.', 16.00, '/images/food/lava-cake.jpg', true),
+    (5, 'Tiramisu', 'Bánh Ý truyền thống lớp bánh sampa thấm vị cà phê espresso, kem phô mai mascarpone và phủ bột cacao.', 14.00, '/images/food/tiramisu.jpg', false),
+    (5, 'Seasonal Fruit Tart', 'Vỏ bánh pâte sucrée giòn bơ chứa nhân kem pastry và phủ trái cây tươi mọng nước.', 13.00, '/images/food/fruit-tart.jpg', false);
 
 -- ============================================
 -- SEED DATA — Events
@@ -135,30 +135,30 @@ INSERT INTO menu_items (category_id, name, description, price, image_url, is_fea
 
 INSERT INTO events (title, slug, description, image_url, features) VALUES
     (
-        'Birthday & Celebration Parties',
+        'Tiệc Sinh Nhật & Kỷ Niệm',
         'birthday-party',
-        'Celebrate life''s special moments in an unforgettable setting. Our dedicated events team will craft a bespoke celebration experience with custom menus, stunning decorations, and impeccable service that will leave your guests in awe.',
+        'Tôn vinh những khoảnh khắc đáng nhớ trong không gian lãng mạn. Đội ngũ sự kiện chuyên nghiệp của chúng tôi sẽ thiết kế trải nghiệm tiệc theo yêu cầu với thực đơn tùy chỉnh, trang trí ấn tượng và dịch vụ chu đáo.',
         '/images/events/birthday-party.jpg',
-        '["Customized party menus & cake", "Private dining rooms (10-80 guests)", "Professional DJ & sound system", "Custom decorations & balloon arrangements", "Dedicated event coordinator", "Complimentary birthday dessert platter"]'::jsonb
+        '["Thực đơn tiệc & bánh sinh nhật theo yêu cầu", "Phòng tiệc riêng (10-80 khách)", "Hệ thống âm thanh & DJ chuyên nghiệp", "Trang trí tiệc & bóng bay cao cấp", "Quản lý sự kiện hỗ trợ riêng", "Tặng kèm đĩa bánh sinh nhật đặc biệt"]'::jsonb
     ),
     (
-        'Corporate Events & Galas',
+        'Sự Kiện Công Ty & Hội Nghị',
         'corporate-event',
-        'Impress your clients and colleagues with sophisticated corporate dining. From intimate business dinners to grand company galas, we provide a refined atmosphere with state-of-the-art audiovisual equipment and tailored catering solutions.',
+        'Tạo ấn tượng sâu sắc với đối tác và đồng nghiệp. Từ những bữa tối doanh nhân thân mật đến các buổi đại tiệc công ty, chúng tôi cung cấp không gian sang trọng với thiết bị âm thanh ánh sáng hiện đại.',
         '/images/events/corporate-event.jpg',
-        '["AV equipment & presentation screens", "Customizable seating arrangements", "Premium business lunch & dinner menus", "Private networking spaces", "Full bar service with custom cocktails", "Valet parking available"]'::jsonb
+        '["Thiết bị AV & màn hình chiếu hiện đại", "Bố trí chỗ ngồi linh hoạt", "Thực đơn ăn trưa & tối cao cấp", "Không gian giao lưu riêng tư", "Quầy bar đầy đủ với cocktail sáng tạo", "Có dịch vụ đỗ xe (Valet)"]'::jsonb
     ),
     (
-        'Wedding Receptions',
+        'Tiệc Cưới Trọn Gói',
         'wedding-reception',
-        'Say "I do" surrounded by elegance and romance. Cay Tung offers breathtaking indoor and outdoor wedding venues, world-class cuisine, and a dedicated wedding planning team to make your dream celebration a reality.',
+        'Ghi dấu ngày trọng đại trong không gian lãng mạn. Cay Tung mang đến sảnh tiệc trong nhà & ngoài trời tuyệt đẹp cùng ẩm thực đẳng cấp để biến ngày cưới trong mơ của bạn thành hiện thực.',
         '/images/events/wedding.jpg',
-        '["Indoor & outdoor ceremony spaces", "Custom wedding menus & tasting sessions", "Floral arrangements & décor styling", "Professional wedding coordinator", "Dance floor & live band setup", "Honeymoon suite for the couple", "Capacity up to 200 guests"]'::jsonb
+        '["Không gian lễ cưới trong nhà & ngoài trời", "Thực đơn cưới riêng & thử món miễn phí", "Trang trí hoa tươi & concept thiết kế riêng", "Quản lý tiệc cưới đồng hành suốt sự kiện", "Sân khấu & khu vực khiêu vũ", "Phòng tân hôn dành cho cặp đôi", "Sức chứa lên tới 200 khách"]'::jsonb
     ),
     (
-        'Private Dining Experience',
+        'Trải Nghiệm Ẩm Thực Riêng Tư',
         'private-dining',
-        'For those who seek exclusivity, our private dining rooms offer an intimate escape. Perfect for anniversaries, proposals, family reunions, or any occasion that calls for something extraordinary.',
+        'Dành cho những ai tìm kiếm sự riêng tư tuyệt đối. Phòng ăn VIP thích hợp cho lễ kỷ niệm, cầu hôn hay gặp mặt gia đình để tận hưởng những giây phút đặc biệt.',
         '/images/events/private-dining.jpg',
-        '["Exclusive private rooms (2-20 guests)", "Personalized tasting menu by head chef", "Sommelier-curated wine pairing", "Candlelit ambiance & custom music", "Dedicated wait staff", "Custom dietary accommodations"]'::jsonb
+        '["Phòng VIP riêng biệt (2-20 khách)", "Thực đơn thử món thiết kế riêng bởi bếp trưởng", "Gợi ý kết hợp rượu vang từ Sommelier", "Không gian nến nồng ấm & âm nhạc tùy chọn", "Nhân viên phục vụ riêng", "Đáp ứng các yêu cầu chế độ ăn đặc biệt"]'::jsonb
     );

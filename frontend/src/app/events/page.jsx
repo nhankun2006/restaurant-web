@@ -12,31 +12,31 @@ export default function EventsPage() {
     const fallbackEvents = [
         {
             id: 1,
-            title: 'Birthday & Celebration Parties',
+            title: 'Tiệc Sinh Nhật & Kỷ Niệm',
             slug: 'birthday-party',
-            description: 'Celebrate life\'s special moments in an unforgettable setting. Our dedicated events team will craft a bespoke celebration experience with custom menus, stunning decorations, and impeccable service.',
-            features: ['Customized party menus & cake', 'Private dining rooms (10-80 guests)', 'Professional DJ & sound system', 'Custom decorations & balloon arrangements', 'Dedicated event coordinator', 'Complimentary birthday dessert platter'],
+            description: 'Tôn vinh những khoảnh khắc đáng nhớ trong không gian lãng mạn. Đội ngũ sự kiện chuyên nghiệp của chúng tôi sẽ thiết kế trải nghiệm tiệc theo yêu cầu với thực đơn tùy chỉnh, trang trí ấn tượng và dịch vụ chu đáo.',
+            features: ['Thực đơn tiệc & bánh sinh nhật theo yêu cầu', 'Phòng tiệc riêng (10-80 khách)', 'Hệ thống âm thanh & DJ chuyên nghiệp', 'Trang trí tiệc & bóng bay cao cấp', 'Quản lý sự kiện hỗ trợ riêng', 'Tặng kèm đĩa bánh sinh nhật đặc biệt'],
         },
         {
             id: 2,
-            title: 'Corporate Events & Galas',
+            title: 'Sự Kiện Công Ty & Hội Nghị',
             slug: 'corporate-event',
-            description: 'Impress your clients and colleagues with sophisticated corporate dining. From intimate business dinners to grand company galas, we provide a refined atmosphere with state-of-the-art audiovisual equipment.',
-            features: ['AV equipment & presentation screens', 'Customizable seating arrangements', 'Premium business lunch & dinner menus', 'Private networking spaces', 'Full bar service with custom cocktails', 'Valet parking available'],
+            description: 'Tạo ấn tượng sâu sắc với đối tác và đồng nghiệp. Từ những bữa tối doanh nhân thân mật đến các buổi đại tiệc công ty, chúng tôi cung cấp không gian sang trọng với thiết bị âm thanh ánh sáng hiện đại.',
+            features: ['Thiết bị AV & màn hình chiếu hiện đại', 'Bố trí chỗ ngồi linh hoạt', 'Thực đơn ăn trưa & tối cao cấp', 'Không gian giao lưu riêng tư', 'Quầy bar đầy đủ với cocktail sáng tạo', 'Có dịch vụ đỗ xe (Valet)'],
         },
         {
             id: 3,
-            title: 'Wedding Receptions',
+            title: 'Tiệc Cưới Trọn Gói',
             slug: 'wedding-reception',
-            description: 'Say "I do" surrounded by elegance and romance. Cay Tung offers breathtaking indoor and outdoor wedding venues, world-class cuisine, and a dedicated wedding planning team to make your dream celebration a reality.',
-            features: ['Indoor & outdoor ceremony spaces', 'Custom wedding menus & tasting sessions', 'Floral arrangements & décor styling', 'Professional wedding coordinator', 'Dance floor & live band setup', 'Honeymoon suite for the couple', 'Capacity up to 200 guests'],
+            description: 'Ghi dấu ngày trọng đại trong không gian lãng mạn. Cay Tung mang đến sảnh tiệc trong nhà & ngoài trời tuyệt đẹp cùng ẩm thực đẳng cấp để biến ngày cưới trong mơ của bạn thành hiện thực.',
+            features: ['Không gian lễ cưới trong nhà & ngoài trời', 'Thực đơn cưới riêng & thử món miễn phí', 'Trang trí hoa tươi & concept thiết kế riêng', 'Quản lý tiệc cưới đồng hành suốt sự kiện', 'Sân khấu & khu vực khiêu vũ', 'Phòng tân hôn dành cho cặp đôi', 'Sức chứa lên tới 200 khách'],
         },
         {
             id: 4,
-            title: 'Private Dining Experience',
+            title: 'Trải Nghiệm Ẩm Thực Riêng Tư',
             slug: 'private-dining',
-            description: 'For those who seek exclusivity, our private dining rooms offer an intimate escape. Perfect for anniversaries, proposals, family reunions, or any occasion that calls for something extraordinary.',
-            features: ['Exclusive private rooms (2-20 guests)', 'Personalized tasting menu by head chef', 'Sommelier-curated wine pairing', 'Candlelit ambiance & custom music', 'Dedicated wait staff', 'Custom dietary accommodations'],
+            description: 'Dành cho những ai tìm kiếm sự riêng tư tuyệt đối. Phòng ăn VIP thích hợp cho lễ kỷ niệm, cầu hôn hay gặp mặt gia đình để tận hưởng những giây phút đặc biệt.',
+            features: ['Phòng VIP riêng biệt (2-20 khách)', 'Thực đơn thử món thiết kế riêng bởi bếp trưởng', 'Gợi ý kết hợp rượu vang từ Sommelier', 'Không gian nến nồng ấm & âm nhạc tùy chọn', 'Nhân viên phục vụ riêng', 'Đáp ứng các yêu cầu chế độ ăn đặc biệt'],
         },
     ];
 
@@ -59,18 +59,18 @@ export default function EventsPage() {
         <>
             <div className="page-header">
                 <div className="container">
-                    <h1>Events & Celebrations</h1>
+                    <h1>Sự Kiện & Tiệc Riêng</h1>
                     <div className="page-header__divider"></div>
-                    <p>From intimate gatherings to grand celebrations, we create unforgettable experiences tailored to your vision.</p>
+                    <p>Từ những buổi họp mặt ấm cúng đến các bữa tiệc hoành tráng, chúng tôi mang đến trải nghiệm hoàn hảo theo yêu cầu của bạn.</p>
                 </div>
             </div>
 
             <section className="section">
                 <div className="container">
                     <SectionTitle
-                        label="Our Services"
-                        title="Create Lasting Memories"
-                        description="Every event at Cay Tung is a masterpiece. Our dedicated team ensures every detail is perfect."
+                        label="Dịch Vụ Của Chúng Tôi"
+                        title="Kiến Tạo Kỷ Niệm Đáng Nhớ"
+                        description="Mỗi sự kiện tại Cay Tung là một tác phẩm nghệ thuật được chăm chút tỉ mỉ từng chi tiết."
                     />
 
                     {loading ? (
@@ -95,19 +95,19 @@ export default function EventsPage() {
                     <div className="stats-bar">
                         <div className="stat">
                             <span className="stat__number">500+</span>
-                            <span className="stat__label">Events Hosted</span>
+                            <span className="stat__label">Sự Kiện Đã Tổ Chức</span>
                         </div>
                         <div className="stat">
                             <span className="stat__number">150+</span>
-                            <span className="stat__label">Weddings</span>
+                            <span className="stat__label">Tiệc Cưới</span>
                         </div>
                         <div className="stat">
                             <span className="stat__number">200</span>
-                            <span className="stat__label">Max Capacity</span>
+                            <span className="stat__label">Sức Chứa Tối Đa</span>
                         </div>
                         <div className="stat">
                             <span className="stat__number">98%</span>
-                            <span className="stat__label">Satisfaction Rate</span>
+                            <span className="stat__label">Mức Độ Hài Lòng</span>
                         </div>
                     </div>
                 </div>

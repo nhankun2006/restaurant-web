@@ -33,7 +33,7 @@ function BookingForm() {
             await createBooking(formData);
             setSubmitted(true);
         } catch (err) {
-            setError('Something went wrong. Please try again or call us directly.');
+            setError('Đã có lỗi xảy ra. Vui lòng thử lại hoặc liên hệ trực tiếp với chúng tôi.');
             console.error('Booking error:', err);
         } finally {
             setLoading(false);
@@ -46,13 +46,13 @@ function BookingForm() {
                 <div className="booking-success__icon">
                     <FiCheck />
                 </div>
-                <h3 className="booking-success__title">Reservation Confirmed!</h3>
+                <h3 className="booking-success__title">Đặt Bàn Thành Công!</h3>
                 <p className="booking-success__message">
-                    Thank you, <strong>{formData.name}</strong>! We've received your reservation
-                    for <strong>{formData.guests} guests</strong> on <strong>{formData.date}</strong> at <strong>{formData.time}</strong>.
+                    Cảm ơn quý khách <strong>{formData.name}</strong>! Chúng tôi đã nhận được yêu cầu
+                    đặt bàn cho <strong>{formData.guests} khách</strong> vào lúc <strong>{formData.time}</strong> ngày <strong>{formData.date}</strong>.
                     <br /><br />
-                    We'll send a confirmation to <strong>{formData.email}</strong> shortly.
-                    We look forward to welcoming you at Cay Tung!
+                    Thông tin xác nhận sẽ được gửi tới <strong>{formData.email}</strong> trong thời gian sớm nhất.
+                    Rất hân hạnh được đón tiếp quý khách tại Cay Tung!
                 </p>
                 <button
                     className="btn btn-gold"
@@ -65,7 +65,7 @@ function BookingForm() {
                         });
                     }}
                 >
-                    Make Another Reservation
+                    Tạo Đơn Đặt Bàn Khác
                 </button>
             </div>
         );
@@ -80,7 +80,7 @@ function BookingForm() {
                 marginBottom: 'var(--space-2xl)',
                 color: 'var(--color-dark)',
             }}>
-                Make a Reservation
+                Đặt Bàn Trực Tuyến
             </h3>
 
             {error && (
@@ -99,10 +99,10 @@ function BookingForm() {
 
             <div className="booking-form__grid">
                 <div className="form-group">
-                    <label className="form-label" htmlFor="name">Full Name</label>
+                    <label className="form-label" htmlFor="name">Họ và Tên</label>
                     <input
                         id="name" name="name" type="text" className="form-input"
-                        placeholder="John Doe" value={formData.name}
+                        placeholder="Nguyễn Văn A" value={formData.name}
                         onChange={handleChange} required
                     />
                 </div>
@@ -111,37 +111,37 @@ function BookingForm() {
                     <label className="form-label" htmlFor="email">Email</label>
                     <input
                         id="email" name="email" type="email" className="form-input"
-                        placeholder="john@example.com" value={formData.email}
+                        placeholder="nguyenvana@example.com" value={formData.email}
                         onChange={handleChange} required
                     />
                 </div>
 
                 <div className="form-group">
-                    <label className="form-label" htmlFor="phone">Phone Number</label>
+                    <label className="form-label" htmlFor="phone">Số Điện Thoại</label>
                     <input
                         id="phone" name="phone" type="tel" className="form-input"
-                        placeholder="(310) 555-1234" value={formData.phone}
+                        placeholder="0901234567" value={formData.phone}
                         onChange={handleChange} required
                     />
                 </div>
 
                 <div className="form-group">
-                    <label className="form-label" htmlFor="event_type">Event Type</label>
+                    <label className="form-label" htmlFor="event_type">Loại Sự Kiện</label>
                     <select
                         id="event_type" name="event_type" className="form-select"
                         value={formData.event_type} onChange={handleChange}
                     >
-                        <option value="dinner">Dinner Reservation</option>
-                        <option value="lunch">Lunch Reservation</option>
-                        <option value="birthday-party">Birthday Party</option>
-                        <option value="corporate-event">Corporate Event</option>
-                        <option value="wedding-reception">Wedding Reception</option>
-                        <option value="private-dining">Private Dining</option>
+                        <option value="dinner">Bữa Tối</option>
+                        <option value="lunch">Bữa Trưa</option>
+                        <option value="birthday-party">Tiệc Sinh Nhật</option>
+                        <option value="corporate-event">Sự Kiện Công Ty</option>
+                        <option value="wedding-reception">Tiệc Cưới</option>
+                        <option value="private-dining">Tiệc Riêng Tư</option>
                     </select>
                 </div>
 
                 <div className="form-group">
-                    <label className="form-label" htmlFor="date">Date</label>
+                    <label className="form-label" htmlFor="date">Ngày Đặt</label>
                     <input
                         id="date" name="date" type="date" className="form-input"
                         value={formData.date} onChange={handleChange}
@@ -150,29 +150,29 @@ function BookingForm() {
                 </div>
 
                 <div className="form-group">
-                    <label className="form-label" htmlFor="time">Preferred Time</label>
+                    <label className="form-label" htmlFor="time">Giờ Đặt</label>
                     <select
                         id="time" name="time" className="form-select"
                         value={formData.time} onChange={handleChange}
                     >
-                        <option value="11:30">11:30 AM</option>
-                        <option value="12:00">12:00 PM</option>
-                        <option value="12:30">12:30 PM</option>
-                        <option value="13:00">1:00 PM</option>
-                        <option value="17:00">5:00 PM</option>
-                        <option value="17:30">5:30 PM</option>
-                        <option value="18:00">6:00 PM</option>
-                        <option value="18:30">6:30 PM</option>
-                        <option value="19:00">7:00 PM</option>
-                        <option value="19:30">7:30 PM</option>
-                        <option value="20:00">8:00 PM</option>
-                        <option value="20:30">8:30 PM</option>
-                        <option value="21:00">9:00 PM</option>
+                        <option value="11:30">11:30</option>
+                        <option value="12:00">12:00</option>
+                        <option value="12:30">12:30</option>
+                        <option value="13:00">13:00</option>
+                        <option value="17:00">17:00</option>
+                        <option value="17:30">17:30</option>
+                        <option value="18:00">18:00</option>
+                        <option value="18:30">18:30</option>
+                        <option value="19:00">19:00</option>
+                        <option value="19:30">19:30</option>
+                        <option value="20:00">20:00</option>
+                        <option value="20:30">20:30</option>
+                        <option value="21:00">21:00</option>
                     </select>
                 </div>
 
                 <div className="form-group">
-                    <label className="form-label" htmlFor="guests">Number of Guests</label>
+                    <label className="form-label" htmlFor="guests">Số Lượng Khách</label>
                     <input
                         id="guests" name="guests" type="number" className="form-input"
                         min="1" max="200" value={formData.guests}
@@ -181,10 +181,10 @@ function BookingForm() {
                 </div>
 
                 <div className="form-group booking-form__full">
-                    <label className="form-label" htmlFor="message">Special Requests</label>
+                    <label className="form-label" htmlFor="message">Yêu Cầu Đặc Biệt</label>
                     <textarea
                         id="message" name="message" className="form-textarea"
-                        placeholder="Any dietary restrictions, seating preferences, or special occasion details..."
+                        placeholder="Ghi chú về chế độ ăn uống, vị trí ngồi, hoặc dịp đặc biệt..."
                         value={formData.message} onChange={handleChange}
                     />
                 </div>
@@ -196,7 +196,7 @@ function BookingForm() {
                         disabled={loading}
                         style={{ minWidth: '250px' }}
                     >
-                        {loading ? 'Submitting...' : 'Confirm Reservation'}
+                        {loading ? 'Đang gửi...' : 'Xác Nhận Đặt Bàn'}
                     </button>
                 </div>
             </div>

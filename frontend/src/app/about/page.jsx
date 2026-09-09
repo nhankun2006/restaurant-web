@@ -3,8 +3,8 @@ import SectionTitle from '../../components/SectionTitle';
 import { FiAward, FiUsers, FiHeart, FiStar } from 'react-icons/fi';
 
 export const metadata = {
-    title: 'About Us — Cay Tung Restaurant',
-    description: 'Learn about the story, history, and culinary philosophy of Cay Tung Restaurant.',
+    title: 'Về Chúng Tôi — Nhà Hàng Cay Tung',
+    description: 'Tìm hiểu về lịch sử, câu chuyện và triết lý ẩm thực của Nhà Hàng Cay Tung.',
 };
 
 export default function AboutPage() {
@@ -12,9 +12,9 @@ export default function AboutPage() {
         <>
             <div className="page-header">
                 <div className="container">
-                    <h1>About Cay Tung</h1>
+                    <h1>Về Cay Tung</h1>
                     <div className="page-header__divider"></div>
-                    <p>A legacy of culinary excellence and heartfelt hospitality since 1987.</p>
+                    <p>Hành trình 37 năm kiến tạo nghệ thuật ẩm thực và lòng hiếu khách chân thành.</p>
                 </div>
             </div>
 
@@ -30,23 +30,22 @@ export default function AboutPage() {
                             />
                         </div>
                         <div className="about-story__text">
-                            <SectionTitle label="Our Story" title="A Tradition of Excellence" />
+                            <SectionTitle label="Câu Chuyện Của Chúng Tôi" title="Truyền Thống Của Sự Hoàn Hảo" />
                             <p>
-                                Founded in 1987 by Chef Antoine Dubois, Cay Tung began as a small
-                                Parisian-inspired bistro with a dream: to bring the essence of French
-                                culinary artistry to the heart of Beverly Hills.
+                                Thành lập vào năm 1987 bởi Đầu bếp Antoine Dubois, Cay Tung khởi đầu là một
+                                quán ăn nhỏ mang cảm hứng Paris với ước mơ mang tinh hoa ẩm thực Pháp tinh tế
+                                phục vụ những thực khách sành ăn.
                             </p>
                             <p>
-                                Over three decades later, that dream has blossomed into one of the
-                                most celebrated fine dining destinations on the West Coast. Our kitchen
-                                team, led by Executive Chef Marie Laurent, continues to honor Chef
-                                Dubois's vision while pushing the boundaries of contemporary gastronomy.
+                                Hơn ba thập kỷ sau, ước mơ đó đã phát triển thành một trong những điểm đến
+                                ẩm thực cao cấp được yêu thích nhất. Đội ngũ bếp do Bếp trưởng điều hành Marie Laurent
+                                dẫn dắt tiếp tục tôn vinh tầm nhìn của Đầu bếp Dubois đồng thời mở rộng ranh giới
+                                của ẩm thực hiện đại.
                             </p>
                             <p>
-                                Every dish at Cay Tung tells a story — of flavors discovered in
-                                sun-drenched Mediterranean markets, of techniques perfected over
-                                generations, and of an unwavering commitment to excellence that
-                                transforms every meal into an unforgettable experience.
+                                Mỗi món ăn tại Cay Tung là một câu chuyện — về những hương vị khám phá từ
+                                các khu chợ Địa Trung Hải ngập nắng, những kỹ thuật hoàn thiện qua nhiều thế hệ,
+                                và cam kết không ngừng mang lại những trải nghiệm ẩm thực đỉnh cao.
                             </p>
                         </div>
                     </div>
@@ -59,19 +58,19 @@ export default function AboutPage() {
                     <div className="stats-bar">
                         <div className="stat">
                             <span className="stat__number">37+</span>
-                            <span className="stat__label">Years of Excellence</span>
+                            <span className="stat__label">Năm Kinh Nghiệm</span>
                         </div>
                         <div className="stat">
                             <span className="stat__number">3</span>
-                            <span className="stat__label">Michelin Stars</span>
+                            <span className="stat__label">Sao Michelin</span>
                         </div>
                         <div className="stat">
                             <span className="stat__number">50K+</span>
-                            <span className="stat__label">Happy Guests</span>
+                            <span className="stat__label">Khách Hàng Hài Lòng</span>
                         </div>
                         <div className="stat">
                             <span className="stat__number">120+</span>
-                            <span className="stat__label">Menu Creations</span>
+                            <span className="stat__label">Món Ăn Độc Đáo</span>
                         </div>
                     </div>
                 </div>
@@ -81,45 +80,45 @@ export default function AboutPage() {
             <section className="section">
                 <div className="container">
                     <SectionTitle
-                        label="Our Philosophy"
-                        title="What Drives Us"
-                        description="At Cay Tung, every decision is guided by our core values."
+                        label="Triết Lý"
+                        title="Giá Trị Cốt Lõi"
+                        description="Tại Cay Tung, mọi quyết định đều xuất phát từ những giá trị cốt lõi của chúng tôi."
                     />
                     <div className="grid-4" style={{ maxWidth: '1000px', margin: '0 auto' }}>
                         <div style={{ textAlign: 'center' }}>
                             <div style={{ fontSize: '2.5rem', color: 'var(--color-gold)', marginBottom: 'var(--space-md)' }}>
                                 <FiAward />
                             </div>
-                            <h4 style={{ fontFamily: 'var(--font-heading)', marginBottom: 'var(--space-sm)' }}>Quality</h4>
+                            <h4 style={{ fontFamily: 'var(--font-heading)', marginBottom: 'var(--space-sm)' }}>Chất Lượng</h4>
                             <p style={{ color: 'var(--color-text-light)', fontSize: '0.9rem', lineHeight: 1.7 }}>
-                                Only the finest ingredients make it to our kitchen. We source locally and globally for perfection.
+                                Chỉ những nguyên liệu tươi ngon nhất mới được lựa chọn vào căn bếp của chúng tôi.
                             </p>
                         </div>
                         <div style={{ textAlign: 'center' }}>
                             <div style={{ fontSize: '2.5rem', color: 'var(--color-gold)', marginBottom: 'var(--space-md)' }}>
                                 <FiHeart />
                             </div>
-                            <h4 style={{ fontFamily: 'var(--font-heading)', marginBottom: 'var(--space-sm)' }}>Passion</h4>
+                            <h4 style={{ fontFamily: 'var(--font-heading)', marginBottom: 'var(--space-sm)' }}>Đam Mê</h4>
                             <p style={{ color: 'var(--color-text-light)', fontSize: '0.9rem', lineHeight: 1.7 }}>
-                                Every dish is crafted with love, creativity, and decades of culinary expertise.
+                                Mỗi món ăn được gửi gắm tình yêu, sự sáng tạo và kỹ thuật ẩm thực tinh tế.
                             </p>
                         </div>
                         <div style={{ textAlign: 'center' }}>
                             <div style={{ fontSize: '2.5rem', color: 'var(--color-gold)', marginBottom: 'var(--space-md)' }}>
                                 <FiUsers />
                             </div>
-                            <h4 style={{ fontFamily: 'var(--font-heading)', marginBottom: 'var(--space-sm)' }}>Community</h4>
+                            <h4 style={{ fontFamily: 'var(--font-heading)', marginBottom: 'var(--space-sm)' }}>Cộng Đồng</h4>
                             <p style={{ color: 'var(--color-text-light)', fontSize: '0.9rem', lineHeight: 1.7 }}>
-                                We believe in building lasting relationships with our guests, purveyors, and team.
+                                Chúng tôi gắn kết chân thành với từng khách hàng, đối tác và đội ngũ nhân viên.
                             </p>
                         </div>
                         <div style={{ textAlign: 'center' }}>
                             <div style={{ fontSize: '2.5rem', color: 'var(--color-gold)', marginBottom: 'var(--space-md)' }}>
                                 <FiStar />
                             </div>
-                            <h4 style={{ fontFamily: 'var(--font-heading)', marginBottom: 'var(--space-sm)' }}>Innovation</h4>
+                            <h4 style={{ fontFamily: 'var(--font-heading)', marginBottom: 'var(--space-sm)' }}>Sáng Tạo</h4>
                             <p style={{ color: 'var(--color-text-light)', fontSize: '0.9rem', lineHeight: 1.7 }}>
-                                While honoring tradition, we constantly explore new flavors, techniques, and presentations.
+                                Gìn giữ truyền thống nhưng không ngừng khám phá những hương vị và kỹ thuật mới.
                             </p>
                         </div>
                     </div>
@@ -130,16 +129,16 @@ export default function AboutPage() {
             <section className="section section--dark" style={{ textAlign: 'center' }}>
                 <div className="container">
                     <SectionTitle
-                        label="Join Us"
-                        title="Experience Cay Tung"
-                        description="We invite you to discover why Cay Tung has been Beverly Hills' most beloved dining destination for over three decades."
+                        label="Trải Nghiệm"
+                        title="Khám Phá Cay Tung"
+                        description="Trân trọng kính mời quý khách đến và cảm nhận không gian ẩm thực sang trọng hàng đầu."
                     />
                     <div style={{ display: 'flex', gap: 'var(--space-md)', justifyContent: 'center', flexWrap: 'wrap' }}>
                         <Link href="/booking" className="btn btn-gold">
-                            Reserve Your Table
+                            Đặt Bàn Ngay
                         </Link>
                         <Link href="/menu" className="btn btn-outline">
-                            Browse Our Menu
+                            Xem Thực Đơn
                         </Link>
                     </div>
                 </div>

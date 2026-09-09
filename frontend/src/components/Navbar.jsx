@@ -51,9 +51,9 @@ function Navbar() {
                                 {link.label}
                             </Link>
                         ))}
-                        <Link href="/booking" className="btn btn-gold navbar__cta">
-                            Reserve a Table
-                        </Link>
+                    <Link href="/booking" className="btn btn-gold navbar__cta">
+                        Đặt Bàn
+                    </Link>
                     </div>
 
                     <button
@@ -75,7 +75,7 @@ function Navbar() {
                     </Link>
                 ))}
                 <Link href="/booking" className="btn btn-gold">
-                    Reserve a Table
+                    Đặt Bàn
                 </Link>
             </div>
         </>

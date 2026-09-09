@@ -4,7 +4,7 @@ function MenuCard({ item }) {
     return (
         <div className="card animate-fade-in-up">
             <div className="card__image-wrapper">
-                {item.is_featured && <span className="card__badge">Chef's Pick</span>}
+                {item.is_featured && <span className="card__badge">Đặc Sản Đầu Bếp</span>}
                 <img
                     src={item.image_url || placeholderImage}
                     alt={item.name}

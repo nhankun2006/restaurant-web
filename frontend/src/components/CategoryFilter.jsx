@@ -7,7 +7,7 @@ function CategoryFilter({ categories, activeSlug, onSelect }) {
                 className={`category-filter__btn ${!activeSlug ? 'category-filter__btn--active' : ''}`}
                 onClick={() => onSelect(null)}
             >
-                All
+                Tất Cả
             </button>
             {categories.map((cat) => (
                 <button

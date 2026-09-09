@@ -14,34 +14,34 @@ export default function MenuPage() {
 
     // Fallback data when API is not available
     const fallbackCategories = [
-        { id: 1, name: 'Appetizers', slug: 'appetizers' },
-        { id: 2, name: 'Main Course', slug: 'main-course' },
-        { id: 3, name: 'Seafood', slug: 'seafood' },
-        { id: 4, name: 'Drinks & Cocktails', slug: 'drinks' },
-        { id: 5, name: 'Desserts', slug: 'desserts' },
+        { id: 1, name: 'Món Khai Vị', slug: 'appetizers' },
+        { id: 2, name: 'Món Chính', slug: 'main-course' },
+        { id: 3, name: 'Hải Sản', slug: 'seafood' },
+        { id: 4, name: 'Đồ Uống & Cocktail', slug: 'drinks' },
+        { id: 5, name: 'Món Tráng Miệng', slug: 'desserts' },
     ];
 
     const fallbackItems = [
-        { id: 1, name: 'Truffle Bruschetta', description: 'Toasted sourdough topped with black truffle cream, roasted tomatoes, and fresh basil drizzle.', price: 16.50, is_featured: true, category_id: 1, categories: { name: 'Appetizers', slug: 'appetizers' } },
-        { id: 2, name: 'Seared Foie Gras', description: 'Pan-seared duck foie gras with fig compote, toasted brioche, and balsamic reduction.', price: 24.00, is_featured: false, category_id: 1, categories: { name: 'Appetizers', slug: 'appetizers' } },
-        { id: 3, name: 'Caesar Salad', description: 'Crisp romaine hearts, aged parmesan shavings, house-made croutons, and classic Caesar dressing.', price: 14.00, is_featured: false, category_id: 1, categories: { name: 'Appetizers', slug: 'appetizers' } },
-        { id: 4, name: 'Tuna Tartare', description: 'Fresh ahi tuna with avocado mousse, sesame crisps, and ponzu dressing.', price: 19.00, is_featured: true, category_id: 1, categories: { name: 'Appetizers', slug: 'appetizers' } },
-        { id: 5, name: 'Wagyu Beef Tenderloin', description: 'A5 Wagyu tenderloin grilled to perfection, served with truffle mashed potatoes and red wine jus.', price: 58.00, is_featured: true, category_id: 2, categories: { name: 'Main Course', slug: 'main-course' } },
-        { id: 6, name: 'Herb-Crusted Rack of Lamb', description: 'New Zealand rack of lamb with rosemary crust, roasted vegetables, and mint chimichurri.', price: 45.00, is_featured: true, category_id: 2, categories: { name: 'Main Course', slug: 'main-course' } },
-        { id: 7, name: 'Wild Mushroom Risotto', description: 'Creamy arborio rice with porcini, chanterelle, and shiitake mushrooms finished with aged parmesan.', price: 28.00, is_featured: false, category_id: 2, categories: { name: 'Main Course', slug: 'main-course' } },
-        { id: 8, name: 'Duck Confit', description: 'Slow-cooked duck leg confit with crispy skin, served with lentils du Puy and orange gastrique.', price: 36.00, is_featured: false, category_id: 2, categories: { name: 'Main Course', slug: 'main-course' } },
-        { id: 9, name: 'Pan-Seared Sea Bass', description: 'Chilean sea bass with saffron beurre blanc, asparagus tips, and crushed fingerling potatoes.', price: 42.00, is_featured: true, category_id: 3, categories: { name: 'Seafood', slug: 'seafood' } },
-        { id: 10, name: 'Lobster Thermidor', description: 'Whole Atlantic lobster baked with creamy Gruyère sauce, fresh herbs, and served with drawn butter.', price: 65.00, is_featured: true, category_id: 3, categories: { name: 'Seafood', slug: 'seafood' } },
-        { id: 11, name: 'Grilled Octopus', description: 'Tender chargrilled octopus with smoked paprika, chickpea purée, and chorizo vinaigrette.', price: 32.00, is_featured: false, category_id: 3, categories: { name: 'Seafood', slug: 'seafood' } },
-        { id: 12, name: 'Shrimp Scampi', description: 'Jumbo tiger prawns sautéed in garlic butter, white wine, and fresh herbs over angel hair pasta.', price: 34.00, is_featured: false, category_id: 3, categories: { name: 'Seafood', slug: 'seafood' } },
-        { id: 13, name: 'Cay Tung Signature Martini', description: 'Our house martini with premium vodka, elderflower liqueur, fresh cucumber, and a hint of lime.', price: 18.00, is_featured: true, category_id: 4, categories: { name: 'Drinks & Cocktails', slug: 'drinks' } },
-        { id: 14, name: 'Smoked Old Fashioned', description: 'Bourbon whiskey with demerara sugar, Angostura bitters, and applewood smoke.', price: 20.00, is_featured: false, category_id: 4, categories: { name: 'Drinks & Cocktails', slug: 'drinks' } },
-        { id: 15, name: 'French 75', description: 'Classic champagne cocktail with London dry gin, fresh lemon juice, and simple syrup.', price: 16.00, is_featured: false, category_id: 4, categories: { name: 'Drinks & Cocktails', slug: 'drinks' } },
-        { id: 16, name: 'Virgin Passion Mojito', description: 'Fresh passionfruit, mint leaves, lime, and soda water — a tropical refreshment without alcohol.', price: 12.00, is_featured: false, category_id: 4, categories: { name: 'Drinks & Cocktails', slug: 'drinks' } },
-        { id: 17, name: 'Crème Brûlée', description: 'Classic Madagascar vanilla bean custard with a perfectly caramelized sugar crust.', price: 14.00, is_featured: true, category_id: 5, categories: { name: 'Desserts', slug: 'desserts' } },
-        { id: 18, name: 'Chocolate Lava Cake', description: 'Rich dark Valrhona chocolate fondant with a molten center, served with vanilla bean ice cream.', price: 16.00, is_featured: true, category_id: 5, categories: { name: 'Desserts', slug: 'desserts' } },
-        { id: 19, name: 'Tiramisu', description: 'Traditional Italian layers of espresso-soaked ladyfingers, mascarpone cream, and cocoa dusting.', price: 14.00, is_featured: false, category_id: 5, categories: { name: 'Desserts', slug: 'desserts' } },
-        { id: 20, name: 'Seasonal Fruit Tart', description: 'Buttery pâte sucrée filled with pastry cream and topped with glazed fresh seasonal fruits.', price: 13.00, is_featured: false, category_id: 5, categories: { name: 'Desserts', slug: 'desserts' } },
+        { id: 1, name: 'Truffle Bruschetta', description: 'Bánh mì sourdough nướng giòn phủ kem nấm truffle đen, cà chua nướng và sốt húng tây tươi.', price: 16.50, is_featured: true, category_id: 1, categories: { name: 'Món Khai Vị', slug: 'appetizers' } },
+        { id: 2, name: 'Seared Foie Gras', description: 'Gan ngỗng Pháp áp chảo ăn kèm mứt quả vả, bánh brioche nướng và sốt cô đặc balsamic.', price: 24.00, is_featured: false, category_id: 1, categories: { name: 'Món Khai Vị', slug: 'appetizers' } },
+        { id: 3, name: 'Caesar Salad', description: 'Rau xà lách romaine giòn tươi, phô mai parmesan bào, bánh mì nướng bơ gỏi và sốt Caesar đặc trưng.', price: 14.00, is_featured: false, category_id: 1, categories: { name: 'Món Khai Vị', slug: 'appetizers' } },
+        { id: 4, name: 'Tuna Tartare', description: 'Cá ngừ tươi băm nhỏ kèm bơ xay mịn, bánh giòn vung đen và sốt ponzu thanh mát.', price: 19.00, is_featured: true, category_id: 1, categories: { name: 'Món Khai Vị', slug: 'appetizers' } },
+        { id: 5, name: 'Wagyu Beef Tenderloin', description: 'Thăn nội bò Wagyu A5 nướng hoàn hảo, dùng kèm khoai tây nghiền truffle và sốt rượu vang đỏ.', price: 58.00, is_featured: true, category_id: 2, categories: { name: 'Món Chính', slug: 'main-course' } },
+        { id: 6, name: 'Herb-Crusted Rack of Lamb', description: 'Sườn cừu New Zealand phủ lớp thảo mộc hương thảo, rau củ nướng và sốt chimichurri bạc hà.', price: 45.00, is_featured: true, category_id: 2, categories: { name: 'Món Chính', slug: 'main-course' } },
+        { id: 7, name: 'Wild Mushroom Risotto', description: 'Cơm Ý arborio dẻo quánh với nấm porcini, chanterelle và nấm đông cô, hoàn thiện với phô mai parmesan.', price: 28.00, is_featured: false, category_id: 2, categories: { name: 'Món Chính', slug: 'main-course' } },
+        { id: 8, name: 'Duck Confit', description: 'Đùi vịt nấu chậm da giòn rụm, ăn kèm đậu lentils du Puy và sốt cam thanh ngọt.', price: 36.00, is_featured: false, category_id: 2, categories: { name: 'Món Chính', slug: 'main-course' } },
+        { id: 9, name: 'Pan-Seared Sea Bass', description: 'Cá vược Chile áp chảo với sốt bơ nghệ tây, đọt măng tây và khoai tây nghiền.', price: 42.00, is_featured: true, category_id: 3, categories: { name: 'Hải Sản', slug: 'seafood' } },
+        { id: 10, name: 'Lobster Thermidor', description: 'Tôm hùm Atlantic đút lò với sốt kem phô mai Gruyère, thảo mộc tươi và bơ đun chảy.', price: 65.00, is_featured: true, category_id: 3, categories: { name: 'Hải Sản', slug: 'seafood' } },
+        { id: 11, name: 'Grilled Octopus', description: 'Bạch tuộc nướng than hoa mềm thơm với ớt bột smoked paprika, sốt đậu gà purée và sốt mỡ chorizo.', price: 32.00, is_featured: false, category_id: 3, categories: { name: 'Hải Sản', slug: 'seafood' } },
+        { id: 12, name: 'Shrimp Scampi', description: 'Tôm sú cỡ lớn xào bơ tỏi, rượu vang trắng và thảo mộc tươi trên nền mì pasta angel hair.', price: 34.00, is_featured: false, category_id: 3, categories: { name: 'Hải Sản', slug: 'seafood' } },
+        { id: 13, name: 'Cay Tung Signature Martini', description: 'Martini đặc sản của nhà hàng với vodka thượng hạng, rượu hoa cơm cháy, dưa chuột tươi và chút chanh.', price: 18.00, is_featured: true, category_id: 4, categories: { name: 'Đồ Uống & Cocktail', slug: 'drinks' } },
+        { id: 14, name: 'Smoked Old Fashioned', description: 'Rượu Bourbon whiskey kết hợp đường demerara, đắng Angostura và khói gỗ táo bồng bềnh.', price: 20.00, is_featured: false, category_id: 4, categories: { name: 'Đồ Uống & Cocktail', slug: 'drinks' } },
+        { id: 15, name: 'French 75', description: 'Cocktail champagne cổ điển kết hợp gin London dry, nước cốt chanh tươi và siro ngọt nhẹ.', price: 16.00, is_featured: false, category_id: 4, categories: { name: 'Đồ Uống & Cocktail', slug: 'drinks' } },
+        { id: 16, name: 'Virgin Passion Mojito', description: 'Chanh dây tươi, lá húng lủi, chanh và nước soda — thức uống nhiệt đới sảng khoái không cồn.', price: 12.00, is_featured: false, category_id: 4, categories: { name: 'Đồ Uống & Cocktail', slug: 'drinks' } },
+        { id: 17, name: 'Crème Brûlée', description: 'Kem trứng vani Madagascar truyền thống với lớp đường đốt giòn tan quyến rũ.', price: 14.00, is_featured: true, category_id: 5, categories: { name: 'Món Tráng Miệng', slug: 'desserts' } },
+        { id: 18, name: 'Chocolate Lava Cake', description: 'Bánh chocolate đắng Valrhona với nhân chocolate tan chảy, dùng kèm kem vani.', price: 16.00, is_featured: true, category_id: 5, categories: { name: 'Món Tráng Miệng', slug: 'desserts' } },
+        { id: 19, name: 'Tiramisu', description: 'Bánh Ý truyền thống lớp bánh sampa thấm vị cà phê espresso, kem phô mai mascarpone và phủ bột cacao.', price: 14.00, is_featured: false, category_id: 5, categories: { name: 'Món Tráng Miệng', slug: 'desserts' } },
+        { id: 20, name: 'Seasonal Fruit Tart', description: 'Vỏ bánh pâte sucrée giòn bơ chứa nhân kem pastry và phủ trái cây tươi mọng nước.', price: 13.00, is_featured: false, category_id: 5, categories: { name: 'Món Tráng Miệng', slug: 'desserts' } },
     ];
 
     useEffect(() => {
@@ -86,9 +86,9 @@ export default function MenuPage() {
         <>
             <div className="page-header">
                 <div className="container">
-                    <h1>Our Menu</h1>
+                    <h1>Thực Đơn</h1>
                     <div className="page-header__divider"></div>
-                    <p>A curated collection of culinary masterpieces, from farm-fresh appetizers to decadent desserts.</p>
+                    <p>Bộ sưu tập các món ăn tuyệt hảo, từ món khai vị tươi ngon đến những món tráng miệng ngọt ngào.</p>
                 </div>
             </div>
 
@@ -109,7 +109,7 @@ export default function MenuPage() {
                     ) : items.length === 0 ? (
                         <div style={{ textAlign: 'center', padding: 'var(--space-3xl) 0' }}>
                             <p style={{ color: 'var(--color-text-light)', fontSize: '1.1rem' }}>
-                                No items found in this category.
+                                Không tìm thấy món ăn nào trong danh mục này.
                             </p>
                         </div>
                     ) : (

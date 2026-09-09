@@ -32,14 +32,14 @@ function EventCard({ event }) {
                         ))}
                         {features.length > 4 && (
                             <div className="event-card__feature" style={{ color: 'var(--color-gold)' }}>
-                                <span>+ {features.length - 4} more features</span>
+                                <span>+ {features.length - 4} tiện ích khác</span>
                             </div>
                         )}
                     </div>
                 )}
 
                 <Link href="/booking" className="btn btn-primary" style={{ alignSelf: 'flex-start' }}>
-                    Book This Event
+                    Đặt Sự Kiện Này
                 </Link>
             </div>
         </div>

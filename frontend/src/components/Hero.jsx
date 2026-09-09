@@ -16,19 +16,19 @@ function Hero() {
                 <p className="hero__subtitle">Welcome to Cay Tung</p>
                 <div className="hero__divider"></div>
                 <h1 className="hero__title">
-                    Where Every Meal<br />Becomes a Memory
+                    Nơi Mỗi Bữa Ăn<br />Trở Thành Kỷ Niệm
                 </h1>
                 <p className="hero__description">
-                    Experience the art of fine dining in an atmosphere of timeless elegance.
-                    Our world-class chefs craft each dish with passion, precision, and the
-                    finest seasonal ingredients from around the globe.
+                    Trải nghiệm nghệ thuật ẩm thực tinh tế trong không gian sang trọng và ấm cúng.
+                    Các đầu bếp hàng đầu của chúng tôi chế biến từng món ăn bằng tất cả đam mê,
+                    sự tỉ mỉ và những nguyên liệu tươi ngon nhất.
                 </p>
                 <div className="hero__buttons">
                     <Link href="/menu" className="btn btn-gold">
-                        Explore Our Menu
+                        Khám Phá Thực Đơn
                     </Link>
                     <Link href="/booking" className="btn btn-outline">
-                        Reserve a Table
+                        Đặt Bàn Ngay
                     </Link>
                 </div>
             </div>

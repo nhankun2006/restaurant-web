@@ -25,7 +25,7 @@ Cay Tung Restaurant is a full-stack web application featuring an interactive men
 | ----------- | --------------- |
 | **Node.js** | 18.x            |
 | **pnpm**    | 8.x+            |
-| **Python**  | 3.10+           |
+| **Python**  | 3.10 - 3.12     |
 | **uv**      | Latest (or pip) |
 | **Git**     | 2.x             |
 
@@ -41,7 +41,7 @@ Using `uv` (recommended):
 
 ```bash
 cd backend
-uv venv
+uv venv --python 3.12
 source .venv/bin/activate        # Linux/macOS
 # .venv\Scripts\activate         # Windows
 

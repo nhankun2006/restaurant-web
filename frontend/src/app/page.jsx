@@ -21,12 +21,12 @@ export default function HomePage() {
                 console.error('Failed to fetch featured items:', err);
                 // Fallback data when API is not available
                 setFeatured([
-                    { id: 1, name: 'Truffle Bruschetta', description: 'Toasted sourdough topped with black truffle cream, roasted tomatoes, and fresh basil drizzle.', price: 16.50, is_featured: true, categories: { name: 'Appetizers' } },
-                    { id: 2, name: 'Wagyu Beef Tenderloin', description: 'A5 Wagyu tenderloin grilled to perfection, served with truffle mashed potatoes and red wine jus.', price: 58.00, is_featured: true, categories: { name: 'Main Course' } },
-                    { id: 3, name: 'Pan-Seared Sea Bass', description: 'Chilean sea bass with saffron beurre blanc, asparagus tips, and crushed fingerling potatoes.', price: 42.00, is_featured: true, categories: { name: 'Seafood' } },
-                    { id: 4, name: 'Lobster Thermidor', description: 'Whole Atlantic lobster baked with creamy Gruyère sauce, fresh herbs, and served with drawn butter.', price: 65.00, is_featured: true, categories: { name: 'Seafood' } },
-                    { id: 5, name: 'Chocolate Lava Cake', description: 'Rich dark Valrhona chocolate fondant with a molten center, served with vanilla bean ice cream.', price: 16.00, is_featured: true, categories: { name: 'Desserts' } },
-                    { id: 6, name: 'Cay Tung Signature Martini', description: 'Our house martini with premium vodka, elderflower liqueur, fresh cucumber, and a hint of lime.', price: 18.00, is_featured: true, categories: { name: 'Drinks' } },
+                    { id: 1, name: 'Truffle Bruschetta', description: 'Bánh mì sourdough nướng giòn phủ kem nấm truffle đen, cà chua nướng và sốt húng tây tươi.', price: 16.50, is_featured: true, categories: { name: 'Món Khai Vị' } },
+                    { id: 2, name: 'Wagyu Beef Tenderloin', description: 'Thăn nội bò Wagyu A5 nướng hoàn hảo, dùng kèm khoai tây nghiền truffle và sốt rượu vang đỏ.', price: 58.00, is_featured: true, categories: { name: 'Món Chính' } },
+                    { id: 3, name: 'Pan-Seared Sea Bass', description: 'Cá vược Chile áp chảo với sốt bơ nghệ tây, đọt măng tây và khoai tây nghiền.', price: 42.00, is_featured: true, categories: { name: 'Hải Sản' } },
+                    { id: 4, name: 'Lobster Thermidor', description: 'Tôm hùm Atlantic đút lò với sốt kem phô mai Gruyère, thảo mộc tươi và bơ đun chảy.', price: 65.00, is_featured: true, categories: { name: 'Hải Sản' } },
+                    { id: 5, name: 'Chocolate Lava Cake', description: 'Bánh chocolate đắng Valrhona với nhân chocolate tan chảy, dùng kèm kem vani.', price: 16.00, is_featured: true, categories: { name: 'Món Tráng Miệng' } },
+                    { id: 6, name: 'Cay Tung Signature Martini', description: 'Martini đặc sản của nhà hàng với vodka thượng hạng, rượu hoa cơm cháy, dưa chuột tươi và chút chanh.', price: 18.00, is_featured: true, categories: { name: 'Đồ Uống' } },
                 ]);
             } finally {
                 setLoading(false);
@@ -43,9 +43,9 @@ export default function HomePage() {
             <section className="section">
                 <div className="container">
                     <SectionTitle
-                        label="Our Selection"
-                        title="Chef's Signature Dishes"
-                        description="A curated selection of our most beloved creations, crafted with passion and the finest ingredients."
+                        label="Lựa Chọn Đặc Bật"
+                        title="Món Ăn Đặc Sắc Của Đầu Bếp"
+                        description="Danh sách các món ăn được yêu thích nhất, chế biến tỉ mỉ từ những nguyên liệu hảo hạng."
                     />
                     {loading ? (
                         <div className="featured-grid">
@@ -64,7 +64,7 @@ export default function HomePage() {
                     )}
                     <div style={{ textAlign: 'center', marginTop: 'var(--space-2xl)' }}>
                         <Link href="/menu" className="btn btn-primary">
-                            View Full Menu
+                            Xem Toàn Bộ Thực Đơn
                         </Link>
                     </div>
                 </div>
@@ -74,33 +74,33 @@ export default function HomePage() {
             <section className="section section--dark">
                 <div className="container">
                     <SectionTitle
-                        label="Why Cay Tung"
-                        title="An Unforgettable Experience"
-                        description="Every detail is designed to create moments that linger long after the last course."
+                        label="Về Cay Tung"
+                        title="Trải Nghiệm Đáng Nhớ"
+                        description="Mỗi chi tiết đều được chăm chút tỉ mỉ để mang lại những khoảnh khắc tuyệt vời nhất."
                     />
                     <div className="why-grid">
                         <div className="why-card">
                             <div className="why-card__icon"><FiAward /></div>
-                            <h4 className="why-card__title">Award-Winning Cuisine</h4>
+                            <h4 className="why-card__title">Ẩm Thực Đạt Giải Thưởng</h4>
                             <p className="why-card__desc">
-                                Our Michelin-starred chef team creates extraordinary dishes using only
-                                the finest seasonal ingredients from trusted purveyors worldwide.
+                                Đội ngũ đầu bếp sao Michelin của chúng tôi sáng tạo những món ăn
+                                hảo hạng từ những nguyên liệu tươi ngon nhất thế giới.
                             </p>
                         </div>
                         <div className="why-card">
                             <div className="why-card__icon"><FiStar /></div>
-                            <h4 className="why-card__title">Impeccable Service</h4>
+                            <h4 className="why-card__title">Phục Vụ Tận Tâm</h4>
                             <p className="why-card__desc">
-                                Our dedicated staff ensures every visit is seamless, from warm
-                                welcomes to personalized attention throughout your dining experience.
+                                Đội ngũ nhân viên chuyên nghiệp đảm bảo sự hài lòng tuyệt đối từ lúc
+                                đón tiếp cho đến suốt bữa ăn của bạn.
                             </p>
                         </div>
                         <div className="why-card">
                             <div className="why-card__icon"><FiHeart /></div>
-                            <h4 className="why-card__title">Timeless Ambiance</h4>
+                            <h4 className="why-card__title">Không Gian Sang Trọng</h4>
                             <p className="why-card__desc">
-                                An atmosphere of refined elegance where modern sophistication meets
-                                classic charm — the perfect backdrop for any occasion.
+                                Bầu không khí tinh tế kết hợp giữa sự hiện đại và nét cổ điển charm —
+                                không gian hoàn hảo cho mọi dịp đặc biệt.
                             </p>
                         </div>
                     </div>
@@ -111,16 +111,16 @@ export default function HomePage() {
             <section className="section" style={{ textAlign: 'center' }}>
                 <div className="container">
                     <SectionTitle
-                        label="Celebrate With Us"
-                        title="Host Your Special Event"
-                        description="From intimate dinners to grand celebrations, let us create an unforgettable experience for you and your guests."
+                        label="Đồng Hành Cùng Chúng Tôi"
+                        title="Tổ Chức Sự Kiện Đặc Biệt"
+                        description="Từ những bữa tối thân mật đến các buổi tiệc lớn, hãy để chúng tôi mang lại trải nghiệm đáng nhớ cho bạn và khách mời."
                     />
                     <div style={{ display: 'flex', gap: 'var(--space-md)', justifyContent: 'center', flexWrap: 'wrap' }}>
                         <Link href="/events" className="btn btn-primary">
-                            Explore Events
+                            Khám Phá Sự Kiện
                         </Link>
                         <Link href="/booking" className="btn btn-outline" style={{ borderColor: 'var(--color-primary)', color: 'var(--color-primary)' }}>
-                            Make a Reservation
+                            Đặt Bàn Ngay
                         </Link>
                     </div>
                 </div>
