@@ -32,15 +32,15 @@ function Footer() {
                         <h4 className="footer__heading">Liên Hệ</h4>
                         <div className="footer__contact-item">
                             <FiMapPin className="footer__contact-icon" />
-                            <span>123 Đại Lộ Gourmet, Phường 1, TP. Hồ Chí Minh</span>
+                            <span>{process.env.NEXT_PUBLIC_RESTAURANT_ADDRESS}</span>
                         </div>
                         <div className="footer__contact-item">
                             <FiPhone className="footer__contact-icon" />
-                            <span>(028) 555-DINE</span>
+                            <span>{process.env.NEXT_PUBLIC_RESTAURANT_PHONE}</span>
                         </div>
                         <div className="footer__contact-item">
                             <FiMail className="footer__contact-icon" />
-                            <span>datban@caytung.com</span>
+                            <span>{process.env.NEXT_PUBLIC_RESTAURANT_EMAIL}</span>
                         </div>
                     </div>
                 </div>
