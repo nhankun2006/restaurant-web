@@ -1,6 +1,6 @@
 -- ============================================
--- Cay Tung Restaurant — Supabase Schema
--- Run this in your Supabase SQL Editor
+-- Cay Tung Restaurant — PostgreSQL Schema
+-- Run this in your PostgreSQL database (e.g., psql -U postgres -d restaurant -f schema.sql)
 -- ============================================
 
 -- Categories Table
