@@ -2,7 +2,7 @@
 
 ## Overview
 
-Cay Tung Restaurant is a full-stack web application featuring an interactive menu, event booking, and a responsive UI. It consists of a **Next.js 14 (App Router)** frontend and a **FastAPI** backend powered by **Supabase**.
+Cay Tung Restaurant is a full-stack web application featuring an interactive menu, event booking, and a responsive UI. It consists of a **Next.js 14 (App Router)** frontend and a **FastAPI** backend powered by **PostgreSQL** (via `asyncpg`).
 
 **Key Features:**
 - **Menu:** Browse & filter dishes by category.
@@ -14,54 +14,72 @@ Cay Tung Restaurant is a full-stack web application featuring an interactive men
 ## Tech Stack
 
 - **Frontend**: Next.js 14 (App Router), React 18, Axios
-- **Backend**: FastAPI, Uvicorn, Pydantic
-- **Database**: Supabase
+- **Backend**: FastAPI, Uvicorn, asyncpg, Pydantic
+- **Database**: PostgreSQL (v12+)
 
 ---
 
 ## Prerequisites
 
-| Tool        | Minimum Version |
-| ----------- | --------------- |
-| **Node.js** | 18.x            |
-| **pnpm**    | 8.x+            |
-| **Python**  | 3.10 - 3.12     |
-| **uv**      | Latest (or pip) |
-| **Git**     | 2.x             |
-
-You will also need a **[Supabase](https://supabase.com/)** account with a project set up. See [Database Setup](#-database-setup) below.
+| Tool            | Minimum Version |
+| --------------- | --------------- |
+| **Node.js**     | 18.x            |
+| **pnpm / npm**  | 8.x+            |
+| **Python**      | 3.10 - 3.12     |
+| **PostgreSQL**  | 14.x+           |
+| **uv**          | Latest (or pip) |
+| **Git**         | 2.x             |
 
 ---
 
 ## Getting Started
 
+### Database Setup
+
+1. Make sure your local PostgreSQL server is running.
+2. Create the target database (e.g. `restaurant`):
+   ```bash
+   createdb -U postgres restaurant
+   ```
+3. Run `backend/schema.sql` to create tables and seed initial data:
+   ```bash
+   psql -U postgres -d restaurant -f backend/schema.sql
+   ```
+
+---
+
 ### Backend Setup
 
-Using `uv` (recommended):
+1. Navigate to the `backend` directory and create `.env`:
+   ```bash
+   cd backend
+   ```
+   Add your PostgreSQL connection string in `backend/.env`:
+   ```env
+   DATABASE_URL=postgresql://postgres:svcntt@localhost:5432/restaurant
+   ```
 
-```bash
-cd backend
-uv venv --python 3.12
-source .venv/bin/activate        # Linux/macOS
-# .venv\Scripts\activate         # Windows
+2. Install dependencies using `uv` (recommended) or standard `pip`:
+   ```bash
+   uv pip sync requirements.txt
+   # or: pip install -r requirements.txt
+   ```
 
-uv pip install -r requirements.txt
-```
+3. Start the FastAPI backend server:
+   ```bash
+   uvicorn main:app --reload --port 8000
+   ```
 
-Start the backend server:
+The API will be available at **http://localhost:8000**. Interactive documentation (Swagger UI) is available at **http://localhost:8000/docs**.
 
-```bash
-uvicorn main:app --reload --port 8000
-```
-
-The API will be available at **http://localhost:8000**. Interactive docs at **http://localhost:8000/docs**.
+---
 
 ### Frontend Setup
 
 ```bash
 cd frontend
 
-# Install dependencies with pnpm
+# Install dependencies with pnpm or npm
 pnpm install
 
 # Start the dev server
@@ -69,13 +87,6 @@ pnpm dev
 ```
 
 The frontend will be available at **http://localhost:3000**.
-
-### Database Setup
-
-1. Create a new project on [Supabase](https://supabase.com/)
-2. Go to the **SQL Editor** in your Supabase dashboard
-3. Paste and run the contents of `backend/schema.sql`
-4. This will create all tables, enable RLS policies, and seed sample data
 
 ---
 
