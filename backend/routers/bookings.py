@@ -1,7 +1,10 @@
-from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel, EmailStr
+from datetime import date
 from typing import Optional
-from database import supabase
+import asyncpg
+from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
+
+from database import get_db
 
 
 class BookingRequest(BaseModel):
@@ -19,35 +22,34 @@ router = APIRouter()
 
 
 @router.post("/")
-def create_booking(booking: BookingRequest):
+async def create_booking(booking: BookingRequest, db: asyncpg.Connection = Depends(get_db)):
     """Submit a new booking / reservation request."""
     try:
-        data = {
-            "name": booking.name,
-            "email": booking.email,
-            "phone": booking.phone,
-            "event_type": booking.event_type,
-            "date": booking.date,
-            "time": booking.time,
-            "guests": booking.guests,
-            "message": booking.message,
-        }
-        response = supabase.table("bookings").insert(data).execute()
-        return {"message": "Booking submitted successfully!", "data": response.data}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        parsed_date = date.fromisoformat(booking.date)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid date format. Expected YYYY-MM-DD")
+
+    row = await db.fetchrow(
+        """
+        INSERT INTO bookings (name, email, phone, event_type, date, time, guests, message)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        RETURNING *
+        """,
+        booking.name,
+        booking.email,
+        booking.phone,
+        booking.event_type,
+        parsed_date,
+        booking.time,
+        booking.guests,
+        booking.message or "",
+    )
+    return {"message": "Booking submitted successfully!", "data": dict(row)}
 
 
 @router.get("/")
-def get_bookings():
+async def get_bookings(db: asyncpg.Connection = Depends(get_db)):
     """Get all bookings (admin view)."""
-    try:
-        response = (
-            supabase.table("bookings")
-            .select("*")
-            .order("created_at", desc=True)
-            .execute()
-        )
-        return {"data": response.data}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    rows = await db.fetch("SELECT * FROM bookings ORDER BY created_at DESC")
+    return {"data": [dict(r) for r in rows]}
+

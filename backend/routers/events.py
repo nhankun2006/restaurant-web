@@ -1,29 +1,34 @@
-from fastapi import APIRouter, HTTPException
+import json
+import asyncpg
+from fastapi import APIRouter, Depends, HTTPException
 
-from database import supabase
+from database import get_db
 
 router = APIRouter()
 
 
+def _format_event(row: asyncpg.Record) -> dict:
+    data = dict(row)
+    if isinstance(data.get("features"), str):
+        try:
+            data["features"] = json.loads(data["features"])
+        except Exception:
+            pass
+    return data
+
+
 @router.get("/")
-def get_events():
+async def get_events(db: asyncpg.Connection = Depends(get_db)):
     """Get all event types."""
-    try:
-        response = supabase.table("events").select("*").order("id").execute()
-        return {"data": response.data}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    rows = await db.fetch("SELECT * FROM events ORDER BY id")
+    return {"data": [_format_event(r) for r in rows]}
 
 
 @router.get("/{slug}")
-def get_event_by_slug(slug: str):
+async def get_event_by_slug(slug: str, db: asyncpg.Connection = Depends(get_db)):
     """Get a single event type by slug."""
-    try:
-        response = supabase.table("events").select("*").eq("slug", slug).execute()
-        if not response.data:
-            raise HTTPException(status_code=404, detail=f"Event '{slug}' not found")
-        return {"data": response.data[0]}
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    row = await db.fetchrow("SELECT * FROM events WHERE slug = $1", slug)
+    if not row:
+        raise HTTPException(status_code=404, detail=f"Event '{slug}' not found")
+    return {"data": _format_event(row)}
+

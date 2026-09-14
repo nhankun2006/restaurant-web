@@ -1,11 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from database import lifespan
 from routers import menu, events, bookings
 
 app = FastAPI(
     title="Cay Tung Restaurant API",
     description="API for Cay Tung restaurant website — menu, events, and bookings",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
 
 # CORS — allow frontend dev server
