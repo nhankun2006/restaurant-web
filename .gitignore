@@ -13,3 +13,7 @@ node_modules/
 # Build output
 frontend/dist/
 .next/
+
+# static files
+backend/static/images/*
+!backend/static/images/.gitkeep

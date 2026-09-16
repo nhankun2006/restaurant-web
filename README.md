@@ -2,7 +2,7 @@
 
 ## Overview
 
-Cay Tung Restaurant is a full-stack web application featuring an interactive menu, event booking, and a responsive UI. It consists of a **Next.js 14 (App Router)** frontend and a **FastAPI** backend powered by **PostgreSQL** (via `asyncpg`).
+Cay Tung Restaurant is a full-stack web application consisting of a **Next.js 14 (App Router)** frontend and a **FastAPI** backend powered by **PostgreSQL** (via `asyncpg`).
 
 **Key Features:**
 - **Menu:** Browse & filter dishes by category.
@@ -28,7 +28,6 @@ Cay Tung Restaurant is a full-stack web application featuring an interactive men
 | **Python**      | 3.10 - 3.12     |
 | **PostgreSQL**  | 14.x+           |
 | **uv**          | Latest (or pip) |
-| **Git**         | 2.x             |
 
 ---
 
@@ -38,37 +37,41 @@ Cay Tung Restaurant is a full-stack web application featuring an interactive men
 
 1. Make sure your local PostgreSQL server is running.
 2. Create the target database (e.g. `restaurant`):
-   ```bash
-   createdb -U postgres restaurant
-   ```
+```bash
+createdb -U postgres restaurant
+```
 3. Run `backend/schema.sql` to create tables and seed initial data:
-   ```bash
-   psql -U postgres -d restaurant -f backend/schema.sql
-   ```
+```bash
+psql -U postgres -d restaurant -f backend/schema.sql
+```
 
 ---
 
 ### Backend Setup
 
 1. Navigate to the `backend` directory and create `.env`:
-   ```bash
-   cd backend
-   ```
-   Add your PostgreSQL connection string in `backend/.env`:
-   ```env
-   DATABASE_URL=postgresql://postgres:svcntt@localhost:5432/restaurant
-   ```
+```bash
+cd backend
+uv venv
+
+# for my specific version
+uv venv --python 3.12
+```
+Add your PostgreSQL connection string in `backend/.env`:
+```env
+DATABASE_URL=postgresql://postgres:svcntt@localhost:5432/restaurant
+```
 
 2. Install dependencies using `uv` (recommended) or standard `pip`:
-   ```bash
-   uv pip sync requirements.txt
-   # or: pip install -r requirements.txt
-   ```
+```bash
+uv pip sync requirements.txt
+# or: pip install -r requirements.txt
+```
 
 3. Start the FastAPI backend server:
-   ```bash
-   uvicorn main:app --reload --port 8000
-   ```
+```bash
+uvicorn main:app --reload --port 8000
+```
 
 The API will be available at **http://localhost:8000**. Interactive documentation (Swagger UI) is available at **http://localhost:8000/docs**.
 
