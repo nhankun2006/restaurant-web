@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 export const metadata = {
-    title: 'Nhà Hàng Cay Tung — Ẩm Thực Cao Cấp & Tiệc Riêng',
+    title: 'Nhà Hàng Cây Tùng — Ẩm Thực Cao Cấp & Tiệc Lịch Sự',
     description: 'Trải nghiệm ẩm thực cao cấp với thực đơn phong phú, đặt bàn trực tuyến và không gian sang trọng.',
 };
 
