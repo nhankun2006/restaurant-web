@@ -1,0 +1,325 @@
+/* ── Reset ── */
+.admin-shell *,
+.admin-shell *::before,
+.admin-shell *::after {
+    box-sizing: border-box;
+}
+
+/* ── Shell ── */
+.admin-shell {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #0f0f11;
+    color: #e2e2e2;
+}
+
+/* ── Top bar ── */
+.admin-topbar {
+    background: #1a1a1f;
+    border-bottom: 1px solid #2a2a35;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    height: 52px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.admin-topbar .brand {
+    font-weight: 700;
+    font-size: 15px;
+    color: #c9a96e;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.tab-bar {
+    display: flex;
+    gap: 4px;
+}
+
+.tab-btn {
+    padding: 6px 16px;
+    border: none;
+    background: transparent;
+    color: #999;
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.15s, color 0.15s;
+}
+
+.tab-btn:hover {
+    background: #2a2a35;
+    color: #e2e2e2;
+}
+
+.tab-btn.active {
+    background: #2a2a35;
+    color: #c9a96e;
+    font-weight: 600;
+}
+
+/* ── Content area ── */
+.admin-content {
+    flex: 1;
+    padding: 28px 28px 60px;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* ── Section header ── */
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.section-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #e2e2e2;
+    margin: 0;
+}
+
+/* ── Table ── */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.admin-table th {
+    background: #1a1a1f;
+    border: 1px solid #2a2a35;
+    padding: 8px 12px;
+    text-align: left;
+    color: #c9a96e;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.admin-table td {
+    border: 1px solid #2a2a35;
+    padding: 7px 12px;
+    vertical-align: middle;
+    color: #ccc;
+    max-width: 240px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.admin-table tr:hover td {
+    background: #1c1c24;
+}
+
+.action-cell {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    border: none !important;
+}
+
+/* ── Buttons ── */
+.btn-primary {
+    background: #c9a96e;
+    color: #0f0f11;
+    border: none;
+    padding: 7px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.btn-primary:hover {
+    background: #dbb97e;
+}
+
+.btn-edit {
+    background: #1e3a5f;
+    color: #7ab3e8;
+    border: 1px solid #2a5080;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.btn-edit:hover {
+    background: #254a73;
+}
+
+.btn-del {
+    background: #3d1a1a;
+    color: #e87a7a;
+    border: 1px solid #5a2626;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.btn-del:hover {
+    background: #4d2020;
+}
+
+/* ── Flash message ── */
+.flash {
+    background: #1a2a1a;
+    border: 1px solid #2a4a2a;
+    color: #7de07d;
+    padding: 8px 14px;
+    border-radius: 6px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.flash button {
+    background: none;
+    border: none;
+    color: #7de07d;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+/* ── Modal ── */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.modal-box {
+    background: #1a1a1f;
+    border: 1px solid #2a2a35;
+    border-radius: 10px;
+    width: 500px;
+    max-width: 95vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid #2a2a35;
+}
+
+.modal-header h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #c9a96e;
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 18px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    color: #e2e2e2;
+}
+
+.modal-body {
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* ── Form ── */
+.admin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.admin-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 13px;
+    color: #aaa;
+}
+
+.admin-form input[type='text'],
+.admin-form input[type='number'],
+.admin-form input:not([type='file']):not([type='checkbox']),
+.admin-form textarea,
+.admin-form select {
+    background: #0f0f11;
+    border: 1px solid #2a2a35;
+    border-radius: 6px;
+    padding: 8px 10px;
+    color: #e2e2e2;
+    font-size: 13px;
+    outline: none;
+    transition: border 0.15s;
+    width: 100%;
+}
+
+.admin-form input:focus,
+.admin-form textarea:focus,
+.admin-form select:focus {
+    border-color: #c9a96e;
+}
+
+.admin-form input[type='file'] {
+    color: #aaa;
+    font-size: 13px;
+}
+
+.admin-row-2 {
+    display: flex;
+    gap: 24px;
+}
+
+.checkbox-label {
+    flex-direction: row !important;
+    align-items: center;
+    gap: 8px !important;
+    color: #ccc !important;
+    cursor: pointer;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.form-actions button {
+    padding: 7px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    border: 1px solid #2a2a35;
+    background: #2a2a35;
+    color: #ccc;
+}
+
+.form-actions button:hover {
+    background: #333340;
+}
