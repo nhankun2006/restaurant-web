@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from database import lifespan
-from routers import menu, events, bookings, admin
+from routers import menu, events, bookings, admin, combos, banquets
 
 app = FastAPI(
     title="Cay Tung Restaurant API",
@@ -35,6 +35,8 @@ app.include_router(menu.router, prefix="/api/menu", tags=["Menu"])
 app.include_router(events.router, prefix="/api/events", tags=["Events"])
 app.include_router(bookings.router, prefix="/api/bookings", tags=["Bookings"])
 app.include_router(admin.router, prefix="/admin/api", tags=["Admin"])
+app.include_router(combos.router, prefix="/api/combos", tags=["Combos"])
+app.include_router(banquets.router, prefix="/api/banquets", tags=["Banquets"])
 
 
 @app.get("/")

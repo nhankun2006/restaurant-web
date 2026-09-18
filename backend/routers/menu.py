@@ -61,3 +61,23 @@ async def get_featured_items(db: asyncpg.Connection = Depends(get_db)):
     )
     return {"data": [dict(r) for r in rows]}
 
+
+@router.get("/items/{item_id}")
+async def get_menu_item_detail(
+    item_id: int,
+    db: asyncpg.Connection = Depends(get_db),
+):
+    """Get single menu item by ID with full details."""
+    row = await db.fetchrow(
+        """
+        SELECT m.*, json_build_object('name', c.name, 'slug', c.slug) AS categories
+        FROM menu_items m
+        JOIN categories c ON m.category_id = c.id
+        WHERE m.id = $1 AND m.is_available = TRUE
+        """,
+        item_id
+    )
+    if not row:
+        raise HTTPException(status_code=404, detail="Menu item not found")
+        
+    return {"data": dict(row)}
