@@ -1,6 +1,7 @@
 import '../index.css';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import Providers from '../components/Providers';
 
 export const metadata = {
     title: 'Nhà Hàng Cây Tùng — Ẩm Thực Cao Cấp & Tiệc Lịch Sự',
@@ -19,9 +20,11 @@ export default function RootLayout({ children }) {
                 />
             </head>
             <body>
-                <Navbar />
-                <main>{children}</main>
-                <Footer />
+                <Providers>
+                    <Navbar />
+                    <main>{children}</main>
+                    <Footer />
+                </Providers>
             </body>
         </html>
     );

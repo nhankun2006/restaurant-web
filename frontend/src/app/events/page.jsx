@@ -1,113 +1,130 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import SectionTitle from '../../components/SectionTitle';
-import EventCard from '../../components/EventCard';
-import { getEvents } from '../../api/client';
+import { useState } from 'react';
 
-export default function EventsPage() {
-    const [events, setEvents] = useState([]);
-    const [loading, setLoading] = useState(true);
+const galleryItems = [
+    { id: 1, title: 'Tiệc Cưới Gia Đình Nguyễn', category: 'wedding', image: null, description: 'Tiệc cưới 30 bàn tại nhà với khung rạp sang trọng' },
+    { id: 2, title: 'Sinh Nhật Bé Minh', category: 'birthday', image: null, description: 'Tiệc sinh nhật tròn 1 tuổi ấm cúng' },
+    { id: 3, title: 'Tân Gia Anh Hùng', category: 'housewarming', image: null, description: 'Tiệc tân gia 20 bàn, thực đơn đặc biệt' },
+    { id: 4, title: 'Liên Hoan Công Ty ABC', category: 'corporate', image: null, description: 'Tiệc tất niên cuối năm 50 bàn' },
+    { id: 5, title: 'Đám Giỗ Gia Đình Trần', category: 'memorial', image: null, description: 'Đám giỗ trang trọng 15 bàn' },
+    { id: 6, title: 'Khai Trương Shop Hoa', category: 'opening', image: null, description: 'Tiệc khai trương vui nhộn, sôi động' },
+    { id: 7, title: 'Tiệc Cưới Cô Linh & Anh Tuấn', category: 'wedding', image: null, description: 'Tiệc cưới ngoài trời 40 bàn' },
+    { id: 8, title: 'Đầy Tháng Bé An', category: 'baby', image: null, description: 'Tiệc thôi nôi 10 bàn' },
+    { id: 9, title: 'Đám Hỏi Nhà Hảo', category: 'engagement', image: null, description: 'Lễ đám hỏi truyền thống' },
+];
 
-    const fallbackEvents = [
-        {
-            id: 1,
-            title: 'Tiệc Sinh Nhật & Kỷ Niệm',
-            slug: 'birthday-party',
-            description: 'Tôn vinh những khoảnh khắc đáng nhớ trong không gian lãng mạn. Đội ngũ sự kiện chuyên nghiệp của chúng tôi sẽ thiết kế trải nghiệm tiệc theo yêu cầu với thực đơn tùy chỉnh, trang trí ấn tượng và dịch vụ chu đáo.',
-            features: ['Thực đơn tiệc & bánh sinh nhật theo yêu cầu', 'Phòng tiệc riêng (10-80 khách)', 'Hệ thống âm thanh & DJ chuyên nghiệp', 'Trang trí tiệc & bóng bay cao cấp', 'Quản lý sự kiện hỗ trợ riêng', 'Tặng kèm đĩa bánh sinh nhật đặc biệt'],
-        },
-        {
-            id: 2,
-            title: 'Sự Kiện Công Ty & Hội Nghị',
-            slug: 'corporate-event',
-            description: 'Tạo ấn tượng sâu sắc với đối tác và đồng nghiệp. Từ những bữa tối doanh nhân thân mật đến các buổi đại tiệc công ty, chúng tôi cung cấp không gian sang trọng với thiết bị âm thanh ánh sáng hiện đại.',
-            features: ['Thiết bị AV & màn hình chiếu hiện đại', 'Bố trí chỗ ngồi linh hoạt', 'Thực đơn ăn trưa & tối cao cấp', 'Không gian giao lưu riêng tư', 'Quầy bar đầy đủ với cocktail sáng tạo', 'Có dịch vụ đỗ xe (Valet)'],
-        },
-        {
-            id: 3,
-            title: 'Tiệc Cưới Trọn Gói',
-            slug: 'wedding-reception',
-            description: 'Ghi dấu ngày trọng đại trong không gian lãng mạn. Cay Tung mang đến sảnh tiệc trong nhà & ngoài trời tuyệt đẹp cùng ẩm thực đẳng cấp để biến ngày cưới trong mơ của bạn thành hiện thực.',
-            features: ['Không gian lễ cưới trong nhà & ngoài trời', 'Thực đơn cưới riêng & thử món miễn phí', 'Trang trí hoa tươi & concept thiết kế riêng', 'Quản lý tiệc cưới đồng hành suốt sự kiện', 'Sân khấu & khu vực khiêu vũ', 'Phòng tân hôn dành cho cặp đôi', 'Sức chứa lên tới 200 khách'],
-        },
-        {
-            id: 4,
-            title: 'Trải Nghiệm Ẩm Thực Riêng Tư',
-            slug: 'private-dining',
-            description: 'Dành cho những ai tìm kiếm sự riêng tư tuyệt đối. Phòng ăn VIP thích hợp cho lễ kỷ niệm, cầu hôn hay gặp mặt gia đình để tận hưởng những giây phút đặc biệt.',
-            features: ['Phòng VIP riêng biệt (2-20 khách)', 'Thực đơn thử món thiết kế riêng bởi bếp trưởng', 'Gợi ý kết hợp rượu vang từ Sommelier', 'Không gian nến nồng ấm & âm nhạc tùy chọn', 'Nhân viên phục vụ riêng', 'Đáp ứng các yêu cầu chế độ ăn đặc biệt'],
-        },
-    ];
+const categories = [
+    { id: 'all', label: 'Tất Cả' },
+    { id: 'wedding', label: 'Tiệc Cưới' },
+    { id: 'housewarming', label: 'Tiệc Tân Gia' },
+    { id: 'birthday', label: 'Tiệc Sinh Nhật' },
+    { id: 'baby', label: 'Tiệc Thôi Nôi' },
+    { id: 'memorial', label: 'Tiệc Đám Giỗ' },
+    { id: 'opening', label: 'Tiệc Khai Trương' },
+    { id: 'corporate', label: 'Tiệc Công ty' },
+    { id: 'engagement', label: 'Tiệc Đám Hỏi' }
+];
 
-    useEffect(() => {
-        const fetchEvents = async () => {
-            try {
-                const res = await getEvents();
-                setEvents(res.data.data || []);
-            } catch (err) {
-                console.error('Failed to fetch events:', err);
-                setEvents(fallbackEvents);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchEvents();
-    }, []);
+export default function GalleryPage() {
+    const [activeCategory, setActiveCategory] = useState('all');
+
+    const filteredItems = activeCategory === 'all' 
+        ? galleryItems 
+        : galleryItems.filter(item => item.category === activeCategory);
 
     return (
         <>
-            <div className="page-header">
+            <div className="page-header" style={{ padding: '120px 0 60px', backgroundColor: 'var(--color-dark)', color: 'white', textAlign: 'center' }}>
                 <div className="container">
-                    <h1>Sự Kiện & Tiệc Riêng</h1>
-                    <div className="page-header__divider"></div>
-                    <p>Từ những buổi họp mặt ấm cúng đến các bữa tiệc hoành tráng, chúng tôi mang đến trải nghiệm hoàn hảo theo yêu cầu của bạn.</p>
+                    <h1 style={{ color: 'var(--color-gold)', marginBottom: '20px' }}>Gallery</h1>
+                    <div style={{ width: '60px', height: '3px', backgroundColor: 'var(--color-primary)', margin: '0 auto 20px' }}></div>
+                    <p style={{ fontSize: '1.2rem', color: '#ccc' }}>Những Khoảnh Khắc Đáng Nhớ</p>
                 </div>
             </div>
 
-            <section className="section">
+            <section className="section" style={{ padding: '60px 0' }}>
                 <div className="container">
-                    <SectionTitle
-                        label="Dịch Vụ Của Chúng Tôi"
-                        title="Kiến Tạo Kỷ Niệm Đáng Nhớ"
-                        description="Mỗi sự kiện tại Cay Tung là một tác phẩm nghệ thuật được chăm chút tỉ mỉ từng chi tiết."
-                    />
+                    {/* Filter Tabs */}
+                    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px', marginBottom: '40px' }}>
+                        {categories.map(cat => (
+                            <button 
+                                key={cat.id}
+                                onClick={() => setActiveCategory(cat.id)}
+                                style={{
+                                    padding: '8px 20px',
+                                    borderRadius: '30px',
+                                    border: `1px solid ${activeCategory === cat.id ? 'var(--color-primary)' : '#ddd'}`,
+                                    backgroundColor: activeCategory === cat.id ? 'var(--color-primary)' : 'transparent',
+                                    color: activeCategory === cat.id ? 'white' : 'inherit',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease'
+                                }}
+                            >
+                                {cat.label}
+                            </button>
+                        ))}
+                    </div>
 
-                    {loading ? (
-                        <div className="grid-2">
-                            {[1, 2, 3, 4].map((i) => (
-                                <div key={i} className="skeleton skeleton--card" style={{ height: '500px' }}></div>
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="grid-2">
-                            {events.map((event) => (
-                                <EventCard key={event.id} event={event} />
-                            ))}
-                        </div>
-                    )}
+                    {/* Photo Grid */}
+                    <div style={{ 
+                        display: 'grid', 
+                        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', 
+                        gap: '30px' 
+                    }}>
+                        {filteredItems.map(item => (
+                            <div key={item.id} style={{
+                                borderRadius: '12px',
+                                overflow: 'hidden',
+                                boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+                                backgroundColor: 'white'
+                            }}>
+                                <img 
+                                    src={`https://placehold.co/600x400/1A1A2E/D4A843?text=${encodeURIComponent(item.title)}`} 
+                                    alt={item.title}
+                                    style={{ width: '100%', height: '250px', objectFit: 'cover', display: 'block' }}
+                                />
+                                <div style={{ padding: '20px' }}>
+                                    <span style={{ 
+                                        display: 'inline-block', 
+                                        padding: '4px 12px', 
+                                        backgroundColor: 'var(--color-cream)', 
+                                        color: 'var(--color-primary)',
+                                        borderRadius: '20px',
+                                        fontSize: '0.85rem',
+                                        fontWeight: '600',
+                                        marginBottom: '10px'
+                                    }}>
+                                        {categories.find(c => c.id === item.category)?.label}
+                                    </span>
+                                    <h3 style={{ margin: '0 0 10px 0', fontSize: '1.25rem' }}>{item.title}</h3>
+                                    <p style={{ margin: 0, color: '#666', fontSize: '0.95rem' }}>{item.description}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </section>
 
             {/* Stats section */}
-            <section className="section section--dark">
+            <section className="section section--dark" style={{ backgroundColor: 'var(--color-dark)', padding: '60px 0', color: 'white' }}>
                 <div className="container">
-                    <div className="stats-bar">
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '30px', textAlign: 'center' }}>
                         <div className="stat">
-                            <span className="stat__number">500+</span>
-                            <span className="stat__label">Sự Kiện Đã Tổ Chức</span>
+                            <span style={{ display: 'block', fontSize: '3rem', fontWeight: 'bold', color: 'var(--color-gold)' }}>500+</span>
+                            <span style={{ fontSize: '1.1rem', color: '#ccc' }}>Sự Kiện Đã Tổ Chức</span>
                         </div>
                         <div className="stat">
-                            <span className="stat__number">150+</span>
-                            <span className="stat__label">Tiệc Cưới</span>
+                            <span style={{ display: 'block', fontSize: '3rem', fontWeight: 'bold', color: 'var(--color-gold)' }}>150+</span>
+                            <span style={{ fontSize: '1.1rem', color: '#ccc' }}>Tiệc Cưới</span>
                         </div>
                         <div className="stat">
-                            <span className="stat__number">200</span>
-                            <span className="stat__label">Sức Chứa Tối Đa</span>
+                            <span style={{ display: 'block', fontSize: '3rem', fontWeight: 'bold', color: 'var(--color-gold)' }}>200</span>
+                            <span style={{ fontSize: '1.1rem', color: '#ccc' }}>Sức Chứa Tối Đa</span>
                         </div>
                         <div className="stat">
-                            <span className="stat__number">98%</span>
-                            <span className="stat__label">Mức Độ Hài Lòng</span>
+                            <span style={{ display: 'block', fontSize: '3rem', fontWeight: 'bold', color: 'var(--color-gold)' }}>98%</span>
+                            <span style={{ fontSize: '1.1rem', color: '#ccc' }}>Mức Độ Hài Lòng</span>
                         </div>
                     </div>
                 </div>

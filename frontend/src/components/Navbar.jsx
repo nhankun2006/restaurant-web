@@ -1,5 +1,4 @@
 'use client';
-
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -11,25 +10,19 @@ function Navbar() {
     const isHome = pathname === '/';
 
     useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 50);
-        };
+        const handleScroll = () => { setScrolled(window.scrollY > 50); };
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    useEffect(() => {
-        setMobileOpen(false);
-    }, [pathname]);
+    useEffect(() => { setMobileOpen(false); }, [pathname]);
 
-    const navClass = scrolled || !isHome
-        ? 'navbar navbar--solid'
-        : 'navbar navbar--transparent';
+    const navClass = scrolled || !isHome ? 'navbar navbar--solid' : 'navbar navbar--transparent';
 
     const links = [
         { href: '/', label: 'Home' },
         { href: '/menu', label: 'Menu' },
-        { href: '/events', label: 'Events' },
+        { href: '/events', label: 'Gallery' },
         { href: '/about', label: 'About' },
     ];
 
@@ -37,49 +30,30 @@ function Navbar() {
         <>
             <nav className={navClass}>
                 <div className="navbar__inner">
-                    <Link href="/" className="navbar__logo">
-                        Cay <span>Tung</span>
-                    </Link>
-
+                    <Link href="/" className="navbar__logo">Cay <span>Tung</span></Link>
                     <div className="navbar__links">
                         {links.map((link) => (
-                            <Link
-                                key={link.href}
-                                href={link.href}
-                                className={`navbar__link ${pathname === link.href ? 'navbar__link--active' : ''}`}
-                            >
+                            <Link key={link.href} href={link.href}
+                                className={`navbar__link ${pathname === link.href ? 'navbar__link--active' : ''}`}>
                                 {link.label}
                             </Link>
                         ))}
-                    <Link href="/booking" className="btn btn-gold navbar__cta">
-                        Đặt Bàn
-                    </Link>
+                        <Link href="/dat-tiec" className="btn btn-primary navbar__cta" style={{ backgroundColor: 'var(--color-primary)', color: 'white', marginRight: '10px' }}>Đặt Tiệc</Link>
+                        <Link href="/booking" className="btn btn-gold navbar__cta">Đặt Bàn</Link>
                     </div>
-
-                    <button
-                        className="navbar__hamburger"
-                        onClick={() => setMobileOpen(!mobileOpen)}
-                        aria-label="Toggle navigation"
-                    >
-                        <span></span>
-                        <span></span>
-                        <span></span>
+                    <button className="navbar__hamburger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle navigation">
+                        <span></span><span></span><span></span>
                     </button>
                 </div>
             </nav>
-
             <div className={`navbar__mobile-menu ${mobileOpen ? 'navbar__mobile-menu--open' : ''}`}>
                 {links.map((link) => (
-                    <Link key={link.href} href={link.href} className="navbar__mobile-link">
-                        {link.label}
-                    </Link>
+                    <Link key={link.href} href={link.href} className="navbar__mobile-link">{link.label}</Link>
                 ))}
-                <Link href="/booking" className="btn btn-gold">
-                    Đặt Bàn
-                </Link>
+                <Link href="/dat-tiec" className="btn btn-primary" style={{ backgroundColor: 'var(--color-primary)', color: 'white', marginBottom: '10px' }}>Đặt Tiệc</Link>
+                <Link href="/booking" className="btn btn-gold">Đặt Bàn</Link>
             </div>
         </>
     );
 }
-
 export default Navbar;

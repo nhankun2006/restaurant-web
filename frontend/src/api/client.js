@@ -35,6 +35,15 @@ export const getMenuItems = (category) => {
     return apiClient.get('/menu/items', { params });
 };
 export const getFeaturedItems = () => apiClient.get('/menu/featured');
+export const getMenuItemDetail = (id) => apiClient.get(`/menu/items/${id}`);
+
+// Combo API
+export const getComboMenus = () => apiClient.get('/combos');
+export const getComboMenu = (slug) => apiClient.get(`/combos/${slug}`);
+
+// Banquet API
+export const getBanquetServices = () => apiClient.get('/banquets/services');
+export const createBanquetBooking = (data) => apiClient.post('/banquets/bookings', data);
 
 // Events API
 export const getEvents = () => apiClient.get('/events');
