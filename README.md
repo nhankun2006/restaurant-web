@@ -34,7 +34,30 @@ Cay Tung Restaurant is a full-stack web application consisting of a **Next.js 14
 
 ## Getting Started
 
-### Database Setup
+### Running with Docker (Backend & PostgreSQL)
+
+The easiest way to start both the PostgreSQL database (with persistent volume) and FastAPI backend is with Docker Compose:
+
+```bash
+# Build and start services in background
+docker compose up --build -d
+
+# Check service logs
+docker compose logs -f
+
+# Stop services (data is preserved in the postgres_data volume)
+docker compose down
+```
+
+- **PostgreSQL**: Accessible at `localhost:5432` with data persisted in the `restaurant_postgres_data` volume. SQL schemas and seeds are loaded automatically on the first startup.
+- **FastAPI API**: Accessible at **http://localhost:8000** (Swagger UI: **http://localhost:8000/docs**).
+- **Uploaded Images**: Stored in `./backend/static/images` directly on the host machine.
+
+---
+
+### Manual Setup
+
+#### Database Setup
 
 1. **Initialize Database:** Ensure your PostgreSQL server is running and create the target database (e.g., `restaurant`):
 ```bash
