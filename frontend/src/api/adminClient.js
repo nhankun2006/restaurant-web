@@ -72,4 +72,15 @@ export const adminGetBookings = () =>
 export const adminDeleteBooking = (id) =>
     adminClient.delete(`/bookings/${id}`);
 
+// ─── Banquet Bookings ─────────────────────────────────────────────────────────
+// NOTE: Banquet endpoints use the public API base, not /admin/api
+const PUBLIC_API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+const publicClient = axios.create({ baseURL: PUBLIC_API_BASE, timeout: 30000 });
+
+export const adminGetBanquetBookings = () => publicClient.get('/banquets/bookings');
+export const adminUpdateBanquetStatus = (id, data) => publicClient.put(`/banquets/bookings/${id}/status`, data);
+export const adminDeleteBanquetBooking = (id) => publicClient.delete(`/banquets/bookings/${id}`);
+export const adminGetComboMenus = () => publicClient.get('/combos');
+export const adminGetBanquetServices = () => publicClient.get('/banquets/services');
+
 export default adminClient;

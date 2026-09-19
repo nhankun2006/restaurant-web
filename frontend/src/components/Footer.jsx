@@ -47,7 +47,7 @@ function Footer() {
 
                 {/* Bottom */}
                 <div className="footer__bottom">
-                    <span>&copy; {new Date().getFullYear()} Cay Tung. Tất cả quyền được bảo lưu.</span>
+                    <span>&copy; {new Date().getFullYear()} Cay Tung.</span>
                     <div className="footer__socials">
                         <a href="#" className="footer__social-icon" aria-label="Facebook">
                             <FaFacebookF />

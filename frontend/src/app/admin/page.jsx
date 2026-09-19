@@ -13,6 +13,10 @@ import {
     adminDeleteMenuItem,
     adminGetBookings,
     adminDeleteBooking,
+    adminGetBanquetBookings,
+    adminUpdateBanquetStatus,
+    adminDeleteBanquetBooking,
+    adminGetComboMenus,
 } from '@/api/adminClient';
 
 // Base URL used only for rendering image previews
@@ -74,7 +78,7 @@ function AdminTable({ columns, rows, onEdit, onDelete }) {
                                 <td className="action-cell">
                                     {onEdit && (
                                         <button className="btn-edit" onClick={() => onEdit(row)}>
-                                            Sửa
+                                            Xem
                                         </button>
                                     )}
                                     {onDelete && (
@@ -124,7 +128,7 @@ function Flash({ msg, onDismiss }) {
 
 // ─── Tabs ─────────────────────────────────────────────────────────────────────
 
-const TABS = ['Danh mục', 'Món ăn', 'Đặt bàn'];
+const TABS = ['Danh mục', 'Món ăn', 'Đặt bàn', 'Đặt tiệc'];
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // SECTION: Categories
@@ -485,6 +489,196 @@ function BookingsSection() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// SECTION: Banquet Bookings
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const EVENT_TYPE_LABELS = {
+    wedding: 'Tiệc Cưới',
+    birthday: 'Sinh Nhật',
+    housewarming: 'Tân Gia',
+    party: 'Liên Hoan',
+    corporate: 'Công Ty',
+    engagement: 'Đám Hỏi',
+    memorial: 'Đám Giỗ',
+    opening: 'Khai Trương',
+    baby: 'Thôi Nôi',
+};
+
+const STATUS_BADGES = {
+    pending: '🟡 Chờ xử lý',
+    confirmed: '🟢 Đã xác nhận',
+    completed: '✅ Hoàn thành',
+    cancelled: '🔴 Đã hủy',
+};
+
+function BanquetBookingsSection() {
+    const [rows, setRows] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [msg, setMsg] = useState('');
+    const [modalRow, setModalRow] = useState(null);
+    const formRef = useRef();
+
+    async function load() {
+        setLoading(true);
+        try {
+            const res = await adminGetBanquetBookings();
+            setRows(res.data.data || []);
+        } catch {
+            setMsg('❌ Không thể tải danh sách đặt tiệc.');
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => { load(); }, []);
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+        const fd = new FormData(formRef.current);
+        const status = fd.get('status');
+        const admin_notes = fd.get('admin_notes');
+        try {
+            await adminUpdateBanquetStatus(modalRow.id, { status, admin_notes });
+            setMsg('Cập nhật thành công.');
+            setModalRow(null);
+            load();
+        } catch (err) {
+            setMsg('❌ ' + (err.response?.data?.detail || err.message));
+        }
+    }
+
+    async function handleDelete(id) {
+        if (!confirm('Xóa đặt tiệc này?')) return;
+        try {
+            await adminDeleteBanquetBooking(id);
+            setMsg('Đã xóa đặt tiệc.');
+            if (modalRow && modalRow.id === id) setModalRow(null);
+            load();
+        } catch (err) {
+            setMsg('❌ ' + (err.response?.data?.detail || err.message));
+        }
+    }
+
+    const columns = [
+        { key: 'id', label: 'ID' },
+        { key: 'customer_name', label: 'Khách hàng' },
+        { key: 'customer_phone', label: 'SĐT' },
+        {
+            key: 'banquet_type',
+            label: 'Loại tiệc',
+            render: (v) => EVENT_TYPE_LABELS[v] || v,
+        },
+        { key: 'event_date', label: 'Ngày', render: (v) => (v ? String(v).substring(0, 10) : '—') },
+        { key: 'event_time', label: 'Giờ' },
+        { key: 'table_count', label: 'Số bàn' },
+        {
+            key: 'status',
+            label: 'Trạng thái',
+            render: (v) => STATUS_BADGES[v] || v,
+        },
+        { key: 'estimated_total', label: 'Tổng ước tính', render: (v) => formatPrice(v || 0) },
+        {
+            key: 'created_at',
+            label: 'Tạo lúc',
+            render: (v) => (v ? new Date(v).toLocaleString('vi-VN') : '—'),
+        },
+    ];
+
+    return (
+        <div>
+            <div className="section-header">
+                <h2>Đặt tiệc</h2>
+            </div>
+            <Flash msg={msg} onDismiss={() => setMsg('')} />
+            {loading ? <p>Đang tải…</p> : (
+                <AdminTable columns={columns} rows={rows} onEdit={setModalRow} onDelete={handleDelete} />
+            )}
+
+            {modalRow && (
+                <Modal
+                    title={`Chi tiết tiệc #${modalRow.id} - ${modalRow.customer_name}`}
+                    onClose={() => setModalRow(null)}
+                >
+                    <form ref={formRef} onSubmit={handleSubmit} className="admin-form">
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+                            <div>
+                                <strong>Thông tin khách hàng:</strong>
+                                <p>Tên: {modalRow.customer_name}</p>
+                                <p>SĐT: {modalRow.customer_phone}</p>
+                                <p>Email: {modalRow.customer_email || '—'}</p>
+                                <p>Địa chỉ: {modalRow.customer_address || '—'}</p>
+                            </div>
+                            <div>
+                                <strong>Thông tin sự kiện:</strong>
+                                <p>Loại: {EVENT_TYPE_LABELS[modalRow.banquet_type] || modalRow.banquet_type}</p>
+                                <p>Ngày: {modalRow.event_date}</p>
+                                <p>Giờ: {modalRow.event_time}</p>
+                                <p>Số bàn: {modalRow.table_count}</p>
+                            </div>
+                        </div>
+
+                        <div style={{ marginBottom: '1rem' }}>
+                            <strong>Thực đơn:</strong>
+                            {modalRow.combo_menu_id ? (
+                                <p>Combo #{modalRow.combo_menu_id}</p>
+                            ) : (
+                                <p>Tự chọn ({(modalRow.custom_items || []).length} món)</p>
+                            )}
+                        </div>
+
+                        <div style={{ marginBottom: '1rem' }}>
+                            <strong>Dịch vụ đi kèm:</strong>
+                            {modalRow.services && Object.keys(modalRow.services).length > 0 ? (
+                                <ul>
+                                    {Object.entries(modalRow.services).map(([svc, qty]) => (
+                                        <li key={svc}>{svc}: {qty}</li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p>—</p>
+                            )}
+                        </div>
+
+                        <div style={{ marginBottom: '1rem' }}>
+                            <strong>Ghi chú của khách:</strong>
+                            <p>{modalRow.notes || '—'}</p>
+                        </div>
+
+                        <label>
+                            Ghi chú của admin
+                            <textarea name="admin_notes" rows={3} defaultValue={modalRow.admin_notes || ''} />
+                        </label>
+
+                        <label>
+                            Trạng thái
+                            <select name="status" defaultValue={modalRow.status}>
+                                <option value="pending">🟡 Chờ xử lý</option>
+                                <option value="confirmed">🟢 Đã xác nhận</option>
+                                <option value="completed">✅ Hoàn thành</option>
+                                <option value="cancelled">🔴 Đã hủy</option>
+                            </select>
+                        </label>
+
+                        <div className="form-actions" style={{ marginTop: '1.5rem' }}>
+                            <button type="button" className="btn-del" onClick={() => handleDelete(modalRow.id)}>
+                                Xóa đơn
+                            </button>
+                            <div style={{ flex: 1 }}></div>
+                            <button type="button" onClick={() => setModalRow(null)}>
+                                Hủy
+                            </button>
+                            <button type="submit" className="btn-primary">
+                                Lưu thay đổi
+                            </button>
+                        </div>
+                    </form>
+                </Modal>
+            )}
+        </div>
+    );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // PAGE ROOT
 // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -512,6 +706,7 @@ export default function AdminPage() {
                 {tab === 0 && <CategoriesSection />}
                 {tab === 1 && <MenuItemsSection />}
                 {tab === 2 && <BookingsSection />}
+                {tab === 3 && <BanquetBookingsSection />}
             </div>
         </div>
     );

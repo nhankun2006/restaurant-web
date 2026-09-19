@@ -115,7 +115,6 @@ export default function MenuPage() {
 
     const handleAddToCart = (item) => {
         dispatch({ type: 'ADD_ITEM', payload: item });
-        setShowSidebar(true);
         if (showModal) {
             setShowModal(false);
         }
@@ -123,7 +122,6 @@ export default function MenuPage() {
 
     const handleSelectCombo = (combo) => {
         dispatch({ type: 'SET_COMBO', payload: combo });
-        setShowSidebar(true);
     };
 
     const handleItemClick = (item) => {
@@ -133,9 +131,12 @@ export default function MenuPage() {
 
     return (
         <div className="menu-page">
-            <div className="page-header" style={{ padding: '3rem 1rem', textAlign: 'center', backgroundColor: 'var(--color-dark, #1A1A2E)', color: '#fff' }}>
-                <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem', color: 'var(--color-gold, #D4A843)' }}>Thực Đơn</h1>
-                <p style={{ maxWidth: '600px', margin: '0 auto', opacity: 0.9 }}>Khám phá phong vị ẩm thực đặc sắc từ các món ăn truyền thống đến hiện đại</p>
+            <div className="page-header">
+                <div className="container">
+                    <h1>Thực Đơn</h1>
+                    <div className="page-header__divider"></div>
+                    <p>Khám phá phong vị ẩm thực đặc sắc từ các món ăn truyền thống đến hiện đại</p>
+                </div>
             </div>
 
             <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem 1rem' }}>
