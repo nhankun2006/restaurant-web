@@ -14,7 +14,7 @@ export default function AboutPage() {
                 <div className="container">
                     <h1>Về Cay Tung</h1>
                     <div className="page-header__divider"></div>
-                    <p>Hành trình 37 năm kiến tạo nghệ thuật ẩm thực và lòng hiếu khách chân thành.</p>
+                    <p>Hành trình 15 năm kiến tạo nghệ thuật ẩm thực và lòng hiếu khách chân thành.</p>
                 </div>
             </div>
 

@@ -2,7 +2,7 @@
 import { FiShoppingCart } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
 
-function FloatingCartButton({ itemCount, onClick }) {
+function FloatingCartButton({ itemCount, onClick, isSidebarOpen }) {
     const [pulse, setPulse] = useState(false);
 
     useEffect(() => {
@@ -17,7 +17,12 @@ function FloatingCartButton({ itemCount, onClick }) {
 
     return (
         <button 
-            style={{...styles.button, transform: pulse ? 'scale(1.1)' : 'scale(1)'}} 
+            style={{
+                ...styles.button,
+                right: isSidebarOpen ? 'calc(360px + 2rem)' : '2rem',
+                transform: pulse ? 'scale(1.1)' : 'scale(1)',
+                transition: 'transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), right 0.3s ease-in-out',
+            }} 
             onClick={onClick}
             aria-label="Xem giỏ tiệc"
         >

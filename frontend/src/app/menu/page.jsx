@@ -120,9 +120,6 @@ export default function MenuPage() {
         }
     };
 
-    const handleSelectCombo = (combo) => {
-        dispatch({ type: 'SET_COMBO', payload: combo });
-    };
 
     const handleItemClick = (item) => {
         setSelectedItem(item);
@@ -139,7 +136,13 @@ export default function MenuPage() {
                 </div>
             </div>
 
-            <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem 1rem' }}>
+            <div className="container" style={{ 
+                maxWidth: '1200px', 
+                margin: '0 auto', 
+                padding: '2rem 1rem',
+                paddingRight: showSidebar ? 'calc(360px + 1rem)' : '1rem',
+                transition: 'padding-right 0.3s ease-in-out',
+            }}>
                 {/* Tabs */}
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginBottom: '2rem' }}>
                     <button 
@@ -246,7 +249,7 @@ export default function MenuPage() {
                 )}
 
                 {activeTab === 'combo' && (
-                    <ComboMenuGrid combos={combos} onSelectCombo={handleSelectCombo} />
+                    <ComboMenuGrid combos={combos} />
                 )}
             </div>
 
@@ -266,7 +269,8 @@ export default function MenuPage() {
             {totalItems > 0 && (
                 <FloatingCartButton 
                     itemCount={totalItems} 
-                    onClick={() => setShowSidebar(true)} 
+                    onClick={() => setShowSidebar(prev => !prev)}
+                    isSidebarOpen={showSidebar}
                 />
             )}
         </div>
