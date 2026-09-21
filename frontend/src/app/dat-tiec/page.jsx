@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { useBanquetCart } from '../../context/BanquetCartContext';
 import { getBanquetServices, createBanquetBooking } from '../../api/client';
 import { FiCheck, FiArrowLeft, FiArrowRight, FiCalendar, FiUsers, FiMapPin, FiPhone, FiMail } from 'react-icons/fi';
-import { getDishImage } from '../../lib/menuImages';
+import { getDishImage, formatCurrency } from '../../lib/utils';
 
 const banquetTypes = [
   { slug: 'wedding', label: 'Tiệc Cưới', icon: '💒', desc: 'Tổ chức tiệc cưới trọn gói tại nhà' },
@@ -115,7 +115,7 @@ function DatTiecContent() {
         );
     }
 
-    const formatVND = (price) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+    const formatVND = formatCurrency;
 
     return (
         <div style={{ padding: '100px 0 60px', backgroundColor: '#f9f9f9', minHeight: '100vh' }}>

@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import { FiX, FiPlus, FiMinus, FiTrash2, FiShoppingCart } from 'react-icons/fi';
 import { useBanquetCart } from '../context/BanquetCartContext';
-import { getDishImage } from '../lib/menuImages';
+import { getDishImage, formatCurrency } from '../lib/utils';
 
 export default function BanquetSidebar({ isOpen, onClose }) {
     const { state, dispatch, estimatedTotal } = useBanquetCart();
@@ -92,10 +92,10 @@ export default function BanquetSidebar({ isOpen, onClose }) {
                                             <div style={{ flex: 1, paddingRight: '0.5rem' }}>
                                                 <div style={{ fontWeight: '500', fontSize: '0.9rem' }}>{item.name}</div>
                                                 {item.price > 0 && (
-                                                    <div style={{ fontSize: '0.8rem', color: '#888' }}>
-                                                        {new Intl.NumberFormat('vi-VN').format(item.price)}₫
-                                                    </div>
-                                                )}
+                                                     <div style={{ fontSize: '0.8rem', color: '#888' }}>
+                                                         {formatCurrency(item.price)}
+                                                     </div>
+                                                 )}
                                             </div>
                                             <button
                                                 onClick={() => dispatch({ type: 'REMOVE_ITEM', payload: item.id })}
@@ -161,7 +161,7 @@ export default function BanquetSidebar({ isOpen, onClose }) {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
                     <span style={{ fontWeight: '500', fontSize: '0.9rem' }}>Tạm tính:</span>
                     <span style={{ fontSize: '1.15rem', fontWeight: 'bold', color: 'var(--color-primary, #6B1D2A)' }}>
-                        {new Intl.NumberFormat('vi-VN').format(estimatedTotal)}₫
+                        {formatCurrency(estimatedTotal)}
                     </span>
                 </div>
 
