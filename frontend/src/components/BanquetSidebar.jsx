@@ -3,6 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import { FiX, FiPlus, FiMinus, FiTrash2, FiShoppingCart } from 'react-icons/fi';
 import { useBanquetCart } from '../context/BanquetCartContext';
+import { getDishImage } from '../lib/menuImages';
 
 export default function BanquetSidebar({ isOpen, onClose }) {
     const { state, dispatch, estimatedTotal } = useBanquetCart();
@@ -61,44 +62,17 @@ export default function BanquetSidebar({ isOpen, onClose }) {
 
             {/* Content */}
             <div style={{ flex: 1, overflowY: 'auto', padding: '1rem' }}>
-                {state.combo === null && state.items.length === 0 ? (
+                {state.items.length === 0 ? (
                     <div style={{ textAlign: 'center', padding: '2rem 1rem', color: '#999' }}>
                         <FiShoppingCart size={36} style={{ marginBottom: '0.75rem', opacity: 0.3 }} />
                         <p style={{ margin: 0, fontSize: '0.95rem' }}>Chưa có món nào.<br />Hãy chọn món từ thực đơn!</p>
                     </div>
                 ) : (
                     <>
-                        {state.combo && (
-                            <div style={{
-                                border: '1px solid var(--color-gold, #D4A843)',
-                                borderRadius: '8px',
-                                padding: '0.75rem',
-                                marginBottom: '0.75rem',
-                                backgroundColor: 'var(--color-cream, #FFF8F0)'
-                            }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
-                                    <h3 style={{ margin: 0, color: 'var(--color-primary, #6B1D2A)', fontSize: '1rem' }}>
-                                        📦 {state.combo.name}
-                                    </h3>
-                                    <button
-                                        onClick={() => dispatch({ type: 'CLEAR_COMBO' })}
-                                        style={{ background: 'none', border: 'none', color: '#EF4444', cursor: 'pointer', padding: '2px' }}
-                                    >
-                                        <FiTrash2 size={16} />
-                                    </button>
-                                </div>
-                                <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.85rem', color: '#555', lineHeight: 1.6 }}>
-                                    {state.combo.items?.map(item => (
-                                        <li key={item.id}>{item.item_name}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
-
                         {state.items.length > 0 && (
                             <div style={{ marginBottom: '0.75rem' }}>
                                 <h3 style={{ fontSize: '0.95rem', marginBottom: '0.5rem', color: '#333' }}>
-                                    Món chọn thêm ({state.items.length})
+                                    Thực đơn đã chọn ({state.items.length})
                                 </h3>
                                 <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                                     {state.items.map((item, index) => (
@@ -109,6 +83,12 @@ export default function BanquetSidebar({ isOpen, onClose }) {
                                             padding: '0.5rem 0',
                                             borderBottom: '1px solid #F3F4F6'
                                         }}>
+                                            <img
+                                                src={getDishImage(item)}
+                                                alt=""
+                                                aria-hidden="true"
+                                                style={{ width: '44px', height: '40px', objectFit: 'cover', borderRadius: '4px', marginRight: '0.6rem' }}
+                                            />
                                             <div style={{ flex: 1, paddingRight: '0.5rem' }}>
                                                 <div style={{ fontWeight: '500', fontSize: '0.9rem' }}>{item.name}</div>
                                                 {item.price > 0 && (
@@ -202,7 +182,7 @@ export default function BanquetSidebar({ isOpen, onClose }) {
                         Xóa giỏ
                     </button>
                     <Link
-                        href="/dat-tiec"
+                        href="/dat-tiec?step=2"
                         style={{
                             flex: 2,
                             padding: '0.6rem',

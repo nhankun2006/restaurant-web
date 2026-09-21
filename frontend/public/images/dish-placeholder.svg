@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4A121C" />
+      <stop offset="50%" stop-color="#6B1D2A" />
+      <stop offset="100%" stop-color="#360C14" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F9E29D" />
+      <stop offset="50%" stop-color="#D4A843" />
+      <stop offset="100%" stop-color="#9E7824" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="45%" r="50%">
+      <stop offset="0%" stop-color="#D4A843" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#D4A843" stop-opacity="0" />
+    </radialGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.45" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="450" fill="url(#bgGrad)" />
+  <rect width="600" height="450" fill="url(#glow)" />
+
+  <!-- Elegant Corner Accents -->
+  <g stroke="url(#goldGrad)" stroke-width="1.5" fill="none" opacity="0.6">
+    <path d="M 30 50 L 30 30 L 50 30" />
+    <path d="M 570 50 L 570 30 L 550 30" />
+    <path d="M 30 400 L 30 420 L 50 420" />
+    <path d="M 570 400 L 570 420 L 550 420" />
+    <circle cx="30" cy="30" r="3" fill="#D4A843" />
+    <circle cx="570" cy="30" r="3" fill="#D4A843" />
+    <circle cx="30" cy="420" r="3" fill="#D4A843" />
+    <circle cx="570" cy="420" r="3" fill="#D4A843" />
+  </g>
+
+  <!-- Center Cloche / Food Dome Icon -->
+  <g transform="translate(300, 200)" filter="url(#shadow)">
+    <!-- Aura circle behind icon -->
+    <circle cx="0" cy="0" r="75" fill="#1A1A2E" fill-opacity="0.3" stroke="url(#goldGrad)" stroke-width="1" stroke-dasharray="4 4" />
+    
+    <!-- Cloche handle -->
+    <circle cx="0" cy="-45" r="7" fill="url(#goldGrad)" />
+    
+    <!-- Cloche dome -->
+    <path d="M -48 -10 C -48 -40, 48 -40, 48 -10 Z" fill="none" stroke="url(#goldGrad)" stroke-width="3" stroke-linejoin="round" />
+    
+    <!-- Steam waves -->
+    <path d="M -14 -60 C -18 -68, -10 -74, -14 -82" fill="none" stroke="#F9E29D" stroke-width="2" stroke-linecap="round" opacity="0.75" />
+    <path d="M 0 -63 C -4 -71, 4 -77, 0 -85" fill="none" stroke="#F9E29D" stroke-width="2" stroke-linecap="round" opacity="0.9" />
+    <path d="M 14 -60 C 10 -68, 18 -74, 14 -82" fill="none" stroke="#F9E29D" stroke-width="2" stroke-linecap="round" opacity="0.75" />
+
+    <!-- Cloche platter base -->
+    <line x1="-58" y1="-8" x2="58" y2="-8" stroke="url(#goldGrad)" stroke-width="3.5" stroke-linecap="round" />
+    <path d="M -50 -4 Q 0 6 50 -4" fill="none" stroke="url(#goldGrad)" stroke-width="2.5" stroke-linecap="round" />
+  </g>
+
+  <!-- Typography -->
+  <text x="300" y="325" 
+        text-anchor="middle" 
+        fill="url(#goldGrad)" 
+        font-family="'Playfair Display', Georgia, serif" 
+        font-size="22" 
+        font-weight="700" 
+        letter-spacing="3">
+    ẨM THỰC CÂY TÙNG
+  </text>
+  
+  <line x1="220" y1="345" x2="380" y2="345" stroke="url(#goldGrad)" stroke-width="1" opacity="0.5" />
+  <circle cx="300" cy="345" r="2.5" fill="#D4A843" />
+
+  <text x="300" y="375" 
+        text-anchor="middle" 
+        fill="#F3E5D8" 
+        font-family="'Segoe UI', Roboto, sans-serif" 
+        font-size="13" 
+        font-weight="400" 
+        letter-spacing="1.5"
+        opacity="0.85">
+    Hương vị truyền thống &amp; Tinh hoa ẩm thực
+  </text>
+</svg>

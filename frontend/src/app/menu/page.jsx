@@ -56,37 +56,35 @@ export default function MenuPage() {
 
     useEffect(() => {
         const fetchInitialData = async () => {
+            setLoading(true);
             try {
-                setLoading(true);
-                // Fetch Categories
-                try {
-                    const catRes = await getCategories();
-                    setCategories(catRes.data.data || []);
-                } catch (e) {
-                    console.error("Failed to fetch categories", e);
+                const [categoriesResult, combosResult, menuItemsResult] = await Promise.allSettled([
+                    getCategories(),
+                    getComboMenus(),
+                    getMenuItems(),
+                ]);
+
+                if (categoriesResult.status === 'fulfilled') {
+                    setCategories(categoriesResult.value.data.data || []);
+                } else {
                     setCategories([{ slug: 'khai-vi', name: 'Khai Vị' }, { slug: 'mon-chinh', name: 'Món Chính' }]);
                 }
-                
-                // Fetch Combos
-                try {
-                    const comboRes = await getComboMenus();
-                    setCombos(comboRes.data.data || fallbackCombos);
-                } catch (e) {
-                    console.error("Failed to fetch combos", e);
+
+                if (combosResult.status === 'fulfilled') {
+                    setCombos(combosResult.value.data.data || fallbackCombos);
+                } else {
                     setCombos(fallbackCombos);
                 }
-                
-                // Fetch Menu Items
-                const itemsRes = await getMenuItems();
-                setMenuItems(itemsRes.data.data || []);
-            } catch (err) {
-                console.error("Error fetching menu page data:", err);
-                setError("Có lỗi xảy ra khi tải thực đơn. Vui lòng thử lại sau.");
-                // Fallback for menu items
-                setMenuItems([
-                    { id: 1, name: 'Gỏi ngó sen tôm thịt', price: 150000, description: 'Gỏi ngó sen tôm thịt thanh mát.', category_id: 1, category_slug: 'khai-vi' },
-                    { id: 2, name: 'Bò nấu tiêu xanh', price: 250000, description: 'Bò nấu tiêu xanh thơm ngon.', category_id: 2, category_slug: 'mon-chinh' }
-                ]);
+
+                if (menuItemsResult.status === 'fulfilled') {
+                    setMenuItems(menuItemsResult.value.data.data || []);
+                } else {
+                    setError('Có lỗi xảy ra khi tải thực đơn. Vui lòng thử lại sau.');
+                    setMenuItems([
+                        { id: 1, name: 'Gỏi ngó sen tôm thịt', price: 150000, description: 'Gỏi ngó sen tôm thịt thanh mát.', category_id: 1, category_slug: 'khai-vi' },
+                        { id: 2, name: 'Bò nấu tiêu xanh', price: 250000, description: 'Bò nấu tiêu xanh thơm ngon.', category_id: 2, category_slug: 'mon-chinh' },
+                    ]);
+                }
             } finally {
                 setLoading(false);
             }
@@ -249,7 +247,7 @@ export default function MenuPage() {
                 )}
 
                 {activeTab === 'combo' && (
-                    <ComboMenuGrid combos={combos} />
+                    <ComboMenuGrid combos={combos} menuItems={menuItems} />
                 )}
             </div>
 

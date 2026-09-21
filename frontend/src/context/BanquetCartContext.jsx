@@ -3,7 +3,6 @@ import { createContext, useContext, useReducer, useEffect, useMemo } from 'react
 
 const initialState = {
     items: [],
-    combo: null,
     tableCount: 1,
     banquetType: null,
     services: [],
@@ -24,14 +23,21 @@ function banquetCartReducer(state, action) {
                 newState = { ...state, items: [...state.items, { ...action.payload, quantity: 1 }] };
             }
             break;
+        case 'ADD_ITEMS':
+            const existingIds = new Set(state.items.map(item => item.id));
+            const itemsToAdd = action.payload
+                .filter(item => !existingIds.has(item.id))
+                .map(item => ({ ...item, quantity: 1 }));
+            newState = itemsToAdd.length > 0
+                ? { ...state, items: [...state.items, ...itemsToAdd] }
+                : state;
+            break;
         case 'REMOVE_ITEM':
             newState = { ...state, items: state.items.filter(item => item.id !== action.payload) };
             break;
-        case 'SET_COMBO':
-            newState = { ...state, combo: action.payload };
-            break;
-        case 'CLEAR_COMBO':
-            newState = { ...state, combo: null };
+        case 'REMOVE_ITEMS':
+            const itemIdsToRemove = new Set(action.payload);
+            newState = { ...state, items: state.items.filter(item => !itemIdsToRemove.has(item.id)) };
             break;
         case 'CLEAR_CART':
             newState = { ...initialState };
@@ -56,9 +62,25 @@ function banquetCartReducer(state, action) {
         case 'SET_EVENT_TIME':
             newState = { ...state, eventTime: action.payload };
             break;
-        case 'LOAD_STATE':
-            newState = { ...state, ...action.payload };
+        case 'LOAD_STATE': {
+            const savedItems = Array.isArray(action.payload?.items) ? action.payload.items : [];
+            // Migrate the old, separate combo state into the single custom menu.
+            const legacyComboItems = action.payload?.combo?.items?.map(item => ({
+                id: item.menu_item_id || `legacy-combo-${action.payload.combo.id}-${item.id}`,
+                name: item.menu_item_name || item.item_name,
+                price: Number(item.menu_item_price) || 0,
+                image_url: item.menu_item_image_url || null,
+                quantity: 1,
+            })) || [];
+            const itemIds = new Set(savedItems.map(item => item.id));
+            newState = {
+                ...initialState,
+                ...action.payload,
+                combo: undefined,
+                items: [...savedItems, ...legacyComboItems.filter(item => !itemIds.has(item.id))],
+            };
             break;
+        }
         default:
             newState = state;
     }
@@ -88,18 +110,13 @@ export function BanquetCartProvider({ children }) {
         }
     }, []);
 
-    const totalItems = state.items.length + (state.combo?.items?.length || 0);
+    const totalItems = state.items.length;
     
     const estimatedTotal = useMemo(() => {
-        let total = 0;
-        state.items.forEach(item => {
-            total += Number(item.price) || 0;
-        });
-        if (state.combo) {
-            total += Number(state.combo.price) || 0;
-        }
-        return total * (state.tableCount || 1);
-    }, [state.items, state.combo, state.tableCount]);
+        const menuTotalPerTable = state.items.reduce((total, item) => total + (Number(item.price) || 0), 0);
+        const servicesTotal = state.services.reduce((total, service) => total + (Number(service.price) || 0), 0);
+        return menuTotalPerTable * (state.tableCount || 1) + servicesTotal;
+    }, [state.items, state.services, state.tableCount]);
 
     const value = {
         state,

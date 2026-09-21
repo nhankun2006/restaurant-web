@@ -1,10 +1,11 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useBanquetCart } from '../../context/BanquetCartContext';
-import { getBanquetServices, createBanquetBooking, getComboMenus } from '../../api/client';
+import { getBanquetServices, createBanquetBooking } from '../../api/client';
 import { FiCheck, FiArrowLeft, FiArrowRight, FiCalendar, FiUsers, FiMapPin, FiPhone, FiMail } from 'react-icons/fi';
+import { getDishImage } from '../../lib/menuImages';
 
 const banquetTypes = [
   { slug: 'wedding', label: 'Tiệc Cưới', icon: '💒', desc: 'Tổ chức tiệc cưới trọn gói tại nhà' },
@@ -30,12 +31,19 @@ const fallbackServices = [
 ];
 
 export default function DatTiecPage() {
+    return (
+        <Suspense fallback={<div style={{ minHeight: '100vh', paddingTop: '120px', textAlign: 'center' }}>Đang tải đơn đặt tiệc...</div>}>
+            <DatTiecContent />
+        </Suspense>
+    );
+}
+
+function DatTiecContent() {
     const { state, dispatch, estimatedTotal } = useBanquetCart();
-    const router = useRouter();
+    const searchParams = useSearchParams();
     
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(() => searchParams.get('step') === '2' ? 2 : 1);
     const [services, setServices] = useState(fallbackServices);
-    const [combos, setCombos] = useState([]);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     
@@ -47,10 +55,6 @@ export default function DatTiecPage() {
         getBanquetServices().then(res => {
             if (res.data?.data) setServices(res.data.data);
         }).catch(() => console.log('Using fallback services'));
-        
-        getComboMenus().then(res => {
-            if (res.data?.data) setCombos(res.data.data);
-        }).catch(() => console.log('Failed to fetch combos'));
     }, []);
 
     const handleNext = () => setStep(s => Math.min(s + 1, 4));
@@ -63,21 +67,25 @@ export default function DatTiecPage() {
     }
 
     const canProceedStep1 = state.banquetType && state.eventDate && state.tableCount > 0;
+    const canProceedStep2 = state.items.length > 0;
     
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         try {
             const bookingData = {
-                ...customerInfo,
-                banquetType: state.banquetType,
-                eventDate: state.eventDate,
-                eventTime: state.eventTime,
-                tableCount: state.tableCount,
-                combo: state.combo,
-                customItems: state.items,
+                customer_name: customerInfo.name,
+                customer_phone: customerInfo.phone,
+                customer_email: customerInfo.email || null,
+                customer_address: customerInfo.address || null,
+                banquet_type: state.banquetType?.slug,
+                event_date: state.eventDate,
+                event_time: state.eventTime || null,
+                table_count: state.tableCount,
+                custom_items: state.items,
                 services: state.services,
-                estimatedTotal
+                estimated_total: estimatedTotal,
+                notes: customerInfo.notes || null,
             };
             await createBanquetBooking(bookingData);
             setSuccess(true);
@@ -221,47 +229,56 @@ export default function DatTiecPage() {
                     {/* STEP 2 */}
                     {step === 2 && (
                         <div>
-                            <h2 style={{ marginBottom: '20px', fontSize: '1.5rem' }}>2. Chọn Thực Đơn</h2>
-                            
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '30px' }}>
-                                <div style={{ border: '1px solid #ddd', borderRadius: '10px', padding: '20px' }}>
-                                    <h3 style={{ marginBottom: '15px' }}>Chọn Combo Có Sẵn</h3>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', maxHeight: '400px', overflowY: 'auto' }}>
-                                        {combos.map(combo => (
-                                            <div 
-                                                key={combo.id}
-                                                onClick={() => dispatch({ type: 'SET_COMBO', payload: combo })}
-                                                style={{ 
-                                                    padding: '15px', border: `2px solid ${state.combo?.id === combo.id ? 'var(--color-primary)' : '#eee'}`,
-                                                    borderRadius: '8px', cursor: 'pointer',
-                                                    backgroundColor: state.combo?.id === combo.id ? 'var(--color-cream)' : 'white'
-                                                }}
-                                            >
-                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                                                    <h4 style={{ margin: 0 }}>{combo.name}</h4>
-                                                    <span style={{ fontWeight: 'bold', color: 'var(--color-primary)' }}>{formatVND(combo.price)}</span>
+                            <h2 style={{ marginBottom: '8px', fontSize: '1.5rem' }}>2. Thực Đơn Đã Chọn</h2>
+                            <p style={{ color: '#666', marginBottom: '24px' }}>
+                                Đây là các món bạn đã thêm từ Thực đơn hoặc Combo Tiệc. Bạn có thể quay lại để thêm, bớt hay trộn món từ các combo khác nhau.
+                            </p>
+
+                            {state.items.length > 0 ? (
+                                <div style={{ border: '1px solid #E5E7EB', borderRadius: '12px', overflow: 'hidden', marginBottom: '30px' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', padding: '16px 20px', backgroundColor: 'var(--color-cream)' }}>
+                                        <div>
+                                            <h3 style={{ margin: 0, fontSize: '1.1rem' }}>Thực đơn riêng của bạn</h3>
+                                            <span style={{ color: '#666', fontSize: '0.9rem' }}>{state.items.length} món · {state.tableCount} bàn dự kiến</span>
+                                        </div>
+                                        <Link href="/menu" style={{ color: 'var(--color-primary)', fontWeight: 700, fontSize: '0.9rem' }}>
+                                            Chỉnh sửa thực đơn
+                                        </Link>
+                                    </div>
+                                    <div style={{ maxHeight: '420px', overflowY: 'auto' }}>
+                                        {state.items.map((item, index) => (
+                                            <div key={item.id} style={{ display: 'grid', gridTemplateColumns: '48px minmax(0, 1fr) auto', alignItems: 'center', gap: '12px', padding: '12px 20px', borderTop: index === 0 ? 'none' : '1px solid #F0F0F2' }}>
+                                                <img
+                                                    src={getDishImage(item)}
+                                                    alt=""
+                                                    aria-hidden="true"
+                                                    style={{ width: '48px', height: '42px', objectFit: 'cover', borderRadius: '5px' }}
+                                                />
+                                                <div>
+                                                    <div style={{ fontWeight: 600 }}>{index + 1}. {item.name}</div>
+                                                    {item.combo_source && <div style={{ color: '#777', fontSize: '0.78rem', marginTop: '2px' }}>Từ {item.combo_source}</div>}
                                                 </div>
-                                                <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '0.9rem', color: '#555' }}>
-                                                    {combo.dishes?.map((d, i) => <li key={i}>{d.name}</li>)}
-                                                </ul>
+                                                {item.price > 0 && <strong style={{ color: 'var(--color-primary)', fontSize: '0.9rem' }}>{formatVND(item.price)}</strong>}
                                             </div>
                                         ))}
                                     </div>
+                                    <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '14px 20px', borderTop: '1px solid #E5E7EB', backgroundColor: '#FCFCFC' }}>
+                                        <span><strong>Tạm tính {state.tableCount} bàn:</strong> {formatVND(estimatedTotal)}</span>
+                                    </div>
                                 </div>
-                                <div style={{ border: '1px solid #ddd', borderRadius: '10px', padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-                                    <h3 style={{ marginBottom: '15px' }}>Tự Chọn Món</h3>
-                                    <p style={{ color: '#666', marginBottom: '20px' }}>Thiết kế thực đơn riêng từ danh sách các món ăn phong phú của chúng tôi.</p>
-                                    <Link href="/menu" target="_blank" style={{ padding: '10px 20px', border: '2px solid var(--color-gold)', color: 'var(--color-gold)', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold' }}>
-                                        Mở Menu Đặt Món
-                                    </Link>
+                            ) : (
+                                <div style={{ border: '1px dashed #D1D5DB', borderRadius: '12px', padding: '36px 24px', textAlign: 'center', marginBottom: '30px' }}>
+                                    <h3 style={{ fontSize: '1.1rem', marginBottom: '8px' }}>Bạn chưa chọn món nào</h3>
+                                    <p style={{ color: '#666', marginBottom: '18px' }}>Hãy mở Thực đơn để chọn món lẻ hoặc dùng Combo Tiệc làm điểm bắt đầu.</p>
+                                    <Link href="/menu" className="btn btn-outline" style={{ padding: '10px 18px', fontSize: '0.82rem' }}>Mở Thực đơn</Link>
                                 </div>
-                            </div>
+                            )}
 
                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <button onClick={handlePrev} style={{ padding: '12px 30px', backgroundColor: '#eee', border: 'none', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
                                     <FiArrowLeft /> Quay lại
                                 </button>
-                                <button onClick={handleNext} style={{ padding: '12px 30px', backgroundColor: 'var(--color-gold)', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <button onClick={handleNext} disabled={!canProceedStep2} style={{ padding: '12px 30px', backgroundColor: canProceedStep2 ? 'var(--color-gold)' : '#ccc', color: 'white', border: 'none', borderRadius: '8px', cursor: canProceedStep2 ? 'pointer' : 'not-allowed', display: 'flex', alignItems: 'center', gap: '8px' }}>
                                     Tiếp theo <FiArrowRight />
                                 </button>
                             </div>
@@ -344,7 +361,7 @@ export default function DatTiecPage() {
 
                                 {/* Summary */}
                                 <div style={{ backgroundColor: 'var(--color-cream)', padding: '25px', borderRadius: '10px' }}>
-                                    <h3 style={{ marginBottom: '20px', color: 'var(--color-primary)' }}>Tóm Tắt Yêu Cầu</h3>
+                                    <h3 style={{ marginBottom: '20px', color: 'var(--color-primary)' }}>Hóa đơn</h3>
                                     
                                     <div style={{ marginBottom: '15px' }}>
                                         <strong>Loại tiệc:</strong> {state.banquetType?.label}
@@ -360,16 +377,12 @@ export default function DatTiecPage() {
                                     
                                     <div style={{ marginBottom: '15px' }}>
                                         <strong>Thực đơn:</strong>
-                                        {state.combo ? (
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px' }}>
-                                                <span>{state.combo.name} x {state.tableCount}</span>
-                                                <span>{formatVND(state.combo.price * state.tableCount)}</span>
-                                            </div>
-                                        ) : state.items.length > 0 ? (
+                                        {state.items.length > 0 ? (
                                             <div style={{ marginTop: '5px' }}>
                                                 {state.items.map((item, idx) => (
                                                     <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
                                                         <span>- {item.name} x {item.quantity}</span>
+                                                        {item.price > 0 && <span>{formatVND(item.price * state.tableCount)}</span>}
                                                     </div>
                                                 ))}
                                             </div>

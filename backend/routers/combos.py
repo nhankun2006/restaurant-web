@@ -19,8 +19,23 @@ async def list_combos(db: asyncpg.Connection = Depends(get_db)):
         return {"data": []}
     
     items_rows = await db.fetch(
-        "SELECT * FROM combo_menu_items WHERE combo_menu_id = ANY($1::bigint[]) ORDER BY sort_order",
-        combo_ids
+        """
+        SELECT
+            cmi.id,
+            cmi.combo_menu_id,
+            cmi.item_name,
+            cmi.sort_order,
+            cmi.menu_item_id,
+            mi.name AS menu_item_name,
+            mi.description AS menu_item_description,
+            mi.price AS menu_item_price,
+            mi.image_url AS menu_item_image_url
+        FROM combo_menu_items cmi
+        LEFT JOIN menu_items mi ON mi.id = cmi.menu_item_id
+        WHERE cmi.combo_menu_id = ANY($1::bigint[])
+        ORDER BY cmi.combo_menu_id, cmi.sort_order
+        """,
+        combo_ids,
     )
     
     # Group items by combo_menu_id
@@ -33,7 +48,11 @@ async def list_combos(db: asyncpg.Connection = Depends(get_db)):
             "id": item["id"],
             "item_name": item["item_name"],
             "sort_order": item["sort_order"],
-            "menu_item_id": item["menu_item_id"]
+            "menu_item_id": item["menu_item_id"],
+            "menu_item_name": item["menu_item_name"],
+            "menu_item_description": item["menu_item_description"],
+            "menu_item_price": item["menu_item_price"],
+            "menu_item_image_url": item["menu_item_image_url"],
         })
     
     # Assemble response
@@ -55,8 +74,22 @@ async def get_combo(slug: str, db: asyncpg.Connection = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Combo menu not found")
         
     items_rows = await db.fetch(
-        "SELECT * FROM combo_menu_items WHERE combo_menu_id = $1 ORDER BY sort_order",
-        combo_row["id"]
+        """
+        SELECT
+            cmi.id,
+            cmi.item_name,
+            cmi.sort_order,
+            cmi.menu_item_id,
+            mi.name AS menu_item_name,
+            mi.description AS menu_item_description,
+            mi.price AS menu_item_price,
+            mi.image_url AS menu_item_image_url
+        FROM combo_menu_items cmi
+        LEFT JOIN menu_items mi ON mi.id = cmi.menu_item_id
+        WHERE cmi.combo_menu_id = $1
+        ORDER BY cmi.sort_order
+        """,
+        combo_row["id"],
     )
     
     combo_dict = dict(combo_row)
@@ -65,7 +98,11 @@ async def get_combo(slug: str, db: asyncpg.Connection = Depends(get_db)):
             "id": item["id"],
             "item_name": item["item_name"],
             "sort_order": item["sort_order"],
-            "menu_item_id": item["menu_item_id"]
+            "menu_item_id": item["menu_item_id"],
+            "menu_item_name": item["menu_item_name"],
+            "menu_item_description": item["menu_item_description"],
+            "menu_item_price": item["menu_item_price"],
+            "menu_item_image_url": item["menu_item_image_url"],
         } for item in items_rows
     ]
     

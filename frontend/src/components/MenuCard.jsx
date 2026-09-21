@@ -1,11 +1,11 @@
 'use client';
 import { FiPlus } from 'react-icons/fi';
 import { useState } from 'react';
+import { getDishImage, formatCurrency } from '../lib/utils';
 
 function MenuCard({ item, onClick, onAddToCart }) {
     const [isHovered, setIsHovered] = useState(false);
-    const placeholderImage = `https://placehold.co/400x300/1A1A2E/D4A843?text=${encodeURIComponent(item.name)}`;
-    const formattedPrice = new Intl.NumberFormat('vi-VN').format(Number(item.price)) + '₫';
+    const fallbackImage = getDishImage(item);
 
     return (
         <div 
@@ -18,10 +18,9 @@ function MenuCard({ item, onClick, onAddToCart }) {
             <div className="card__image-wrapper" style={{ position: 'relative' }}>
                 {item.is_featured && <span className="card__badge">Đặc Sản Đầu Bếp</span>}
                 <img 
-                    src={item.image_url || placeholderImage} 
+                    src={fallbackImage}
                     alt={item.name} 
                     className="card__image" 
-                    onError={(e) => { e.target.src = placeholderImage; }} 
                 />
                 
                 {isHovered && onAddToCart && (
@@ -41,7 +40,7 @@ function MenuCard({ item, onClick, onAddToCart }) {
                 <h3 className="card__title">{item.name}</h3>
                 <p className="card__description">{item.description}</p>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span className="card__price">{formattedPrice}</span>
+                    <span className="card__price">{formatCurrency(item.price)}</span>
                     {item.categories && (
                         <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--color-gold)', fontWeight: 600 }}>
                             {item.categories.name}

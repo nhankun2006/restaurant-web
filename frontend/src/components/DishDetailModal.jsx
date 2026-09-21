@@ -1,6 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import { FiX, FiPlus } from 'react-icons/fi';
+import { getDishImage, formatCurrency } from '../lib/utils';
 
 function DishDetailModal({ item, isOpen, onClose, onAddToCart }) {
     useEffect(() => {
@@ -19,9 +20,6 @@ function DishDetailModal({ item, isOpen, onClose, onAddToCart }) {
 
     if (!isOpen || !item) return null;
 
-    const formattedPrice = new Intl.NumberFormat('vi-VN').format(Number(item.price)) + '₫';
-    const placeholderImage = `https://placehold.co/800x600/1A1A2E/D4A843?text=${encodeURIComponent(item.name)}`;
-
     return (
         <div style={styles.overlay} onClick={onClose}>
             <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
@@ -31,17 +29,16 @@ function DishDetailModal({ item, isOpen, onClose, onAddToCart }) {
                 
                 <div style={styles.imageContainer}>
                     <img 
-                        src={item.image_url || placeholderImage} 
+                        src={getDishImage(item)} 
                         alt={item.name} 
                         style={styles.image}
-                        onError={(e) => { e.target.src = placeholderImage; }}
                     />
                 </div>
                 
                 <div style={styles.content}>
                     <div style={styles.header}>
                         <h2 style={styles.title}>{item.name}</h2>
-                        <span style={styles.price}>{formattedPrice}</span>
+                        <span style={styles.price}>{formatCurrency(item.price)}</span>
                     </div>
                     
                     {item.categories && (

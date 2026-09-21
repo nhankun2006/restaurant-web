@@ -32,7 +32,7 @@ export default function AboutPage() {
                         <div className="about-story__text">
                             <SectionTitle label="Câu Chuyện Của Chúng Tôi" title="Truyền Thống Của Sự Hoàn Hảo" />
                             <p>
-                                Thành lập vào năm 1987 bởi Đầu bếp Antoine Dubois, Cay Tung khởi đầu là một
+                                Thành lập vào năm 2011 bởi Đầu bếp Lương Cao Tân, Cây Tùng khởi đầu là một
                                 quán ăn nhỏ mang cảm hứng Paris với ước mơ mang tinh hoa ẩm thực Pháp tinh tế
                                 phục vụ những thực khách sành ăn.
                             </p>
