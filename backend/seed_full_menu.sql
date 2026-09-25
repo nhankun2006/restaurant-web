@@ -5,7 +5,7 @@
 -- ============================================
 
 -- Xóa dữ liệu cũ và reset ID trước khi nạp lại
-TRUNCATE TABLE combo_menu_items, combo_menus, banquet_services, banquet_bookings, bookings, menu_items, gallery_images, galleries, events, categories RESTART IDENTITY CASCADE;
+TRUNCATE TABLE combo_menu_items, combo_menus, banquet_services, banquet_bookings, bookings, menu_items, gallery_images, galleries, categories RESTART IDENTITY CASCADE;
 
 -- 1. Insert Categories
 INSERT INTO categories (name, slug, description, image_url) VALUES
@@ -30,43 +30,7 @@ ON CONFLICT (slug) DO UPDATE SET
     description = EXCLUDED.description,
     image_url = EXCLUDED.image_url;
 
--- 2. Insert Events
-INSERT INTO events (title, slug, description, image_url, features) VALUES
-    (
-        'Tiệc Sinh Nhật & Kỷ Niệm',
-        'birthday-party',
-        'Tôn vinh những khoảnh khắc đáng nhớ trong không gian lãng mạn. Đội ngũ sự kiện chuyên nghiệp của chúng tôi sẽ thiết kế trải nghiệm tiệc theo yêu cầu với thực đơn tùy chỉnh, trang trí ấn tượng và dịch vụ chu đáo.',
-        '/images/events/birthday-party.jpg',
-        '["Thực đơn tiệc & bánh sinh nhật theo yêu cầu", "Phòng tiệc riêng (10-80 khách)", "Hệ thống âm thanh & DJ chuyên nghiệp", "Trang trí tiệc & bóng bay cao cấp", "Quản lý sự kiện hỗ trợ riêng", "Tặng kèm đĩa bánh sinh nhật đặc biệt"]'::jsonb
-    ),
-    (
-        'Sự Kiện Công Ty & Hội Nghị',
-        'corporate-event',
-        'Tạo ấn tượng sâu sắc với đối tác và đồng nghiệp. Từ những bữa tối doanh nhân thân mật đến các buổi đại tiệc công ty, chúng tôi cung cấp không gian sang trọng với thiết bị âm thanh ánh sáng hiện đại.',
-        '/images/events/corporate-event.jpg',
-        '["Thiết bị AV & màn hình chiếu hiện đại", "Bố trí chỗ ngồi linh hoạt", "Thực đơn ăn trưa & tối cao cấp", "Không gian giao lưu riêng tư", "Quầy bar đầy đủ với cocktail sáng tạo", "Có dịch vụ đỗ xe (Valet)"]'::jsonb
-    ),
-    (
-        'Tiệc Cưới Trọn Gói',
-        'wedding-reception',
-        'Ghi dấu ngày trọng đại trong không gian lãng mạn. Cay Tung mang đến sảnh tiệc trong nhà & ngoài trời tuyệt đẹp cùng ẩm thực đẳng cấp để biến ngày cưới trong mơ của bạn thành hiện thực.',
-        '/images/events/wedding.jpg',
-        '["Không gian lễ cưới trong nhà & ngoài trời", "Thực đơn cưới riêng & thử món miễn phí", "Trang trí hoa tươi & concept thiết kế riêng", "Quản lý tiệc cưới đồng hành suốt sự kiện", "Sân khấu & khu vực khiêu vũ", "Phòng tân hôn dành cho cặp đôi", "Sức chứa lên tới 200 khách"]'::jsonb
-    ),
-    (
-        'Trải Nghiệm Ẩm Thực Riêng Tư',
-        'private-dining',
-        'Dành cho những ai tìm kiếm sự riêng tư tuyệt đối. Phòng ăn VIP thích hợp cho lễ kỷ niệm, cầu hôn hay gặp mặt gia đình để tận hưởng những giây phút đặc biệt.',
-        '/images/events/private-dining.jpg',
-        '["Phòng VIP riêng biệt (2-20 khách)", "Thực đơn thử món thiết kế riêng bởi bếp trưởng", "Gợi ý kết hợp rượu vang từ Sommelier", "Không gian nến nồng ấm & âm nhạc tùy chọn", "Nhân viên phục vụ riêng", "Đáp ứng các yêu cầu chế độ ăn đặc biệt"]'::jsonb
-    )
-ON CONFLICT (slug) DO UPDATE SET
-    title = EXCLUDED.title,
-    description = EXCLUDED.description,
-    image_url = EXCLUDED.image_url,
-    features = EXCLUDED.features;
-
--- 3. Insert Menu Items (mapped with static/images/food/ image files)
+-- 2. Insert Menu Items (mapped with static/images/food/ image files)
 
 -- 1. Các món gỏi
 INSERT INTO menu_items (category_id, name, description, price, image_url, is_featured, is_available) VALUES

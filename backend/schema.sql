@@ -34,7 +34,6 @@ CREATE TABLE menu_items (
     ingredients TEXT,
     serves INTEGER,
     prep_time TEXT,
-    gallery_images JSONB DEFAULT '[]'::jsonb,
     price NUMERIC(10, 2) NOT NULL,
     image_url TEXT,
     is_featured BOOLEAN DEFAULT FALSE,
@@ -77,18 +76,7 @@ CREATE TABLE banquet_services (
     sort_order  INTEGER DEFAULT 0
 );
 
--- 7. Events Table
-CREATE TABLE events (
-    id BIGSERIAL PRIMARY KEY,
-    title TEXT NOT NULL,
-    slug TEXT NOT NULL UNIQUE,
-    description TEXT,
-    image_url TEXT,
-    features JSONB DEFAULT '[]'::jsonb,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- 8. Galleries Table (Album collections)
+-- 7. Galleries Table (Album collections)
 CREATE TABLE galleries (
     id BIGSERIAL PRIMARY KEY,
     title TEXT NOT NULL,
@@ -98,7 +86,7 @@ CREATE TABLE galleries (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 9. Gallery Images Table (1-N with galleries)
+-- 8. Gallery Images Table (1-N with galleries)
 CREATE TABLE gallery_images (
     id BIGSERIAL PRIMARY KEY,
     gallery_id BIGINT REFERENCES galleries(id) ON DELETE CASCADE,
@@ -108,7 +96,7 @@ CREATE TABLE gallery_images (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 10. Bookings Table (Table reservations)
+-- 9. Bookings Table (Table reservations)
 CREATE TABLE bookings (
     id BIGSERIAL PRIMARY KEY,
     name TEXT NOT NULL,
@@ -122,7 +110,7 @@ CREATE TABLE bookings (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 11. Banquet Bookings Table (Party & banquet reservations)
+-- 10. Banquet Bookings Table (Party & banquet reservations)
 CREATE TABLE banquet_bookings (
     id               BIGSERIAL PRIMARY KEY,
     customer_name    TEXT NOT NULL,
@@ -154,7 +142,6 @@ ALTER TABLE menu_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE combo_menus ENABLE ROW LEVEL SECURITY;
 ALTER TABLE combo_menu_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE banquet_services ENABLE ROW LEVEL SECURITY;
-ALTER TABLE events ENABLE ROW LEVEL SECURITY;
 ALTER TABLE galleries ENABLE ROW LEVEL SECURITY;
 ALTER TABLE gallery_images ENABLE ROW LEVEL SECURITY;
 ALTER TABLE bookings ENABLE ROW LEVEL SECURITY;
@@ -178,10 +165,6 @@ CREATE POLICY "Allow public read combo_menu_items" ON combo_menu_items
 
 -- Public read access for banquet_services
 CREATE POLICY "Allow public read banquet_services" ON banquet_services
-    FOR SELECT USING (true);
-
--- Public read access for events
-CREATE POLICY "Allow public read events" ON events
     FOR SELECT USING (true);
 
 -- Public read access for galleries
