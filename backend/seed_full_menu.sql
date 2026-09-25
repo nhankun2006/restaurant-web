@@ -9,22 +9,22 @@ TRUNCATE TABLE combo_menu_items, combo_menus, banquet_services, banquet_bookings
 
 -- 1. Insert Categories
 INSERT INTO categories (name, slug, description, image_url) VALUES
-    ('Các món gỏi', 'mon-goi', 'Các món gỏi thanh mát, chua cay khai vị đậm đà hương vị truyền thống.', '/images/categories/goi.jpg'),
-    ('Các món súp', 'mon-sup', 'Các món súp nóng hổi, bổ dưỡng và khai vị tinh tế.', '/images/categories/sup.jpg'),
-    ('Các món gà', 'mon-ga', 'Các món chế biến từ gà thả vườn tươi ngon, đậm vị.', '/images/categories/ga.jpg'),
-    ('Các món chim', 'mon-chim', 'Món ăn từ chim bồ câu bổ dưỡng, chế biến công phu.', '/images/categories/chim.jpg'),
-    ('Các món vịt', 'mon-vit', 'Các món vịt nướng, tiềm, nấu chao đậm đà.', '/images/categories/vit.jpg'),
-    ('Các món bò', 'mon-bo', 'Thịt bò tươi mềm chế biến phong phú từ né, hầm đến lúc lắc.', '/images/categories/bo.jpg'),
-    ('Các món cá', 'mon-ca', 'Cá tươi ngon hấp Hồng Kông, om riềng mẻ, chiên giòn sốt cam.', '/images/categories/ca.jpg'),
-    ('Các món mực', 'mon-muc', 'Mực tươi giòn sần sật hấp hành, xào sa tế, chiên giòn.', '/images/categories/muc.jpg'),
-    ('Các món heo', 'mon-heo', 'Heo rừng, sườn non, lưỡi heo chế biến nướng, xào lăn, giả cầy.', '/images/categories/heo.jpg'),
-    ('Các món lẩu', 'mon-lau', 'Lẩu Thái, lẩu hải sản, lẩu cá, lẩu dê nghi ngút khói.', '/images/categories/lau.jpg'),
-    ('Các món hải sâm', 'mon-hai-sam', 'Hải sâm cao cấp xào đông cô, bào ngư, gân nai.', '/images/categories/hai-sam.jpg'),
-    ('Các món cua', 'mon-cua', 'Cua lột chiên bơ, cua rang me, cua hấp gừng tươi ngon.', '/images/categories/cua.jpg'),
-    ('Các món chân giò', 'mon-chan-gio', 'Giò heo chiên giòn, hầm thuốc Bắc, um dưa cải.', '/images/categories/chan-gio.jpg'),
-    ('Các món dồi trường', 'mon-doi-truong', 'Dồi trường giòn sần sật hấp gừng, xào bông cải, nhúng mẻ.', '/images/categories/doi-truong.jpg'),
-    ('Các món dê, thỏ & nai', 'mon-de-tho-nai', 'Đặc sản dê, thỏ, nai hấp tía tô, xào lăn, tái riềng.', '/images/categories/de-tho-nai.jpg'),
-    ('Các món tôm', 'mon-tom', 'Tôm tươi ủ muối, nướng muối ớt, hấp bia, cháy tỏi.', '/images/categories/tom.jpg')
+    ('Món gỏi', 'mon-goi', 'Các món gỏi thanh mát, chua cay khai vị đậm đà hương vị truyền thống.', '/images/categories/goi.jpg'),
+    ('Món súp', 'mon-sup', 'Các món súp nóng hổi, bổ dưỡng và khai vị tinh tế.', '/images/categories/sup.jpg'),
+    ('Món gà', 'mon-ga', 'Các món chế biến từ gà thả vườn tươi ngon, đậm vị.', '/images/categories/ga.jpg'),
+    ('Món chim', 'mon-chim', 'Món ăn từ chim bồ câu bổ dưỡng, chế biến công phu.', '/images/categories/chim.jpg'),
+    ('Món vịt', 'mon-vit', 'Các món vịt nướng, tiềm, nấu chao đậm đà.', '/images/categories/vit.jpg'),
+    ('Món bò', 'mon-bo', 'Thịt bò tươi mềm chế biến phong phú từ né, hầm đến lúc lắc.', '/images/categories/bo.jpg'),
+    ('Món cá', 'mon-ca', 'Cá tươi ngon hấp Hồng Kông, om riềng mẻ, chiên giòn sốt cam.', '/images/categories/ca.jpg'),
+    ('Món mực', 'mon-muc', 'Mực tươi giòn sần sật hấp hành, xào sa tế, chiên giòn.', '/images/categories/muc.jpg'),
+    ('Món heo', 'mon-heo', 'Heo rừng, sườn non, lưỡi heo chế biến nướng, xào lăn, giả cầy.', '/images/categories/heo.jpg'),
+    ('Món lẩu', 'mon-lau', 'Lẩu Thái, lẩu hải sản, lẩu cá, lẩu dê nghi ngút khói.', '/images/categories/lau.jpg'),
+    ('Món hải sâm', 'mon-hai-sam', 'Hải sâm cao cấp xào đông cô, bào ngư, gân nai.', '/images/categories/hai-sam.jpg'),
+    ('Món cua', 'mon-cua', 'Cua lột chiên bơ, cua rang me, cua hấp gừng tươi ngon.', '/images/categories/cua.jpg'),
+    ('Món chân giò', 'mon-chan-gio', 'Giò heo chiên giòn, hầm thuốc Bắc, um dưa cải.', '/images/categories/chan-gio.jpg'),
+    ('Món dồi trường', 'mon-doi-truong', 'Dồi trường giòn sần sật hấp gừng, xào bông cải, nhúng mẻ.', '/images/categories/doi-truong.jpg'),
+    ('Món dê, thỏ & nai', 'mon-de-tho-nai', 'Đặc sản dê, thỏ, nai hấp tía tô, xào lăn, tái riềng.', '/images/categories/de-tho-nai.jpg'),
+    ('Món tôm', 'mon-tom', 'Tôm tươi ủ muối, nướng muối ớt, hấp bia, cháy tỏi.', '/images/categories/tom.jpg')
 ON CONFLICT (slug) DO UPDATE SET 
     name = EXCLUDED.name,
     description = EXCLUDED.description,
@@ -32,7 +32,7 @@ ON CONFLICT (slug) DO UPDATE SET
 
 -- 2. Insert Menu Items (mapped with static/images/food/ image files)
 
--- 1. Các món gỏi
+-- 1. Món gỏi
 INSERT INTO menu_items (category_id, name, description, price, image_url, is_featured, is_available) VALUES
     ((SELECT id FROM categories WHERE slug = 'mon-goi'), 'Gỏi ngó sen tôm thịt', 'Ngó sen giòn ngọt kết hợp tôm sú và thịt ba chỉ tươi ngon.', 120000, '/images/food/khai_vi_1.png', true, true),
     ((SELECT id FROM categories WHERE slug = 'mon-goi'), 'Gỏi sò huyết nấm tuyết', 'Sò huyết tươi béo ngậy trộn nấm tuyết giòn sần sật.', 140000, NULL, false, true),

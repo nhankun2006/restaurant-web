@@ -37,13 +37,13 @@ export default function AboutPage() {
                                 phục vụ những thực khách sành ăn.
                             </p>
                             <p>
-                                Hơn ba thập kỷ sau, ước mơ đó đã phát triển thành một trong những điểm đến
-                                ẩm thực cao cấp được yêu thích nhất. Đội ngũ bếp do Bếp trưởng điều hành Marie Laurent
+                                Hơn một thập kỷ sau, ước mơ đó đã phát triển thành một trong những điểm đến
+                                ẩm thực cao cấp được yêu thích nhất. Đội ngũ bếp do Bếp trưởng điều hành Lương Cao Tân
                                 dẫn dắt tiếp tục tôn vinh tầm nhìn của Đầu bếp Dubois đồng thời mở rộng ranh giới
                                 của ẩm thực hiện đại.
                             </p>
                             <p>
-                                Mỗi món ăn tại Cay Tung là một câu chuyện — về những hương vị khám phá từ
+                                Mỗi món ăn tại Cây Tùng là một câu chuyện — về những hương vị khám phá từ
                                 các khu chợ Địa Trung Hải ngập nắng, những kỹ thuật hoàn thiện qua nhiều thế hệ,
                                 và cam kết không ngừng mang lại những trải nghiệm ẩm thực đỉnh cao.
                             </p>
@@ -57,7 +57,7 @@ export default function AboutPage() {
                 <div className="container">
                     <div className="stats-bar">
                         <div className="stat">
-                            <span className="stat__number">37+</span>
+                            <span className="stat__number">15+</span>
                             <span className="stat__label">Năm Kinh Nghiệm</span>
                         </div>
                         <div className="stat">
