@@ -83,4 +83,30 @@ export const adminDeleteBanquetBooking = (id) => publicClient.delete(`/banquets/
 export const adminGetComboMenus = () => publicClient.get('/combos');
 export const adminGetBanquetServices = () => publicClient.get('/banquets/services');
 
+// ─── Galleries ────────────────────────────────────────────────────────────────
+
+export const adminGetGalleries = () =>
+    adminClient.get('/galleries');
+
+export const adminCreateGallery = (formData) =>
+    adminClient.post('/galleries', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+    });
+
+export const adminUpdateGallery = (id, formData) =>
+    adminClient.put(`/galleries/${id}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+    });
+
+export const adminDeleteGallery = (id) =>
+    adminClient.delete(`/galleries/${id}`);
+
+export const adminUploadGalleryImages = (galleryId, formData) =>
+    adminClient.post(`/galleries/${galleryId}/images`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+    });
+
+export const adminDeleteGalleryImage = (imageId) =>
+    adminClient.delete(`/galleries/images/${imageId}`);
+
 export default adminClient;

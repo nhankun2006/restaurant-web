@@ -158,6 +158,12 @@ The frontend will be available at **http://localhost:3000**.
 | PUT    | `/admin/api/menu-items/{id}`       | Update menu item                        |
 | DELETE | `/admin/api/menu-items/{id}`       | Delete menu item                        |
 | POST   | `/admin/api/menu-items/{id}/image` | Replace image for a menu item           |
+| GET    | `/admin/api/galleries`             | List all gallery albums with images     |
+| POST   | `/admin/api/galleries`             | Create gallery album (supports cover)   |
+| PUT    | `/admin/api/galleries/{id}`        | Update gallery album                    |
+| DELETE | `/admin/api/galleries/{id}`        | Delete gallery album (cascades images)  |
+| POST   | `/admin/api/galleries/{id}/images` | Upload one or multiple photos to album  |
+| DELETE | `/admin/api/galleries/images/{id}` | Delete a photo from album               |
 | GET    | `/admin/api/bookings`              | List all bookings                       |
 | DELETE | `/admin/api/bookings/{id}`         | Delete a booking                        |
 
@@ -180,6 +186,7 @@ The admin panel is an **internal management interface**. There is no link to it 
 | ---------------------------- | ---------------------------------------------------------------------------- |
 | **Danh mục** (Categories)    | Add / edit / delete categories, upload category image                        |
 | **Món ăn** (Menu Items)      | Add / edit / delete dishes, upload dish image, toggle featured / available   |
+| **Gallery** (Photo Albums)   | Add / edit / delete albums, upload cover & multiple event photos, captions   |
 | **Đặt bàn** (Bookings)       | View all reservation requests, delete entries                                |
 
 > **Note:** The admin panel currently has no authentication layer. It is intended to be accessed only by the restaurant owner who knows the direct URL. Do **not** share the `/admin` path publicly. Authentication (e.g. password prompt or session-based login) can be added in a future iteration.

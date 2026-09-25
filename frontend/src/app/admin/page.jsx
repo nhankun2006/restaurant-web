@@ -17,6 +17,12 @@ import {
     adminUpdateBanquetStatus,
     adminDeleteBanquetBooking,
     adminGetComboMenus,
+    adminGetGalleries,
+    adminCreateGallery,
+    adminUpdateGallery,
+    adminDeleteGallery,
+    adminUploadGalleryImages,
+    adminDeleteGalleryImage,
 } from '@/api/adminClient';
 
 // Base URL used only for rendering image previews
@@ -128,7 +134,7 @@ function Flash({ msg, onDismiss }) {
 
 // ─── Tabs ─────────────────────────────────────────────────────────────────────
 
-const TABS = ['Danh mục', 'Món ăn', 'Đặt bàn', 'Đặt tiệc'];
+const TABS = ['Danh mục', 'Món ăn', 'Gallery', 'Đặt bàn', 'Đặt tiệc'];
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // SECTION: Categories
@@ -421,6 +427,345 @@ function MenuItemsSection() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// SECTION: Galleries
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const GALLERY_CATEGORIES = [
+    { id: 'wedding', label: 'Tiệc Cưới' },
+    { id: 'birthday', label: 'Tiệc Sinh Nhật' },
+    { id: 'housewarming', label: 'Tiệc Tân Gia' },
+    { id: 'corporate', label: 'Tiệc Công Ty' },
+    { id: 'memorial', label: 'Tiệc Đám Giỗ' },
+    { id: 'opening', label: 'Tiệc Khai Trương' },
+    { id: 'baby', label: 'Tiệc Thôi Nôi' },
+    { id: 'engagement', label: 'Tiệc Đám Hỏi' }
+];
+
+function GalleriesSection() {
+    const [rows, setRows] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [msg, setMsg] = useState('');
+    const [modal, setModal] = useState(null); // null | 'create' | editRow
+    const [uploading, setUploading] = useState(false);
+    const formRef = useRef(null);
+    const uploadFormRef = useRef(null);
+
+    const editRow = modal && modal !== 'create' ? modal : null;
+
+    const load = () => {
+        setLoading(true);
+        adminGetGalleries()
+            .then((r) => setRows(r.data.data))
+            .catch((e) => setMsg(`Lỗi tải gallery: ${e.response?.data?.detail || e.message}`))
+            .finally(() => setLoading(false));
+    };
+
+    useEffect(() => {
+        load();
+    }, []);
+
+    const handleDelete = async (id) => {
+        if (!confirm(`Xóa album #${id} cùng toàn bộ ảnh trong album này?`)) return;
+        try {
+            await adminDeleteGallery(id);
+            setMsg('Đã xóa album');
+            if (modal) setModal(null);
+            load();
+        } catch (e) {
+            setMsg(`Lỗi xóa: ${e.response?.data?.detail || e.message}`);
+        }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const fd = new FormData(formRef.current);
+        const img = fd.get('cover_image');
+        if (img && img.size === 0) fd.delete('cover_image');
+
+        try {
+            if (editRow) {
+                const res = await adminUpdateGallery(editRow.id, fd);
+                setMsg('Đã cập nhật album');
+                setModal(res.data.data);
+            } else {
+                await adminCreateGallery(fd);
+                setMsg('Đã tạo album mới');
+                setModal(null);
+            }
+            load();
+        } catch (err) {
+            setMsg(`Lỗi lưu: ${err.response?.data?.detail || err.message}`);
+        }
+    };
+
+    const handleUploadImages = async (e) => {
+        e.preventDefault();
+        if (!editRow) return;
+        const fd = new FormData(uploadFormRef.current);
+        const files = fd.getAll('images');
+        if (!files || files.length === 0 || files[0].size === 0) {
+            alert('Vui lòng chọn ít nhất 1 ảnh để tải lên');
+            return;
+        }
+
+        setUploading(true);
+        try {
+            const res = await adminUploadGalleryImages(editRow.id, fd);
+            setMsg(res.data.message || 'Đã tải ảnh lên album');
+            if (uploadFormRef.current) uploadFormRef.current.reset();
+
+            const updatedImages = [...(editRow.images || []), ...(res.data.data || [])];
+            setModal({
+                ...editRow,
+                images: updatedImages,
+                image_count: updatedImages.length,
+                cover_image: editRow.cover_image || res.data.data?.[0]?.image_url
+            });
+            load();
+        } catch (err) {
+            setMsg(`Lỗi tải ảnh: ${err.response?.data?.detail || err.message}`);
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    const handleDeleteImage = async (imageId) => {
+        if (!confirm('Bạn có chắc muốn xóa ảnh này khỏi album?')) return;
+        try {
+            await adminDeleteGalleryImage(imageId);
+            setMsg('Đã xóa ảnh');
+            if (editRow) {
+                const updatedImages = (editRow.images || []).filter(img => img.id !== imageId);
+                setModal({
+                    ...editRow,
+                    images: updatedImages,
+                    image_count: updatedImages.length
+                });
+            }
+            load();
+        } catch (err) {
+            setMsg(`Lỗi xóa ảnh: ${err.response?.data?.detail || err.message}`);
+        }
+    };
+
+    const columns = [
+        {
+            key: 'cover_image',
+            label: 'Ảnh bìa',
+            render: (v) => <ImagePreview src={v} />
+        },
+        { key: 'title', label: 'Tên album' },
+        {
+            key: 'category',
+            label: 'Loại tiệc',
+            render: (v) => {
+                const cat = GALLERY_CATEGORIES.find(c => c.id === v);
+                return (
+                    <span style={{
+                        padding: '3px 8px',
+                        background: '#2a2a35',
+                        borderRadius: '12px',
+                        fontSize: '12px',
+                        color: '#c9a96e'
+                    }}>
+                        {cat ? cat.label : v}
+                    </span>
+                );
+            }
+        },
+        {
+            key: 'image_count',
+            label: 'Số ảnh',
+            render: (v, row) => (
+                <span style={{ fontWeight: 600, color: '#e2e2e2' }}>
+                    📷 {row.images?.length ?? v ?? 0}
+                </span>
+            )
+        },
+        {
+            key: 'description',
+            label: 'Mô tả',
+            render: (v) => (
+                <span style={{ maxWidth: 220, display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={v}>
+                    {v || '—'}
+                </span>
+            )
+        }
+    ];
+
+    return (
+        <div>
+            <div className="section-header">
+                <h2>Bộ sưu tập Gallery ({rows.length} album)</h2>
+                <button className="btn-primary" onClick={() => setModal('create')}>
+                    + Thêm album
+                </button>
+            </div>
+            <Flash msg={msg} onDismiss={() => setMsg('')} />
+            {loading ? <p>Đang tải…</p> : (
+                <AdminTable columns={columns} rows={rows} onEdit={setModal} onDelete={handleDelete} />
+            )}
+
+            {modal && (
+                <Modal
+                    title={editRow ? `Sửa album #${editRow.id}: ${editRow.title}` : 'Thêm album mới'}
+                    onClose={() => setModal(null)}
+                >
+                    <form ref={formRef} onSubmit={handleSubmit} className="admin-form">
+                        <label>
+                            Tên album *
+                            <input name="title" required defaultValue={editRow?.title} placeholder="vd: Tiệc Cưới Gia Đình Nguyễn" />
+                        </label>
+                        <label>
+                            Loại tiệc *
+                            <select name="category" required defaultValue={editRow?.category || 'wedding'}>
+                                {GALLERY_CATEGORIES.map(cat => (
+                                    <option key={cat.id} value={cat.id}>{cat.label}</option>
+                                ))}
+                            </select>
+                        </label>
+                        <label>
+                            Mô tả
+                            <textarea name="description" defaultValue={editRow?.description} rows={3} placeholder="Mô tả ngắn gọn về sự kiện / bữa tiệc..." />
+                        </label>
+                        <label>
+                            Ảnh bìa đại diện {editRow ? '(để trống nếu giữ nguyên)' : ''}
+                            <input type="file" name="cover_image" accept="image/*" />
+                        </label>
+                        {editRow?.cover_image && (
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                                <span>Ảnh bìa hiện tại:</span>
+                                <ImagePreview src={editRow.cover_image} />
+                            </div>
+                        )}
+                        <div className="form-actions">
+                            <button type="button" onClick={() => setModal(null)}>
+                                Đóng
+                            </button>
+                            <button type="submit" className="btn-primary">
+                                {editRow ? 'Lưu thông tin album' : 'Tạo album'}
+                            </button>
+                        </div>
+                    </form>
+
+                    {/* Sub-section: Manage child images for this album */}
+                    {editRow && (
+                        <div style={{ marginTop: '24px', paddingTop: '20px', borderTop: '1px solid #2a2a35' }}>
+                            <h4 style={{ margin: '0 0 12px', color: '#c9a96e', fontSize: '14px' }}>
+                                📸 Danh sách ảnh trong album ({editRow.images?.length || 0} ảnh)
+                            </h4>
+
+                            {/* Current Images Grid */}
+                            {(!editRow.images || editRow.images.length === 0) ? (
+                                <p style={{ color: '#888', fontSize: '13px', margin: '8px 0' }}>Album này chưa có ảnh con nào.</p>
+                            ) : (
+                                <div style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: 'repeat(auto-fill, minmax(105px, 1fr))',
+                                    gap: '10px',
+                                    maxHeight: '220px',
+                                    overflowY: 'auto',
+                                    padding: '8px',
+                                    background: '#141418',
+                                    borderRadius: '6px',
+                                    marginBottom: '16px'
+                                }}>
+                                    {editRow.images.map((img) => (
+                                        <div
+                                            key={img.id}
+                                            style={{
+                                                position: 'relative',
+                                                border: '1px solid #2a2a35',
+                                                borderRadius: '6px',
+                                                overflow: 'hidden',
+                                                background: '#1a1a1f'
+                                            }}
+                                        >
+                                            <div style={{ width: '100%', height: '70px', overflow: 'hidden' }}>
+                                                <img
+                                                    src={img.image_url?.startsWith('/') ? `${IMAGE_BASE}${img.image_url}` : img.image_url}
+                                                    alt={img.caption || 'photo'}
+                                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                                />
+                                            </div>
+                                            <div style={{ padding: '4px', fontSize: '11px', color: '#bbb', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={img.caption}>
+                                                {img.caption || '(Không chú thích)'}
+                                            </div>
+                                            <button
+                                                type="button"
+                                                onClick={() => handleDeleteImage(img.id)}
+                                                title="Xóa ảnh này"
+                                                style={{
+                                                    position: 'absolute',
+                                                    top: '3px',
+                                                    right: '3px',
+                                                    background: 'rgba(220, 53, 69, 0.85)',
+                                                    color: 'white',
+                                                    border: 'none',
+                                                    borderRadius: '50%',
+                                                    width: '20px',
+                                                    height: '20px',
+                                                    cursor: 'pointer',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    fontSize: '11px',
+                                                    lineHeight: 1
+                                                }}
+                                            >
+                                                ✕
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* Upload New Images Form */}
+                            <form ref={uploadFormRef} onSubmit={handleUploadImages} style={{ background: '#141418', padding: '12px', borderRadius: '6px' }}>
+                                <div style={{ fontSize: '13px', fontWeight: 600, color: '#e2e2e2', marginBottom: '8px' }}>
+                                    + Thêm ảnh vào album:
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                    <input
+                                        type="file"
+                                        name="images"
+                                        accept="image/*"
+                                        multiple
+                                        required
+                                        style={{ fontSize: '12px' }}
+                                    />
+                                    <input
+                                        type="text"
+                                        name="caption"
+                                        placeholder="Chú thích ảnh (tùy chọn)..."
+                                        style={{
+                                            padding: '6px 10px',
+                                            background: '#1a1a1f',
+                                            border: '1px solid #2a2a35',
+                                            borderRadius: '4px',
+                                            color: '#e2e2e2',
+                                            fontSize: '12px'
+                                        }}
+                                    />
+                                    <button
+                                        type="submit"
+                                        disabled={uploading}
+                                        className="btn-primary"
+                                        style={{ alignSelf: 'flex-start', padding: '6px 14px', fontSize: '12px' }}
+                                    >
+                                        {uploading ? 'Đang tải lên…' : 'Tải ảnh lên'}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    )}
+                </Modal>
+            )}
+        </div>
+    );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // SECTION: Bookings
 // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -705,8 +1050,9 @@ export default function AdminPage() {
             <div className="admin-content">
                 {tab === 0 && <CategoriesSection />}
                 {tab === 1 && <MenuItemsSection />}
-                {tab === 2 && <BookingsSection />}
-                {tab === 3 && <BanquetBookingsSection />}
+                {tab === 2 && <GalleriesSection />}
+                {tab === 3 && <BookingsSection />}
+                {tab === 4 && <BanquetBookingsSection />}
             </div>
         </div>
     );

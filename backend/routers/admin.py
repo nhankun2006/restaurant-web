@@ -2,7 +2,7 @@ import os
 import shutil
 import uuid
 import json
-from typing import Optional
+from typing import Optional, List
 
 import asyncpg
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
@@ -254,3 +254,187 @@ async def admin_delete_booking(
         raise HTTPException(status_code=404, detail="Booking not found")
     await db.execute("DELETE FROM bookings WHERE id = $1", booking_id)
     return {"message": "Booking deleted"}
+
+
+# ─── Galleries ────────────────────────────────────────────────────────────────
+
+@router.get("/galleries")
+async def admin_list_galleries(db: asyncpg.Connection = Depends(get_db)):
+    """List all galleries with images and counts."""
+    galleries_rows = await db.fetch("SELECT * FROM galleries ORDER BY id DESC")
+    gallery_ids = [r["id"] for r in galleries_rows]
+    if not gallery_ids:
+        return {"data": []}
+
+    images_rows = await db.fetch(
+        """
+        SELECT id, gallery_id, image_url, caption, sort_order
+        FROM gallery_images
+        WHERE gallery_id = ANY($1::bigint[])
+        ORDER BY gallery_id, sort_order ASC, id ASC
+        """,
+        gallery_ids,
+    )
+
+    images_by_gallery = {}
+    for img in images_rows:
+        gid = img["gallery_id"]
+        if gid not in images_by_gallery:
+            images_by_gallery[gid] = []
+        images_by_gallery[gid].append({
+            "id": img["id"],
+            "image_url": img["image_url"],
+            "caption": img["caption"],
+            "sort_order": img["sort_order"],
+        })
+
+    result = []
+    for g in galleries_rows:
+        item = dict(g)
+        imgs = images_by_gallery.get(g["id"], [])
+        item["images"] = imgs
+        item["image_count"] = len(imgs)
+        if not item.get("cover_image") and imgs:
+            item["cover_image"] = imgs[0]["image_url"]
+        result.append(item)
+
+    return {"data": result}
+
+
+@router.post("/galleries")
+async def admin_create_gallery(
+    title: str = Form(...),
+    category: str = Form(...),
+    description: Optional[str] = Form(None),
+    cover_image: Optional[UploadFile] = File(None),
+    db: asyncpg.Connection = Depends(get_db),
+):
+    """Create a new gallery album."""
+    cover_image_url = None
+    if cover_image and cover_image.filename:
+        cover_image_url = await _save_image(cover_image)
+
+    row = await db.fetchrow(
+        """
+        INSERT INTO galleries (title, category, description, cover_image)
+        VALUES ($1, $2, $3, $4) RETURNING *
+        """,
+        title, category, description, cover_image_url
+    )
+    item = dict(row)
+    item["images"] = []
+    item["image_count"] = 0
+    return {"message": "Gallery album created", "data": item}
+
+
+@router.put("/galleries/{gallery_id}")
+async def admin_update_gallery(
+    gallery_id: int,
+    title: Optional[str] = Form(None),
+    category: Optional[str] = Form(None),
+    description: Optional[str] = Form(None),
+    cover_image: Optional[UploadFile] = File(None),
+    db: asyncpg.Connection = Depends(get_db),
+):
+    """Update a gallery album."""
+    row = await db.fetchrow("SELECT * FROM galleries WHERE id = $1", gallery_id)
+    if not row:
+        raise HTTPException(status_code=404, detail="Gallery album not found")
+
+    cover_image_url = row["cover_image"]
+    if cover_image and cover_image.filename:
+        cover_image_url = await _save_image(cover_image)
+
+    row = await db.fetchrow(
+        """
+        UPDATE galleries
+        SET title       = COALESCE($1, title),
+            category    = COALESCE($2, category),
+            description = COALESCE($3, description),
+            cover_image = COALESCE($4, cover_image)
+        WHERE id = $5 RETURNING *
+        """,
+        title, category, description, cover_image_url, gallery_id
+    )
+
+    images_rows = await db.fetch(
+        "SELECT id, gallery_id, image_url, caption, sort_order FROM gallery_images WHERE gallery_id = $1 ORDER BY sort_order, id",
+        gallery_id
+    )
+    item = dict(row)
+    item["images"] = [dict(img) for img in images_rows]
+    item["image_count"] = len(item["images"])
+    return {"message": "Gallery album updated", "data": item}
+
+
+@router.delete("/galleries/{gallery_id}")
+async def admin_delete_gallery(
+    gallery_id: int,
+    db: asyncpg.Connection = Depends(get_db),
+):
+    """Delete a gallery album (cascades to images)."""
+    row = await db.fetchrow("SELECT id FROM galleries WHERE id = $1", gallery_id)
+    if not row:
+        raise HTTPException(status_code=404, detail="Gallery album not found")
+    await db.execute("DELETE FROM galleries WHERE id = $1", gallery_id)
+    return {"message": "Gallery album deleted"}
+
+
+@router.post("/galleries/{gallery_id}/images")
+async def admin_upload_gallery_images(
+    gallery_id: int,
+    images: List[UploadFile] = File(...),
+    caption: Optional[str] = Form(None),
+    db: asyncpg.Connection = Depends(get_db),
+):
+    """Upload one or more images into a gallery album."""
+    album = await db.fetchrow("SELECT * FROM galleries WHERE id = $1", gallery_id)
+    if not album:
+        raise HTTPException(status_code=404, detail="Gallery album not found")
+
+    max_order_row = await db.fetchrow(
+        "SELECT COALESCE(MAX(sort_order), 0) as max_order FROM gallery_images WHERE gallery_id = $1",
+        gallery_id
+    )
+    current_order = max_order_row["max_order"] if max_order_row else 0
+
+    inserted_images = []
+    first_image_url = None
+
+    for file in images:
+        if not file.filename:
+            continue
+        image_url = await _save_image(file)
+        if not first_image_url:
+            first_image_url = image_url
+        current_order += 1
+        img_row = await db.fetchrow(
+            """
+            INSERT INTO gallery_images (gallery_id, image_url, caption, sort_order)
+            VALUES ($1, $2, $3, $4) RETURNING *
+            """,
+            gallery_id, image_url, caption, current_order
+        )
+        inserted_images.append(dict(img_row))
+
+    if not album.get("cover_image") and first_image_url:
+        await db.execute(
+            "UPDATE galleries SET cover_image = $1 WHERE id = $2",
+            first_image_url, gallery_id
+        )
+
+    return {"message": f"Uploaded {len(inserted_images)} images", "data": inserted_images}
+
+
+@router.delete("/galleries/images/{image_id}")
+async def admin_delete_gallery_image(
+    image_id: int,
+    db: asyncpg.Connection = Depends(get_db),
+):
+    """Delete a single gallery image."""
+    row = await db.fetchrow("SELECT * FROM gallery_images WHERE id = $1", image_id)
+    if not row:
+        raise HTTPException(status_code=404, detail="Gallery image not found")
+    await db.execute("DELETE FROM gallery_images WHERE id = $1", image_id)
+    return {"message": "Gallery image deleted"}
+
