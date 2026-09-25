@@ -45,9 +45,12 @@ export const getComboMenu = (slug) => apiClient.get(`/combos/${slug}`);
 export const getBanquetServices = () => apiClient.get('/banquets/services');
 export const createBanquetBooking = (data) => apiClient.post('/banquets/bookings', data);
 
-// Events API
-export const getEvents = () => apiClient.get('/events');
-export const getEventBySlug = (slug) => apiClient.get(`/events/${slug}`);
+// Gallery API
+export const getGallery = (category) => {
+    const params = category && category !== 'all' ? { category } : {};
+    return apiClient.get('/gallery', { params });
+};
+export const getGalleryAlbum = (id) => apiClient.get(`/gallery/${id}`);
 
 // Bookings API
 export const createBooking = (data) => apiClient.post('/bookings', data);

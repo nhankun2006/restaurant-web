@@ -116,8 +116,8 @@ export default function HomePage() {
                         description="Từ những bữa tối thân mật đến các buổi tiệc lớn, hãy để chúng tôi mang lại trải nghiệm đáng nhớ cho bạn và khách mời."
                     />
                     <div style={{ display: 'flex', gap: 'var(--space-md)', justifyContent: 'center', flexWrap: 'wrap' }}>
-                        <Link href="/events" className="btn btn-primary">
-                            Khám Phá Sự Kiện
+                        <Link href="/gallery" className="btn btn-primary">
+                            Khám Phá Thư Viện Ảnh
                         </Link>
                         <Link href="/booking" className="btn btn-outline" style={{ borderColor: 'var(--color-primary)', color: 'var(--color-primary)' }}>
                             Đặt Bàn Ngay

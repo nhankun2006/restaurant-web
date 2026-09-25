@@ -140,8 +140,8 @@ The frontend will be available at **http://localhost:3000**.
 | GET    | `/api/menu/categories`    | List all categories                      |
 | GET    | `/api/menu/items`         | List menu items (filterable by category) |
 | GET    | `/api/menu/featured`      | Featured menu items                      |
-| GET    | `/api/events/`            | Events listing                           |
-| GET    | `/api/events/{slug}`      | Single event by slug                     |
+| GET    | `/api/gallery/`           | Gallery albums listing (supports ?category=) |
+| GET    | `/api/gallery/{id}`       | Single gallery album with images        |
 | GET    | `/api/bookings/`          | List all bookings                        |
 | POST   | `/api/bookings/`          | Submit a new booking                     |
 
