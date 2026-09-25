@@ -4,7 +4,7 @@ import Footer from '../components/Footer';
 import Providers from '../components/Providers';
 
 export const metadata = {
-    title: 'Nhà Hàng Cây Tùng — Ẩm Thực Cao Cấp & Tiệc Lịch Sự',
+    title: 'Ẩm Thực Cây Tùng',
     description: 'Trải nghiệm ẩm thực cao cấp với thực đơn phong phú, đặt bàn trực tuyến và không gian sang trọng.',
 };
 

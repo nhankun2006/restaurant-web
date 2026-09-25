@@ -61,6 +61,9 @@ docker compose down
 
 1. **Initialize Database:** Ensure your PostgreSQL server is running and create the target database (e.g., `restaurant`):
 ```bash
+# Switch to the postgres system user
+sudo -i -u postgres
+
 createdb -U postgres restaurant
 ```
 
