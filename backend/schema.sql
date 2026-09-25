@@ -10,6 +10,8 @@ DROP TABLE IF EXISTS combo_menu_items CASCADE;
 DROP TABLE IF EXISTS combo_menus CASCADE;
 DROP TABLE IF EXISTS bookings CASCADE;
 DROP TABLE IF EXISTS menu_items CASCADE;
+DROP TABLE IF EXISTS gallery_images CASCADE;
+DROP TABLE IF EXISTS galleries CASCADE;
 DROP TABLE IF EXISTS events CASCADE;
 DROP TABLE IF EXISTS categories CASCADE;
 
@@ -86,7 +88,27 @@ CREATE TABLE events (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 8. Bookings Table (Table reservations)
+-- 8. Galleries Table (Album collections)
+CREATE TABLE galleries (
+    id BIGSERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    category TEXT NOT NULL,
+    description TEXT,
+    cover_image TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 9. Gallery Images Table (1-N with galleries)
+CREATE TABLE gallery_images (
+    id BIGSERIAL PRIMARY KEY,
+    gallery_id BIGINT REFERENCES galleries(id) ON DELETE CASCADE,
+    image_url TEXT NOT NULL,
+    caption TEXT,
+    sort_order INTEGER DEFAULT 0,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 10. Bookings Table (Table reservations)
 CREATE TABLE bookings (
     id BIGSERIAL PRIMARY KEY,
     name TEXT NOT NULL,
@@ -100,7 +122,7 @@ CREATE TABLE bookings (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 9. Banquet Bookings Table (Party & banquet reservations)
+-- 11. Banquet Bookings Table (Party & banquet reservations)
 CREATE TABLE banquet_bookings (
     id               BIGSERIAL PRIMARY KEY,
     customer_name    TEXT NOT NULL,
@@ -133,6 +155,8 @@ ALTER TABLE combo_menus ENABLE ROW LEVEL SECURITY;
 ALTER TABLE combo_menu_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE banquet_services ENABLE ROW LEVEL SECURITY;
 ALTER TABLE events ENABLE ROW LEVEL SECURITY;
+ALTER TABLE galleries ENABLE ROW LEVEL SECURITY;
+ALTER TABLE gallery_images ENABLE ROW LEVEL SECURITY;
 ALTER TABLE bookings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE banquet_bookings ENABLE ROW LEVEL SECURITY;
 
@@ -158,6 +182,14 @@ CREATE POLICY "Allow public read banquet_services" ON banquet_services
 
 -- Public read access for events
 CREATE POLICY "Allow public read events" ON events
+    FOR SELECT USING (true);
+
+-- Public read access for galleries
+CREATE POLICY "Allow public read galleries" ON galleries
+    FOR SELECT USING (true);
+
+-- Public read access for gallery_images
+CREATE POLICY "Allow public read gallery_images" ON gallery_images
     FOR SELECT USING (true);
 
 -- Public insert/read access for bookings

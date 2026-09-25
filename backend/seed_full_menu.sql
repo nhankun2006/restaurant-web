@@ -5,7 +5,7 @@
 -- ============================================
 
 -- Xóa dữ liệu cũ và reset ID trước khi nạp lại
-TRUNCATE TABLE combo_menu_items, combo_menus, banquet_services, banquet_bookings, bookings, menu_items, events, categories RESTART IDENTITY CASCADE;
+TRUNCATE TABLE combo_menu_items, combo_menus, banquet_services, banquet_bookings, bookings, menu_items, gallery_images, galleries, events, categories RESTART IDENTITY CASCADE;
 
 -- 1. Insert Categories
 INSERT INTO categories (name, slug, description, image_url) VALUES
@@ -409,3 +409,71 @@ ON CONFLICT (slug) DO UPDATE SET
     price = EXCLUDED.price,
     sort_order = EXCLUDED.sort_order,
     description = EXCLUDED.description;
+
+-- ============================================
+-- 6. Insert Galleries & Gallery Images
+-- ============================================
+
+INSERT INTO galleries (id, title, category, description, cover_image) VALUES
+(1, 'Tiệc Cưới Gia Đình Nguyễn', 'wedding', 'Tiệc cưới 30 bàn tại nhà với khung rạp sang trọng và không gian hoa tươi lãng mạn.', '/images/gallery/wedding-nguyen-cover.jpg'),
+(2, 'Sinh Nhật Bé Minh', 'birthday', 'Tiệc sinh nhật tròn 1 tuổi ấm cúng tràn ngập sắc màu và niềm vui cho các bé.', '/images/gallery/birthday-minh-cover.jpg'),
+(3, 'Tân Gia Anh Hùng', 'housewarming', 'Tiệc tân gia 20 bàn, thực đơn đặc biệt thịnh soạn mừng ngôi nhà mới khang trang.', '/images/gallery/housewarming-hung-cover.jpg'),
+(4, 'Liên Hoan Công Ty ABC', 'corporate', 'Tiệc tất niên cuối năm 50 bàn với hệ thống âm thanh ánh sáng hiện đại.', '/images/gallery/corporate-abc-cover.jpg'),
+(5, 'Đám Giỗ Gia Đình Trần', 'memorial', 'Đám giỗ trang trọng 15 bàn, mâm cỗ truyền thống ấm cúng sum vầy họ hàng.', '/images/gallery/memorial-tran-cover.jpg'),
+(6, 'Khai Trương Shop Hoa', 'opening', 'Tiệc khai trương vui nhộn, sôi động với tiệc finger food và rượu vang chúc mừng.', '/images/gallery/opening-shop-cover.jpg'),
+(7, 'Tiệc Cưới Cô Linh & Anh Tuấn', 'wedding', 'Tiệc cưới ngoài trời 40 bàn phong cách lãng mạn tinh tế và ấn tượng.', '/images/gallery/wedding-linhtuan-cover.jpg'),
+(8, 'Đầy Tháng Bé An', 'baby', 'Tiệc thôi nôi 10 bàn ấm cúng với góc chụp ảnh lưu niệm ngộ nghĩnh cho bé.', '/images/gallery/baby-an-cover.jpg'),
+(9, 'Đám Hỏi Nhà Hảo', 'engagement', 'Lễ đám hỏi truyền thống trang nghiêm và ấm áp tình thân hai họ.', '/images/gallery/engagement-hao-cover.jpg')
+ON CONFLICT (id) DO UPDATE SET
+    title = EXCLUDED.title,
+    category = EXCLUDED.category,
+    description = EXCLUDED.description,
+    cover_image = EXCLUDED.cover_image;
+
+-- Reset identity sequence for galleries
+SELECT setval('galleries_id_seq', (SELECT COALESCE(MAX(id), 1) FROM galleries));
+
+INSERT INTO gallery_images (gallery_id, image_url, caption, sort_order) VALUES
+-- Tiệc Cưới Gia Đình Nguyễn (id: 1)
+(1, '/images/gallery/wedding-nguyen-1.jpg', 'Không gian sảnh cưới lãng mạn rực rỡ hoa tươi', 1),
+(1, '/images/gallery/wedding-nguyen-2.jpg', 'Bàn tiệc VIP được bài trí tinh tế', 2),
+(1, '/images/gallery/wedding-nguyen-3.jpg', 'Khu vực backdrop chụp ảnh lưu niệm cùng quan khách', 3),
+(1, '/images/gallery/wedding-nguyen-4.jpg', 'Đội ngũ phục vụ Cay Tung chu đáo trong suốt buổi tiệc', 4),
+
+-- Sinh Nhật Bé Minh (id: 2)
+(2, '/images/gallery/birthday-minh-1.jpg', 'Backdrop sinh nhật bé Minh tông màu pastel xinh xắn', 1),
+(2, '/images/gallery/birthday-minh-2.jpg', 'Bàn tiệc ngọt, bánh kem tạo hình và kẹo trang trí', 2),
+(2, '/images/gallery/birthday-minh-3.jpg', 'Gia đình và các bạn nhỏ vui chơi hoạt náo', 3),
+
+-- Tân Gia Anh Hùng (id: 3)
+(3, '/images/gallery/housewarming-hung-1.jpg', 'Không gian tiệc tân gia ấm cúng tại tư gia', 1),
+(3, '/images/gallery/housewarming-hung-2.jpg', 'Thực đơn món ăn thịnh soạn đậm đà hương vị truyền thống', 2),
+(3, '/images/gallery/housewarming-hung-3.jpg', 'Khoảnh khắc nâng ly chúc mừng gia chủ an khang thịnh vượng', 3),
+
+-- Liên Hoan Công Ty ABC (id: 4)
+(4, '/images/gallery/corporate-abc-1.jpg', 'Sân khấu gala dinner cuối năm công ty ABC hoành tráng', 1),
+(4, '/images/gallery/corporate-abc-2.jpg', 'Toàn cảnh khán phòng với hơn 50 bàn tiệc sang trọng', 2),
+(4, '/images/gallery/corporate-abc-3.jpg', 'Tiết mục văn nghệ và trao giải sôi nổi', 3),
+(4, '/images/gallery/corporate-abc-4.jpg', 'Món ăn nóng hổi được tiếp tế liên tục bởi đầu bếp Cay Tung', 4),
+
+-- Đám Giỗ Gia Đình Trần (id: 5)
+(5, '/images/gallery/memorial-tran-1.jpg', 'Mâm cỗ truyền thống trang nghiêm ấm áp hương vị quê nhà', 1),
+(5, '/images/gallery/memorial-tran-2.jpg', 'Con cháu các thế hệ quây quần sum họp ngày giỗ', 2),
+
+-- Khai Trương Shop Hoa (id: 6)
+(6, '/images/gallery/opening-shop-1.jpg', 'Lễ cắt băng khai trương tươi vui rực rỡ hoa chúc mừng', 1),
+(6, '/images/gallery/opening-shop-2.jpg', 'Khu vực tiệc đứng cocktail khai vị đón khách mời', 2),
+(6, '/images/gallery/opening-shop-3.jpg', 'Bàn tiệc teabreak bắt mắt và tinh tế', 3),
+
+-- Tiệc Cưới Cô Linh & Anh Tuấn (id: 7)
+(7, '/images/gallery/wedding-linhtuan-1.jpg', 'Lối đi sân khấu ngoài trời rực rỡ ánh đèn và hoa tươi', 1),
+(7, '/images/gallery/wedding-linhtuan-2.jpg', 'Bàn tiệc tròn phong cách hiện đại lãng mạn', 2),
+(7, '/images/gallery/wedding-linhtuan-3.jpg', 'Nghi thức cắt bánh cưới và rót rượu champagne chúc phúc', 3),
+
+-- Đầy Tháng Bé An (id: 8)
+(8, '/images/gallery/baby-an-1.jpg', 'Bàn tiệc thôi nôi đầy tháng ấm cúng gia đình', 1),
+(8, '/images/gallery/baby-an-2.jpg', 'Mâm lễ đầy tháng truyền thống chuẩn phong tục', 2),
+
+-- Đám Hỏi Nhà Hảo (id: 9)
+(9, '/images/gallery/engagement-hao-1.jpg', 'Không gian lễ đính hôn trang trọng thanh lịch', 1),
+(9, '/images/gallery/engagement-hao-2.jpg', 'Đội hình bưng mâm quả và gia đình hai họ gặp mặt', 2);
