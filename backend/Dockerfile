@@ -22,7 +22,7 @@ RUN pip install --no-cache-dir --upgrade pip \
 COPY . .
 
 # Ensure static images directory exists
-RUN mkdir -p static/images
+RUN mkdir -p static/images/gallery
 
 # Expose backend API port
 EXPOSE 8000

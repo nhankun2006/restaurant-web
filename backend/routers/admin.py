@@ -29,15 +29,17 @@ def _validate_image(file: UploadFile) -> str:
     return ext
 
 
-async def _save_image(file: UploadFile) -> str:
-    """Save uploaded image to static/images and return the public URL path."""
+async def _save_image(file: UploadFile, subfolder: str = "") -> str:
+    """Save uploaded image to static/images (or subfolder) and return the public URL path."""
     ext = _validate_image(file)
     filename = f"{uuid.uuid4().hex}{ext}"
-    dest = os.path.join(STATIC_IMAGES_DIR, filename)
-    os.makedirs(STATIC_IMAGES_DIR, exist_ok=True)
+    target_dir = os.path.join(STATIC_IMAGES_DIR, subfolder) if subfolder else STATIC_IMAGES_DIR
+    os.makedirs(target_dir, exist_ok=True)
+    dest = os.path.join(target_dir, filename)
     with open(dest, "wb") as f:
         shutil.copyfileobj(file.file, f)
-    return f"/images/{filename}"
+    prefix = f"/images/{subfolder}" if subfolder else "/images"
+    return f"{prefix}/{filename}"
 
 
 # ─── Categories ───────────────────────────────────────────────────────────────
@@ -312,7 +314,7 @@ async def admin_create_gallery(
     """Create a new gallery album."""
     cover_image_url = None
     if cover_image and cover_image.filename:
-        cover_image_url = await _save_image(cover_image)
+        cover_image_url = await _save_image(cover_image, subfolder="gallery")
 
     row = await db.fetchrow(
         """
@@ -343,7 +345,7 @@ async def admin_update_gallery(
 
     cover_image_url = row["cover_image"]
     if cover_image and cover_image.filename:
-        cover_image_url = await _save_image(cover_image)
+        cover_image_url = await _save_image(cover_image, subfolder="gallery")
 
     row = await db.fetchrow(
         """
@@ -404,7 +406,7 @@ async def admin_upload_gallery_images(
     for file in images:
         if not file.filename:
             continue
-        image_url = await _save_image(file)
+        image_url = await _save_image(file, subfolder="gallery")
         if not first_image_url:
             first_image_url = image_url
         current_order += 1

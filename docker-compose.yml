@@ -32,8 +32,9 @@ services:
     environment:
       - DATABASE_URL=postgresql://postgres:svcntt@db:5432/restaurant
     volumes:
-      # Mount static images folder so uploaded images persist across container restarts
-      - ./backend/static/images:/app/static/images
+      # Mount static images folder (:Z for Podman/SELinux permissions)
+      # This single mount automatically handles /food, /gallery, and all other subfolders!
+      - ./backend/static/images:/app/static/images:Z
     depends_on:
       db:
         condition: service_healthy
