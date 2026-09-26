@@ -70,13 +70,17 @@ createdb -U postgres restaurant
 2. **Execute SQL Scripts in Sequence:**
 - `backend/schema.sql`: **DDL Migration Script** — Drops existing tables (if any) and creates table schemas (`categories`, `menu_items`, `events`, `bookings`) along with Row Level Security (RLS) policies.
 - `backend/seed_full_menu.sql`: **Seed Data Script** — Resets data sequences (`TRUNCATE`) and populates all 16 categories, event packages, and 100+ menu items with mapped image URLs (`/images/food/...`).
+- NOTE: logout postgres user before running the next commands.
 
 ```bash
+# if you are still in the postgres user shell, exit back to your normal user
+exit
+
 # Step 1: Create table schema (DDL Migration)
-psql -U postgres -d restaurant -f backend/schema.sql
+sudo -u postgres psql -d restaurant -f schema.sql
 
 # Step 2: Seed categories, menu items, and events (Data Ingestion)
-psql -U postgres -d restaurant -f backend/seed_full_menu.sql
+sudo -u postgres psql -d restaurant -f seed_full_menu.sql
 ```
 
 
