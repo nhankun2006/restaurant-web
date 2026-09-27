@@ -88,6 +88,40 @@ async def _save_image(file: UploadFile, subfolder: str = "") -> str:
     return f"{prefix}/{filename}"
 
 
+def _delete_physical_file(image_url: Optional[str]) -> bool:
+    """Safely delete physical image file from static/images directory if it exists."""
+    if not image_url or not isinstance(image_url, str):
+        return False
+
+    # Ignore remote URLs (http://, https://, //)
+    if image_url.startswith(("http://", "https://", "//")):
+        return False
+
+    # Only process local images served under /images/
+    if not image_url.startswith("/images/"):
+        return False
+
+    rel_path = image_url[len("/images/"):].lstrip("/")
+    target_path = os.path.join(STATIC_IMAGES_DIR, rel_path)
+
+    try:
+        real_target = os.path.realpath(target_path)
+        real_base = os.path.realpath(STATIC_IMAGES_DIR)
+
+        # Ensure target is strictly inside STATIC_IMAGES_DIR and not the directory itself
+        if real_target == real_base or os.path.commonpath([real_target, real_base]) != real_base:
+            return False
+
+        if os.path.isfile(real_target):
+            os.remove(real_target)
+            return True
+    except OSError:
+        pass
+
+    return False
+
+
+
 # ─── Categories ───────────────────────────────────────────────────────────────
 
 @router.get("/categories")
@@ -161,10 +195,17 @@ async def admin_delete_category(
     category_id: int,
     db: asyncpg.Connection = Depends(get_db),
 ):
-    """Delete a category (cascades to menu items)."""
-    row = await db.fetchrow("SELECT id FROM categories WHERE id = $1", category_id)
+    """Delete a category (cascades to menu items) and cleanup physical images."""
+    row = await db.fetchrow("SELECT id, image_url FROM categories WHERE id = $1", category_id)
     if not row:
         raise HTTPException(status_code=404, detail="Category not found")
+
+    # Clean up physical images of menu items under this category before cascading
+    menu_images = await db.fetch("SELECT image_url FROM menu_items WHERE category_id = $1", category_id)
+    for mi in menu_images:
+        _delete_physical_file(mi.get("image_url"))
+
+    _delete_physical_file(row.get("image_url"))
     await db.execute("DELETE FROM categories WHERE id = $1", category_id)
     return {"message": "Category deleted"}
 
@@ -258,10 +299,12 @@ async def admin_delete_menu_item(
     item_id: int,
     db: asyncpg.Connection = Depends(get_db),
 ):
-    """Delete a menu item."""
-    row = await db.fetchrow("SELECT id FROM menu_items WHERE id = $1", item_id)
+    """Delete a menu item and cleanup physical image."""
+    row = await db.fetchrow("SELECT id, image_url FROM menu_items WHERE id = $1", item_id)
     if not row:
         raise HTTPException(status_code=404, detail="Menu item not found")
+
+    _delete_physical_file(row.get("image_url"))
     await db.execute("DELETE FROM menu_items WHERE id = $1", item_id)
     return {"message": "Menu item deleted"}
 
@@ -420,10 +463,22 @@ async def admin_delete_gallery(
     gallery_id: int,
     db: asyncpg.Connection = Depends(get_db),
 ):
-    """Delete a gallery album (cascades to images)."""
-    row = await db.fetchrow("SELECT id FROM galleries WHERE id = $1", gallery_id)
+    """Delete a gallery album (cascades to images) and delete all physical image files."""
+    row = await db.fetchrow("SELECT id, cover_image FROM galleries WHERE id = $1", gallery_id)
     if not row:
         raise HTTPException(status_code=404, detail="Gallery album not found")
+
+    # Fetch all child images before deleting DB row
+    child_images = await db.fetch(
+        "SELECT image_url FROM gallery_images WHERE gallery_id = $1",
+        gallery_id
+    )
+    for img in child_images:
+        _delete_physical_file(img.get("image_url"))
+
+    if row.get("cover_image"):
+        _delete_physical_file(row["cover_image"])
+
     await db.execute("DELETE FROM galleries WHERE id = $1", gallery_id)
     return {"message": "Gallery album deleted"}
 
@@ -479,10 +534,12 @@ async def admin_delete_gallery_image(
     image_id: int,
     db: asyncpg.Connection = Depends(get_db),
 ):
-    """Delete a single gallery image."""
+    """Delete a single gallery image and remove its physical file."""
     row = await db.fetchrow("SELECT * FROM gallery_images WHERE id = $1", image_id)
     if not row:
         raise HTTPException(status_code=404, detail="Gallery image not found")
+
+    _delete_physical_file(row.get("image_url"))
     await db.execute("DELETE FROM gallery_images WHERE id = $1", image_id)
     return {"message": "Gallery image deleted"}
 
