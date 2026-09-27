@@ -29,15 +29,61 @@ def _validate_image(file: UploadFile) -> str:
     return ext
 
 
+def _validate_image_filename(filename: str):
+    """Ensure filename does not contain whitespace or Vietnamese accents/non-ASCII characters."""
+    if not filename:
+        raise HTTPException(status_code=400, detail="Tên file không được để trống")
+
+    # Prevent directory traversal
+    base = os.path.basename(filename)
+    if base != filename or '..' in filename:
+        raise HTTPException(status_code=400, detail=f"Tên file '{filename}' không hợp lệ")
+
+    # Guard: check whitespace
+    if any(c.isspace() for c in filename):
+        raise HTTPException(
+            status_code=400,
+            detail=f"Tên file '{filename}' không được chứa khoảng trắng. Vui lòng dùng dấu gạch ngang '-' hoặc gạch dưới '_'."
+        )
+
+    # Guard: check non-ASCII / Vietnamese accented characters
+    try:
+        filename.encode('ascii')
+    except UnicodeEncodeError:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Tên file '{filename}' không được chứa ký tự tiếng Việt có dấu hoặc ký tự đặc biệt. Vui lòng đặt tên không dấu (ví dụ: 'tiec-cuoi.jpg')."
+        )
+
+
+def _get_unique_filename(target_dir: str, filename: str) -> str:
+    """If file exists in target_dir, append _1, _2, etc. until unique."""
+    dest = os.path.join(target_dir, filename)
+    if not os.path.exists(dest):
+        return filename
+
+    base_name, ext = os.path.splitext(filename)
+    counter = 1
+    while True:
+        candidate = f"{base_name}_{counter}{ext}"
+        if not os.path.exists(os.path.join(target_dir, candidate)):
+            return candidate
+        counter += 1
+
+
 async def _save_image(file: UploadFile, subfolder: str = "") -> str:
-    """Save uploaded image to static/images (or subfolder) and return the public URL path."""
-    ext = _validate_image(file)
-    filename = f"{uuid.uuid4().hex}{ext}"
+    """Save uploaded image to static/images (or subfolder), preserving original filename and auto-incrementing with '_' if duplicate."""
+    _validate_image(file)
+    _validate_image_filename(file.filename or "")
+
     target_dir = os.path.join(STATIC_IMAGES_DIR, subfolder) if subfolder else STATIC_IMAGES_DIR
     os.makedirs(target_dir, exist_ok=True)
+
+    filename = _get_unique_filename(target_dir, file.filename)
     dest = os.path.join(target_dir, filename)
     with open(dest, "wb") as f:
         shutil.copyfileobj(file.file, f)
+
     prefix = f"/images/{subfolder}" if subfolder else "/images"
     return f"{prefix}/{filename}"
 
