@@ -2,13 +2,15 @@
 
 ## Overview
 
-Cay Tung Restaurant is a full-stack web application consisting of a **Next.js 14 (App Router)** frontend and a **FastAPI** backend powered by **PostgreSQL** (via `asyncpg`).
+Cay Tung Restaurant is a full-stack web app designed for an internal dedicated restaurant management system. It allows their customers to browse the menu, view event packages, and submit online booking requests. The admin panel provides an interface for managing CRUD menu items, categories, and bookings.
 
 **Key Features:**
 - **Menu:** Browse & filter dishes by category.
-- **Events:** Explore and book event types (birthdays, weddings, etc.).
-- **Booking:** Submit online reservation requests.
-- **Admin Panel:** Internal management interface for menu, categories, and bookings.
+- **Gallery:** Browse albums of real banquets and past events for customer reference and review.
+- **Booking:** Submit online a reservation requests or book a banquet.
+- **Admin Panel:** Internal management interface for menu, galleries, categories, and bookings.
+
+Link Demo: [https://caytungrestaurant.vercel.app](https://caytungrestaurant.vercel.app)
 
 ---
 
