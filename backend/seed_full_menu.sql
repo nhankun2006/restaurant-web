@@ -43,7 +43,7 @@ INSERT INTO menu_items (category_id, name, description, price, image_url, is_fea
     ((SELECT id FROM categories WHERE slug = 'mon-goi'), 'Gỏi mực', 'Mực tươi luộc tới giòn ngọt trộn rau răm hành tây.', 135000, NULL, false, true),
     ((SELECT id FROM categories WHERE slug = 'mon-goi'), 'Gỏi rong biển', 'Rong biển thanh mát trộn hải sản và sốt chua cay.', 120000, NULL, false, true),
     ((SELECT id FROM categories WHERE slug = 'mon-goi'), 'Gỏi lưỡi heo thập cẩm', 'Lưỡi heo giòn kết hợp rau củ bào sợi rưới sốt đậm đà.', 130000, NULL, false, true),
-    ((SELECT id FROM categories WHERE slug = 'mon-goi'), 'Gỏi bò xốt me', 'Bò tái mềm mọng rưới sốt me chua ngọt cay dịu.', 140000, NULL, true, true),
+    ((SELECT id FROM categories WHERE slug = 'mon-goi'), 'Gỏi bò sốt me', 'Bò tái mềm mọng rưới sốt me chua ngọt cay dịu.', 140000, NULL, true, true),
     ((SELECT id FROM categories WHERE slug = 'mon-goi'), 'Gỏi ngó sen gà xé', 'Thịt gà ta xé phay trộn ngó sen tươi giòn.', 125000, NULL, false, true),
     ((SELECT id FROM categories WHERE slug = 'mon-goi'), 'Gỏi tiến vua gà xé', 'Rau tiến vua giòn sần sật kết hợp gà xé phay bóp rau răm.', 135000, NULL, false, true),
     ((SELECT id FROM categories WHERE slug = 'mon-goi'), 'Gỏi mực chua cay kiểu Thái', 'Mực tươi trộn sốt Thái chua cay đậm vị.', 145000, NULL, true, true),
@@ -128,6 +128,7 @@ INSERT INTO menu_items (category_id, name, description, price, image_url, is_fea
 
 -- 9. Các món heo
 INSERT INTO menu_items (category_id, name, description, price, image_url, is_featured, is_available) VALUES
+    ((SELECT id FROM categories WHERE slug = 'mon-heo'), 'Heo quay & bánh bao chiên', 'Heo quay giòn da quét mật ong được chặt nhỏ ăn kèm với bánh bao chiên kiểu Trung Hoa.', 210000, '/images/food/heo_quay_&_banh_bao_chien.jpg', true, true),
     ((SELECT id FROM categories WHERE slug = 'mon-heo'), 'Heo rừng hấp tía tô', 'Heo rừng thái mỏng hấp lá tía tô chấm mắm tôm/chao.', 210000, NULL, true, true),
     ((SELECT id FROM categories WHERE slug = 'mon-heo'), 'Heo rừng xào lăn', 'Heo rừng xào lăn nước cốt dừa sả ớt.', 210000, NULL, true, true),
     ((SELECT id FROM categories WHERE slug = 'mon-heo'), 'Heo rừng xào sa tế', 'Heo rừng xào sa tế cay thơm nồng.', 200000, NULL, false, true),
@@ -379,7 +380,7 @@ ON CONFLICT (slug) DO UPDATE SET
 -- ============================================
 
 INSERT INTO galleries (id, title, category, description, cover_image) VALUES
-(1, 'Tiệc Cưới Gia Đình Nguyễn', 'wedding', 'Tiệc cưới 30 bàn tại nhà với khung rạp sang trọng và không gian hoa tươi lãng mạn.', '/images/gallery/wedding-nguyen-cover.jpg'),
+(1, 'Tiệc cưới Việt Lâm & Thùy Trang', 'wedding', 'Lễ tân hôn 16 bàn gần gũi và thơ mộng của anh Việt Lâm và chị Thùy Trang vào một buổi sáng trưa nắng dịu nhẹ ở Cây Da.', '/images/gallery/tiec_cuoi_Viet_Lam_&_Thuy_Trang_cover_page.jpg'),
 (2, 'Sinh Nhật Bé Minh', 'birthday', 'Tiệc sinh nhật tròn 1 tuổi ấm cúng tràn ngập sắc màu và niềm vui cho các bé.', '/images/gallery/birthday-minh-cover.jpg'),
 (3, 'Tân Gia Anh Hùng', 'housewarming', 'Tiệc tân gia 20 bàn, thực đơn đặc biệt thịnh soạn mừng ngôi nhà mới khang trang.', '/images/gallery/housewarming-hung-cover.jpg'),
 (4, 'Liên Hoan Công Ty ABC', 'corporate', 'Tiệc tất niên cuối năm 50 bàn với hệ thống âm thanh ánh sáng hiện đại.', '/images/gallery/corporate-abc-cover.jpg'),
