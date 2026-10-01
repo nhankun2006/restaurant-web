@@ -1,20 +1,34 @@
-# Security / Secrets
+# Security / Environment
 .env
-.env.local
-.env*.local
+.env.*
+!.env.example
 
-# Python
+# Python / FastAPI
 __pycache__/
-venv/
+*.py[cod]
+*$py.class
 .venv/
+venv/
+ENV/
+*.sqlite3
 
-# Node.js
+# Node.js / Next.js
 node_modules/
-
-# Build output
-frontend/dist/
+**/node_modules/
 .next/
+out/
+build/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# static files
-backend/static/images/*
-!backend/static/images/.gitkeep
+# Static & Uploads (bỏ qua toàn bộ nội dung trong static)
+backend/static/*
+!backend/static/.gitkeep
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
