@@ -10,7 +10,9 @@ Cay Tung Restaurant is a full-stack web app designed for an internal dedicated r
 - **Booking:** Submit online a reservation requests or book a banquet.
 - **Admin Panel:** Internal management interface for menu, galleries, categories, and bookings.
 
-Link Demo: [https://caytungrestaurant.vercel.app](https://caytungrestaurant.vercel.app)
+### Link Demo: [caytungrestaurant](https://caytungrestaurant.vercel.app)
+### Video Demo: https://youtu.be/_9mpzR03u10
+### Description: introduce my personal info, project title, and preview almost all features of the project.
 
 ---
 
