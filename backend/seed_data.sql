@@ -381,14 +381,12 @@ ON CONFLICT (slug) DO UPDATE SET
 
 INSERT INTO galleries (id, title, category, description, cover_image) VALUES
 (1, 'Tiệc cưới Việt Lâm & Thùy Trang', 'wedding', 'Lễ tân hôn 16 bàn gần gũi và thơ mộng của anh Việt Lâm và chị Thùy Trang vào một buổi sáng trưa nắng dịu nhẹ ở Cây Da.', '/images/gallery/tiec_cuoi_Viet_Lam_&_Thuy_Trang_cover_page.jpg'),
-(2, 'Sinh Nhật Bé Minh', 'birthday', 'Tiệc sinh nhật tròn 1 tuổi ấm cúng tràn ngập sắc màu và niềm vui cho các bé.', '/images/gallery/birthday-minh-cover.jpg'),
-(3, 'Tân Gia Anh Hùng', 'housewarming', 'Tiệc tân gia 20 bàn, thực đơn đặc biệt thịnh soạn mừng ngôi nhà mới khang trang.', '/images/gallery/housewarming-hung-cover.jpg'),
-(4, 'Liên Hoan Công Ty ABC', 'corporate', 'Tiệc tất niên cuối năm 50 bàn với hệ thống âm thanh ánh sáng hiện đại.', '/images/gallery/corporate-abc-cover.jpg'),
-(5, 'Đám Giỗ Gia Đình Trần', 'memorial', 'Đám giỗ trang trọng 15 bàn, mâm cỗ truyền thống ấm cúng sum vầy họ hàng.', '/images/gallery/memorial-tran-cover.jpg'),
-(6, 'Khai Trương Shop Hoa', 'opening', 'Tiệc khai trương vui nhộn, sôi động với tiệc finger food và rượu vang chúc mừng.', '/images/gallery/opening-shop-cover.jpg'),
-(7, 'Tiệc Cưới Cô Linh & Anh Tuấn', 'wedding', 'Tiệc cưới ngoài trời 40 bàn phong cách lãng mạn tinh tế và ấn tượng.', '/images/gallery/wedding-linhtuan-cover.jpg'),
-(8, 'Đầy Tháng Bé An', 'baby', 'Tiệc thôi nôi 10 bàn ấm cúng với góc chụp ảnh lưu niệm ngộ nghĩnh cho bé.', '/images/gallery/baby-an-cover.jpg'),
-(9, 'Đám Hỏi Nhà Hảo', 'engagement', 'Lễ đám hỏi truyền thống trang nghiêm và ấm áp tình thân hai họ.', '/images/gallery/engagement-hao-cover.jpg')
+(2, 'Sinh Nhật Bé Đăng Khoa', 'birthday', 'Tiệc sinh nhật tròn 1 tuổi ấm cúng tràn ngập sắc màu và niềm vui của bé Đăng Khoa.', '/images/gallery/sinh_nhat_be_Dang_Khoa_2.jpg'),
+(3, 'Tiệc tân gia anh Long & chị Quế', 'housewarming', 'Tiệc tân gia 15 bàn, thực đơn đặc biệt thịnh soạn mừng ngôi nhà mới khang trang cho 2 anh chị.', '/images/gallery/tiec_tan_gia_anh_Long_&_chi_Que_1.jpg'),
+(4, 'Tiệc tân gia anh Toản & chị Tình', 'housewarming', 'Tiệc tân gia ấm cúng mừng ngôi nhà mới của anh Toản và chị Tình với thực đơn đậm đà trọn vị.', '/images/gallery/tiec_tan_gia_anh_Toan_&_chi_Tinh_cover.jpg'),
+(5, 'Tiệc tân gia gia đình Ngọc Tin & Phương Thảo', 'housewarming', 'Không gian tiệc mừng tân gia sang trọng, ngập tràn tiếng cười và niềm vui của gia đình Ngọc Tín & Phương Thảo.', '/images/gallery/tiec_tan_gia_gia_dinh_Ngoc_Tin_&_Phuong_Thao_cover_page.jpg'),
+(6, 'Sinh Nhật Bé Hạ Nhi', 'birthday', 'Tiệc thôi nôi ngọt ngào, đáng yêu với không gian trang trí rực rỡ sắc màu dành tặng bé Hạ Nhi.', '/images/gallery/sinh_nhat_be_Ha_Nhi_cover_page.jpg'),
+(7, 'Tiệc cưới Lễ Vu Quy', 'wedding', 'Lễ vu quy trang trọng, ngập tràn hạnh phúc và lời chúc phúc của gia đình hai họ.', '/images/gallery/le_vu_quy_cover_page.jpg')
 ON CONFLICT (id) DO UPDATE SET
     title = EXCLUDED.title,
     category = EXCLUDED.category,
@@ -399,46 +397,42 @@ ON CONFLICT (id) DO UPDATE SET
 SELECT setval('galleries_id_seq', (SELECT COALESCE(MAX(id), 1) FROM galleries));
 
 INSERT INTO gallery_images (gallery_id, image_url, caption, sort_order) VALUES
--- Tiệc Cưới Gia Đình Nguyễn (id: 1)
-(1, '/images/gallery/wedding-nguyen-1.jpg', 'Không gian sảnh cưới lãng mạn rực rỡ hoa tươi', 1),
-(1, '/images/gallery/wedding-nguyen-2.jpg', 'Bàn tiệc VIP được bài trí tinh tế', 2),
-(1, '/images/gallery/wedding-nguyen-3.jpg', 'Khu vực backdrop chụp ảnh lưu niệm cùng quan khách', 3),
-(1, '/images/gallery/wedding-nguyen-4.jpg', 'Đội ngũ phục vụ Cay Tung chu đáo trong suốt buổi tiệc', 4),
+-- 1. Tiệc cưới Việt Lâm & Thùy Trang (id: 1)
+(1, '/images/gallery/tiec_cuoi_Viet_Lam_&_Thuy_Trang_1.jpg', 'Khoảnh khắc rạng rỡ của cô dâu và chú rể trong ngày tân hôn', 1),
+(1, '/images/gallery/tiec_cuoi_Viet_Lam_&_Thuy_Trang_2.jpg', 'Không gian tiệc cưới ấm cúng và gần gũi cùng quan khách', 2),
+(1, '/images/gallery/tiec_cuoi_Viet_Lam_&_Thuy_Trang_3.jpg', 'Bàn tiệc được bài trí tinh tế, chu đáo', 3),
+(1, '/images/gallery/tiec_cuoi_Viet_Lam_&_Thuy_Trang_4.jpg', 'Gia đình hai họ và bạn bè chung vui nâng ly chúc phúc', 4),
+(1, '/images/gallery/tiec_cuoi_Viet_Lam_&_Thuy_Trang_5.jpg', 'Nụ cười hạnh phúc lưu giữ kỷ niệm ngày trọng đại', 5),
 
--- Sinh Nhật Bé Minh (id: 2)
-(2, '/images/gallery/birthday-minh-1.jpg', 'Backdrop sinh nhật bé Minh tông màu pastel xinh xắn', 1),
-(2, '/images/gallery/birthday-minh-2.jpg', 'Bàn tiệc ngọt, bánh kem tạo hình và kẹo trang trí', 2),
-(2, '/images/gallery/birthday-minh-3.jpg', 'Gia đình và các bạn nhỏ vui chơi hoạt náo', 3),
+-- 2. Sinh Nhật Bé Đăng Khoa (id: 2)
+(2, '/images/gallery/sinh_nhat_be_Dang_Khoa_1.jpg', 'Không gian tiệc sinh nhật thôi nôi rực rỡ sắc màu', 1),
+(2, '/images/gallery/sinh_nhat_be_Dang_Khoa_2.jpg', 'Khoảnh khắc đáng yêu và nụ cười rạng rỡ của bé Đăng Khoa', 2),
 
--- Tân Gia Anh Hùng (id: 3)
-(3, '/images/gallery/housewarming-hung-1.jpg', 'Không gian tiệc tân gia ấm cúng tại tư gia', 1),
-(3, '/images/gallery/housewarming-hung-2.jpg', 'Thực đơn món ăn thịnh soạn đậm đà hương vị truyền thống', 2),
-(3, '/images/gallery/housewarming-hung-3.jpg', 'Khoảnh khắc nâng ly chúc mừng gia chủ an khang thịnh vượng', 3),
+-- 3. Tiệc tân gia anh Long & chị Quế (id: 3)
+(3, '/images/gallery/tiec_tan_gia_anh_Long_&_chi_Que_1.jpg', 'Không gian tiệc tân gia khang trang, ấm cúng tại tư gia', 1),
+(3, '/images/gallery/tiec_tan_gia_anh_Long_&_chi_Que_2.jpg', 'Bàn tiệc thịnh soạn thơm ngon phục vụ quan khách', 2),
+(3, '/images/gallery/tiec_tan_gia_anh_Long_&_chi_Que_3.jpg', 'Người thân và bạn bè nâng ly chúc mừng gia chủ an khang', 3),
 
--- Liên Hoan Công Ty ABC (id: 4)
-(4, '/images/gallery/corporate-abc-1.jpg', 'Sân khấu gala dinner cuối năm công ty ABC hoành tráng', 1),
-(4, '/images/gallery/corporate-abc-2.jpg', 'Toàn cảnh khán phòng với hơn 50 bàn tiệc sang trọng', 2),
-(4, '/images/gallery/corporate-abc-3.jpg', 'Tiết mục văn nghệ và trao giải sôi nổi', 3),
-(4, '/images/gallery/corporate-abc-4.jpg', 'Món ăn nóng hổi được tiếp tế liên tục bởi đầu bếp Cay Tung', 4),
+-- 4. Tiệc tân gia anh Toàn & chị Tình (id: 4)
+(4, '/images/gallery/tiec_tan_gia_anh_Toan_&_chi_Tinh_1.jpg', 'Không gian tiệc tân gia rộn ràng niềm vui mừng nhà mới', 1),
+(4, '/images/gallery/tiec_tan_gia_anh_Toan_&_chi_Tinh_2.jpg', 'Bàn tiệc đãi khách được chuẩn bị chu đáo, tinh tươm', 2),
+(4, '/images/gallery/tiec_tan_gia_anh_Toan_&_chi_Tinh_3.jpg', 'Gia đình sum vầy cùng quan khách trong ngày vui', 3),
+(4, '/images/gallery/tiec_tan_gia_anh_Toan_&_chi_Tinh_4.jpg', 'Khoảnh khắc lưu niệm đáng nhớ của buổi tiệc tân gia', 4),
 
--- Đám Giỗ Gia Đình Trần (id: 5)
-(5, '/images/gallery/memorial-tran-1.jpg', 'Mâm cỗ truyền thống trang nghiêm ấm áp hương vị quê nhà', 1),
-(5, '/images/gallery/memorial-tran-2.jpg', 'Con cháu các thế hệ quây quần sum họp ngày giỗ', 2),
+-- 5. Tiệc tân gia gia đình Ngọc Tín & Phương Thảo (id: 5)
+(5, '/images/gallery/tiec_tan_gia_gia_dinh_Ngoc_Tin_&_Phuong_Thao_1.jpg', 'Không gian rạp tiệc tân gia sang trọng và thoáng đãng', 1),
+(5, '/images/gallery/tiec_tan_gia_gia_dinh_Ngoc_Tin_&_Phuong_Thao_2.jpg', 'Bàn tiệc tròn chỉn chu đón tiếp bà con, lối xóm và bạn bè', 2),
+(5, '/images/gallery/tiec_tan_gia_gia_dinh_Ngoc_Tin_&_Phuong_Thao_3.jpg', 'Thực đơn tiệc đa dạng với các món ăn nóng hổi', 3),
+(5, '/images/gallery/tiec_tan_gia_gia_dinh_Ngoc_Tin_&_Phuong_Thao_4.jpg', 'Gia đình rạng rỡ đón khách quý đến chung vui', 4),
+(5, '/images/gallery/tiec_tan_gia_gia_dinh_Ngoc_Tin_&_Phuong_Thao_5.jpg', 'Không khí đầm ấm, thân tình xuyên suốt buổi tiệc', 5),
+(5, '/images/gallery/tiec_tan_gia_gia_dinh_Ngoc_Tin_&_Phuong_Thao_6.jpg', 'Kỷ niệm đẹp ngày mừng tân gia khởi sắc vạn sự hanh thông', 6),
 
--- Khai Trương Shop Hoa (id: 6)
-(6, '/images/gallery/opening-shop-1.jpg', 'Lễ cắt băng khai trương tươi vui rực rỡ hoa chúc mừng', 1),
-(6, '/images/gallery/opening-shop-2.jpg', 'Khu vực tiệc đứng cocktail khai vị đón khách mời', 2),
-(6, '/images/gallery/opening-shop-3.jpg', 'Bàn tiệc teabreak bắt mắt và tinh tế', 3),
+-- 6. Sinh Nhật Bé Hạ Nhi (id: 6)
+(6, '/images/gallery/sinh_nhat_be_Ha_Nhi_1.jpg', 'Backdrop sinh nhật bé Hạ Nhi rực rỡ và dễ thương', 1),
+(6, '/images/gallery/sinh_nhat_be_Ha_Nhi_2.jpg', 'Khoảnh khắc đón tuổi mới ngọt ngào bên gia đình thân yêu', 2),
 
--- Tiệc Cưới Cô Linh & Anh Tuấn (id: 7)
-(7, '/images/gallery/wedding-linhtuan-1.jpg', 'Lối đi sân khấu ngoài trời rực rỡ ánh đèn và hoa tươi', 1),
-(7, '/images/gallery/wedding-linhtuan-2.jpg', 'Bàn tiệc tròn phong cách hiện đại lãng mạn', 2),
-(7, '/images/gallery/wedding-linhtuan-3.jpg', 'Nghi thức cắt bánh cưới và rót rượu champagne chúc phúc', 3),
-
--- Đầy Tháng Bé An (id: 8)
-(8, '/images/gallery/baby-an-1.jpg', 'Bàn tiệc thôi nôi đầy tháng ấm cúng gia đình', 1),
-(8, '/images/gallery/baby-an-2.jpg', 'Mâm lễ đầy tháng truyền thống chuẩn phong tục', 2),
-
--- Đám Hỏi Nhà Hảo (id: 9)
-(9, '/images/gallery/engagement-hao-1.jpg', 'Không gian lễ đính hôn trang trọng thanh lịch', 1),
-(9, '/images/gallery/engagement-hao-2.jpg', 'Đội hình bưng mâm quả và gia đình hai họ gặp mặt', 2);
+-- 7. Tiệc cưới Lễ Vu Quy (id: 7)
+(7, '/images/gallery/le_vu_quy_1.jpg', 'Không gian lễ vu quy trang nghiêm, ngập tràn sắc đỏ may mắn', 1),
+(7, '/images/gallery/le_vu_quy_2.jpg', 'Bàn tiệc cưới ấm cúng chào đón quan khách hai họ', 2),
+(7, '/images/gallery/le_vu_quy_3.jpg', 'Khoảnh khắc thiêng liêng và xúc động trong ngày xuất giá', 3),
+(7, '/images/gallery/le_vu_quy_4.jpg', 'Nụ cười rạng ngời của cô dâu cùng người thân và bạn bè', 4);

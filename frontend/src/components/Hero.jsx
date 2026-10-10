@@ -5,7 +5,7 @@ function Hero() {
         <section className="hero" id="hero">
             <div className="hero__background">
                 <img
-                    src="/images/hero-banner.png"
+                    src="/images/background.jpg"
                     alt="Cay Tung restaurant interior"
                     className="hero__image"
                 />

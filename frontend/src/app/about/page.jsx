@@ -24,7 +24,7 @@ export default function AboutPage() {
                     <div className="about-story">
                         <div>
                             <img
-                                src="/images/hero-banner.png"
+                                src="/images/background.jpg"
                                 alt="Cay Tung restaurant interior"
                                 className="about-story__image"
                             />
