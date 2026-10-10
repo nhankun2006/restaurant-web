@@ -63,7 +63,7 @@ INSERT INTO menu_items (category_id, name, description, price, image_url, is_fea
 INSERT INTO menu_items (category_id, name, description, price, image_url, is_featured, is_available) VALUES
     ((SELECT id FROM categories WHERE slug = 'mon-ga'), 'Gà hấp lá chanh', 'Gà ta thả vườn hấp lá chanh thơm lừng da giòn.', 280000, '/images/food/ga_hap_1.png', true, true),
     ((SELECT id FROM categories WHERE slug = 'mon-ga'), 'Gà hấp cải bẹ', 'Gà hấp cùng cải bẹ xanh vị đắng nhẹ thanh mát.', 280000, NULL, false, true),
-    ((SELECT id FROM categories WHERE slug = 'mon-ga'), 'Gà bó xôi', 'Gà nguyên con bọc xôi chiên phồng da giòn rụm.', 350000, NULL, true, true),
+    ((SELECT id FROM categories WHERE slug = 'mon-ga'), 'Gà bó xôi', 'Gà nguyên con bọc xôi chiên phồng da giòn rụm.', 350000, '/images/food/ga_bo_xoi.jpg', true, true),
     ((SELECT id FROM categories WHERE slug = 'mon-ga'), 'Gà hấp nấm', 'Gà hấp các loại nấm quý ngọt vị.', 290000, NULL, false, true),
     ((SELECT id FROM categories WHERE slug = 'mon-ga'), 'Gà hấp hành', 'Gà ta hấp hành củ ngọt ngào béo ngậy.', 280000, NULL, false, true),
     ((SELECT id FROM categories WHERE slug = 'mon-ga'), 'Gà rang me', 'Thịt gà giòn rụm sốt me chua ngọt.', 250000, NULL, false, true),

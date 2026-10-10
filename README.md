@@ -84,7 +84,7 @@ exit
 sudo -u postgres psql -d restaurant -f schema.sql
 
 # Step 2: Seed categories, menu items, and events (Data Ingestion)
-sudo -u postgres psql -d restaurant -f seed_full_menu.sql
+sudo -u postgres psql -d restaurant -f seed_data.sql
 ```
 
 
