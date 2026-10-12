@@ -49,7 +49,10 @@ async def get_menu_items(
 
 
 @router.get("/featured")
-async def get_featured_items(db: asyncpg.Connection = Depends(get_db)):
+async def get_featured_items(
+    limit: int = 20,
+    db: asyncpg.Connection = Depends(get_db)
+):
     """Get featured menu items for homepage showcase."""
     rows = await db.fetch(
         """
@@ -57,7 +60,12 @@ async def get_featured_items(db: asyncpg.Connection = Depends(get_db)):
         FROM menu_items m
         JOIN categories c ON m.category_id = c.id
         WHERE m.is_featured = TRUE AND m.is_available = TRUE
-        """
+        ORDER BY
+            CASE WHEN m.image_url IS NOT NULL AND m.image_url != '' THEN 0 ELSE 1 END,
+            m.id ASC
+        LIMIT $1
+        """,
+        limit
     )
     return {"data": [dict(r) for r in rows]}
 

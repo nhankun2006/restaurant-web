@@ -16,7 +16,16 @@ export default function HomePage() {
         const fetchFeatured = async () => {
             try {
                 const res = await getFeaturedItems();
-                setFeatured(res.data.data || []);
+                const items = res.data?.data || [];
+                // Ưu tiên món có ảnh và giới hạn 20 món (5 hàng x 4 món)
+                const sorted = [...items].sort((a, b) => {
+                    const hasImgA = Boolean(a.image_url || a.menu_item_image_url);
+                    const hasImgB = Boolean(b.image_url || b.menu_item_image_url);
+                    if (hasImgA && !hasImgB) return -1;
+                    if (!hasImgA && hasImgB) return 1;
+                    return (a.id || 0) - (b.id || 0);
+                });
+                setFeatured(sorted.slice(0, 20));
             } catch (err) {
                 console.error('Failed to fetch featured items:', err);
                 // Fallback data when API is not available
@@ -49,7 +58,7 @@ export default function HomePage() {
                     />
                     {loading ? (
                         <div className="featured-grid">
-                            {[1, 2, 3].map((i) => (
+                            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
                                 <div key={i} className="skeleton skeleton--card"></div>
                             ))}
                         </div>
